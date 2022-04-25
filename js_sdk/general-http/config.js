@@ -10,7 +10,7 @@ export default {
    baseURL: "/nft_relay/",
    
    // 开发环境 ipfsUrl
-   IpfsUrl: "http://controlpanel.dbchain.cloud/relay02/ipfs/", // 看本地连接的服务器
-   // 开发环境 baseUrl
-   baseURL: "/h5testrelay/"
+   // IpfsUrl: "http://controlpanel.dbchain.cloud/relay02/ipfs/", // 看本地连接的服务器
+   // // 开发环境 baseUrl
+   // baseURL: "/h5testrelay/"
 }
