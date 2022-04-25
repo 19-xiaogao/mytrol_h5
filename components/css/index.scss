@@ -1,0 +1,244 @@
+
+// 单行溢出显示省略号
+._one_omit {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+//多行溢出省略号
+._more_omit {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.placeholder_class{
+	height: 22px;
+	font-size: 16px;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-weight: 400;
+	color: #e1dbda;
+	line-height: 22px;
+}
+
+	
+input{
+	height: 30px;
+	font-size: 18px;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 500;
+	color: #FFFFFF;
+	line-height: 30px;
+	    position: relative;
+	    z-index: 9;
+}
+
+// 隐藏滚动条但可滚动
+._hideScrollbar {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  // 　　scrollbar-color: transparent transparent;
+  // 　　scrollbar-track-color: transparent;
+  // 　　-ms-scrollbar-track-color: transparent;
+
+  &::-webkit-scrollbar {
+    /* WebKit */
+    width: 0;
+    height: 0;
+  }
+}
+._none_scroll{
+  overflow-x: hidden;
+}
+// 鼠标悬浮手型
+._cursor_pointer {
+  cursor: pointer;
+}
+
+.option_template{
+	._nft_img{
+		._img_default {
+			width: 256px;
+			height: 256px;
+			border-radius: 18px;
+			z-index: 9999;
+			image{
+				width: 256px;
+				height: 256px;
+				border-radius: 18px;
+			}
+		}
+	}
+}
+._home {
+	._header{
+		.uni-swiper__dots-box{
+			    bottom: 23px !important;
+			        z-index: 1;
+			        justify-content: flex-end;
+			        padding-right: 12px;
+					.uni-swiper__dots-long{
+						width: 36px !important;
+					}
+		}
+	}
+}
+
+
+._null_data {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			// color: #fff;   
+			// text-align: center;
+			padding-bottom: 80px;
+			padding-top: 80px;
+			
+			
+			._null_bg {
+				width: 180px;
+				height: 180px;
+
+				image {
+					width: 100%;
+					height: 100%;
+				}
+			}
+		}
+		
+		
+		.my_nft_option,._nft_option {
+			.uni-navbar__content{
+				z-index: 99999 !important;
+				background-color: rgba(0,0,0,0) !important;
+			}
+			.uni-navbar__header{
+				background-color: rgba(0,0,0,0) !important;
+			}
+			.uni-navbar__content_view{
+				background-color: none !important;
+			}
+		}
+		
+		
+		._nft_option,._share_nft {background: #1C1C1C;}
+		
+		
+		.none_img {
+			display: none;
+		}
+		
+		
+		._buy_cont ._list ._footer ._block ._user ._name{
+			max-width: 490rpx !important;
+			
+		}
+		
+		.input_box_placeholder{
+			font-size: 14px;
+			font-family: PingFangSC-Regular, PingFang SC;
+			font-weight: 400;
+			color: #FFFFFF;
+			opacity: 0.7;
+		}
+		
+		
+		.equity {
+			width: calc(100vw - 20px);
+			margin: 0 auto;
+			margin-bottom: 12px;
+			position: relative;
+			._name {
+				font-size: 18px;
+				font-family: PingFangSC-Medium, PingFang SC;
+				font-weight: 500;
+				color: #ffffff;
+				line-height: 20px;
+				padding-bottom: 10px;
+			}
+		
+			._card {
+				height: 200px;
+				overflow: hidden;
+				display: flex;
+				justify-content: center;
+				padding: 0 9px;
+				position: relative;
+				z-index: 2;
+		
+				image {
+					height: inherit !important;
+				}
+			}
+		
+			.equity_content {
+				display: flex;
+				justify-content: center;
+				position: relative;
+				top: -9px;
+		
+				image {
+					width: 100%;
+				}
+			}
+			._text {
+				    position: absolute;
+				    width: 100%;
+				    text-align: center;
+				    top: 92px;
+				    z-index: 2;
+			}
+		
+		}
+		
+		.equity-content {
+			width: 100%;
+			padding: 10px 20px;
+			overflow: hidden;
+			border-radius: 10px;
+			box-sizing: border-box;
+		}
+		
+		
+	._m_register,._m_login{
+		uni-input{
+			height: 76rpx !important;
+			border-radius: 8px !important;
+			border: 1px solid #2f0088 !important;
+			font-size: 18px !important;
+			font-family: SourceHanSansCN-Semibold,SourceHanSansCN SC !important;
+			font-weight: 600 !important;
+			color: #000 !important;
+			margin-top: 0 !important;
+			.uni-input-wrapper{
+				    padding: 0 15px;
+				    width: calc(100% - 30px);
+					.uni-input-placeholder{
+						width: inherit;
+						    left: 15px !important;
+							    font-size: 14px;
+					}
+					.uni-input-input{
+						background: none !important;
+					}
+					    
+			}
+			.uni-input-input{
+				.uni-input-placeholder{
+					width: inherit;
+					    left: 15px !important;
+						    font-size: 14px;
+				}
+			}
+		}
+		    
+		
+	}	
+	
+	#__lpform_input_idx_1,#__lpform_input_idx_2,#__lpform_input_idx_3,
+	#__lpform_input_idx_1_icon,#__lpform_input_idx_2_icon,#__lpform_input_idx_3_icon{
+		img{
+			display: none;
+		}
+	}	

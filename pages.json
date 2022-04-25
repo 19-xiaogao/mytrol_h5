@@ -1,0 +1,267 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+
+		{
+			// 父级页
+			"path": "pages/index/index",
+			"style": {
+				"enablePullDownRefresh":false,
+				"navigationBarTitleText": "mytrol",
+				"navigationBarBackgroundColor": "#000",
+				"backgroundColor": "#000",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+
+					"titleNView": false,
+					"bounce": "none",
+					"pullToRefresh": {
+						"style": "circle",
+						"offset": "70px"
+					},
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+			}
+		},
+		{
+			// 二级自定义页面，传入图片
+			"path": "pages/option/option",
+			"style": {
+				"enablePullDownRefresh":true,
+				"navigationBarTitleText": "权益详情",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#000",
+				"backgroundColorTop": "#000",
+				"app-plus": {
+					"bounce": "none",
+					"pullToRefresh": {
+						"style": "circle",
+						"offset": "70px"
+					},
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+				
+			}
+
+		},
+		{
+			//购买详情
+			"path": "pages/nft_option/nft_option",
+			"style": {
+				"navigationBarTitleText": "数字藏品详情",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"navigationBarTextStyle": "white",
+				"navigationStyle": "default",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"pullToRefresh": {
+						"style": "circle",
+						"offset": "70px"
+					},
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+
+			}
+		},
+		{
+			//领取nft  详情
+			"path": "pages/nft_option/nft_gain",
+			"style": {
+				"navigationBarTitleText": "数字藏品详情",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"navigationBarTextStyle": "white",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"pullToRefresh": {
+						"style": "circle",
+						"offset": "70px"
+					},
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+
+			}
+		},
+
+		{
+			//已拥有NFT详情
+			"path": "pages/nft_option/my_nft_option",
+			"style": {
+				"navigationBarTitleText": "数字藏品详情",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"navigationBarTextStyle": "white",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"pullToRefresh": {
+						"style": "circle",
+						"offset": "70px"
+					},
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+
+			}
+		},
+
+
+		{
+			//轮播详情
+			"path": "pages/swiper_option/swiper_option",
+			"style": {
+				"navigationBarTitleText": "数字藏品详情",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"backgroundColor": "#000",
+				"backgroundColorTop": "#000",
+				"app-plus": {
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+			}
+		},
+		{
+			//分享NFT
+			"path": "pages/nft_option/share_nft",
+			"style": {
+				"navigationBarTitleText": "数字藏品分享",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"backgroundColor": "#1C1C1C",
+				"backgroundColorTop": "#000",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+			}
+		},
+		{
+			//登录：
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "微信授权",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"backgroundColor": "#1C1C1C",
+				"backgroundColorTop": "#000",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"titleNView": false,
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+			}
+		},
+		{
+			//注册
+			"path": "pages/login/register",
+			"style": {
+				"navigationBarTitleText": "微信授权",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"backgroundColor": "#1C1C1C",
+				"backgroundColorTop": "#000",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"titleNView": false,
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+			}
+		},
+		{
+			//登录：获取手机号
+			"path": "pages/login/retriverpassword",
+			"style": {
+				"navigationBarTitleText": "改密",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"backgroundColor": "#1C1C1C",
+				"backgroundColorTop": "#000",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"titleNView": false,
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+			}
+		},
+		{
+			//跳页面支付
+			"path": "pages/nft_option/components/buy_nft",
+			"style": {
+				"navigationBarTitleText": "支付",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"backgroundColor": "#1C1C1C",
+				"backgroundColorTop": "#000",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"titleNView": false,
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+			}
+		},
+		{
+			//兑换码
+			"path": "pages/redeem/redeem",
+			"style": {
+				"navigationBarTitleText": "兑换码",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"backgroundColor": "#1C1C1C",
+				"backgroundColorTop": "#000",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+			}
+		},
+		{
+			"path": "pages/white_list/white_list",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "白名单授权",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "mytrol",
+		"navigationBarBackgroundColor": "#000000",
+		"backgroundColor": "#000",
+		"backgroundColorTop": "#000",
+		"style": {
+			"app-plus": {
+				"background": "#000000"
+			}
+		}
+	}
+}
