@@ -1,2 +1,6 @@
-unpackage
+unpackage/
 js_sdk/general-http/config.js
+node_modules/
+.project
+.DS_Store
+.hbuilderx/
