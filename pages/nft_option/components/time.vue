@@ -1,6 +1,6 @@
 <template>
 	<view class="_time">
-		<view class="_right" v-if="!$store.state.is_whitelisted">
+		<view class="_right" v-if="!NFT_item.is_whitelisted">
 			<!-- <image src="http://oss.mytrol.cn/uni_mytrol/img/nft_buy_bg_unpublish.png" mode="widthFix"></image> -->
 			<view class="_t2">无法购买</view>
 		</view>
@@ -150,7 +150,7 @@
 			// border-radius: 8px;
 			justify-content: center;
 			align-items: center;
-			margin-right: 10px;
+			// margin-right: 10px;
 
 			.image {
 				width: 24px;

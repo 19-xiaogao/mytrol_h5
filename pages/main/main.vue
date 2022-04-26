@@ -189,13 +189,6 @@
 						// this.linkTo('/pages/login/login',true)
 					}
 				}
-				let address = res.data.result.address;
-				if(address){
-					let {err_code, result} = await this.$api._get(`/dbchain/oracle/nft/whitelist/${address}`);
-					if(err_code === '0'){
-						this.$store.commit('setWhiteList', result.is_white)
-					}
-				}
 			},
 
 			copy(value) {

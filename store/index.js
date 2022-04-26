@@ -20,7 +20,6 @@ const store = new Vuex.Store({
 					// hide-delay	Number	50	隐藏延时，防止数据加载过快，组件没渲染完就执行了hide()方法，而导致报错	
 					// negative-top	Number	0	加载框向上的偏移量
 		buy_html:'',//支付页面暂存	
-		is_whitelisted: false // 是否能够白名单购买
 	},
     mutations: {
 		setJSONList(state, data = {}){
@@ -41,9 +40,6 @@ const store = new Vuex.Store({
 		setBuyHtml(state,html){
 			state.buy_html=html
 		},
-		setWhiteList(state, list){
-			state.is_whitelisted = list
-		}
 	},
     actions: {
 		

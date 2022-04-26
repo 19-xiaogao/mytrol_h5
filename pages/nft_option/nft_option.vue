@@ -233,6 +233,7 @@
 					desc_img: "https://oss.dbchain.cloud/uni_mytrol_applet/img/mock/option/nft_option.webp",
 					remaining: "63",
 					collected_number: "0",
+					is_whitelisted: false
 				},
 				// 分享
 				share: {
@@ -273,7 +274,8 @@
 					...res.data.result,
 				};
 				this.NFT_item = options;
-				console.log(options);
+				console.log(options, 'options');
+				
 				this.share.imageUrl = this.getIpfsSrc(
 					options.file_thumbnail ? options.file_thumbnail : options.file
 				);
@@ -545,7 +547,7 @@
 				let isbuy = 'http://oss.mytrol.cn/uni_mytrol/img/nft_buy_bg.png'
 				let unbuy = 'http://oss.mytrol.cn/uni_mytrol/img/nft_buy_bg_unpublish.png'
 				
-				if(this.$store.state.is_whitelisted){
+				if(this.NFT_item.is_whitelisted){
 					let isToken = this.NFT_item.buy_status !== '2';
 					let isNum = (Number(this.NFT_item.number) - Number(this.NFT_item.counter_sold_nft)) > 0;
 					if (!isNum) {
