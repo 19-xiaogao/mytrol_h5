@@ -208,24 +208,6 @@
 			}
 		},
 		{
-			//跳页面支付
-			"path": "pages/nft_option/components/buy_nft",
-			"style": {
-				"navigationBarTitleText": "支付",
-				"enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#1C1C1C",
-				"backgroundColor": "#1C1C1C",
-				"backgroundColorTop": "#000",
-				"navigationBarTextStyle": "white",
-				"app-plus": {
-					"titleNView": false,
-					"background": "#0A1121",
-					"bounceBackground": "#0A1121",
-					"animationType": "slide-in-right"
-				}
-			}
-		},
-		{
 			//兑换码
 			"path": "pages/redeem/redeem",
 			"style": {

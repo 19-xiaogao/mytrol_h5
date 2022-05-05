@@ -192,6 +192,7 @@
 				let result = "Success";
 				let time = new Date().getTime();
 				console.log(time);
+        console.log(this.data, 'iphone5555')
 				result = await this.$api._get(
 					"/dbchain/oracle/nft/send_verf_code/reset_password/" + this.data.ipone
 				);

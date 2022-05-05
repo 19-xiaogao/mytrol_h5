@@ -232,8 +232,7 @@
 
 					desc_img: "https://oss.dbchain.cloud/uni_mytrol_applet/img/mock/option/nft_option.webp",
 					remaining: "63",
-					collected_number: "0",
-					is_whitelisted: false
+					collected_number: "0"
 				},
 				// 分享
 				share: {
@@ -361,7 +360,7 @@
 				};
 
 				let a = await submitOrider();
-				console.log(a);
+				console.log(a, 'a');
 				if (a.data.result?.free == "true") {
 					uni.showToast({
 						title: "区块交易中",
@@ -546,19 +545,16 @@
 			unpublishBgsrc() {
 				let isbuy = 'http://oss.mytrol.cn/uni_mytrol/img/nft_buy_bg.png'
 				let unbuy = 'http://oss.mytrol.cn/uni_mytrol/img/nft_buy_bg_unpublish.png'
-				
-				if(this.NFT_item.is_whitelisted){
-					let isToken = this.NFT_item.buy_status !== '2';
-					let isNum = (Number(this.NFT_item.number) - Number(this.NFT_item.counter_sold_nft)) > 0;
-					if (!isNum) {
-						return unbuy
-					}
-					if (!isToken) {
-						return unbuy
-					}
-					return isbuy
-				}
-				return unbuy
+
+        let isToken = this.NFT_item.buy_status !== '2';
+        let isNum = (Number(this.NFT_item.number) - Number(this.NFT_item.counter_sold_nft)) > 0;
+        if (!isNum) {
+          return unbuy
+        }
+        if (!isToken) {
+          return unbuy
+        }
+        return isbuy
 			},
 			linkTo(url, type = false) {
 				//#ifdef MP-WEIXIN

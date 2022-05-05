@@ -1,30 +1,23 @@
 <template>
 	<view class="_time">
-		<view class="_right" v-if="!NFT_item.is_whitelisted">
-			<!-- <image src="http://oss.mytrol.cn/uni_mytrol/img/nft_buy_bg_unpublish.png" mode="widthFix"></image> -->
-			<view class="_t2">无法购买</view>
-		</view>
-
-		<template v-else>
-			<view class="_presell" v-if="isBuy == '1'">
-				<view class="_t2">
-					<view class="p1">即将开售</view>
-					<view>{{ count_down }}</view>
-				</view>
-			</view>
-			
-			<view class="_presell _not_buy" v-if="isBuy == '3'">
-				<view class="_t2">
-					<view class="p1">已售罄</view>
-					<!-- <view>{{ count_down }}</view> -->
-				</view>
-			</view>
-			
-			<view class="_right" v-if="isBuy == '2'" @click="$noMultipleClicks(collect)">
-				<image src="https://oss.mytrol.cn/uni_mytrol/icon/buy_1.png" mode="widthFix" class="image"></image>
-				<view class="_t2">{{ buyStatus == "3" ? "立刻购买" : "可领取" }}</view>
-			</view>
-		</template>
+    <view class="_presell" v-if="isBuy == '1'">
+      <view class="_t2">
+        <view class="p1">即将开售</view>
+        <view>{{ count_down }}</view>
+      </view>
+    </view>
+    
+    <view class="_presell _not_buy" v-if="isBuy == '3'">
+      <view class="_t2">
+        <view class="p1">已售罄</view>
+        <!-- <view>{{ count_down }}</view> -->
+      </view>
+    </view>
+    
+    <view class="_right" v-if="isBuy == '2'" @click="$noMultipleClicks(collect)">
+      <image src="https://oss.mytrol.cn/uni_mytrol/icon/buy_1.png" mode="widthFix" class="image"></image>
+      <view class="_t2">{{ buyStatus == "3" ? "立刻购买" : "可领取" }}</view>
+    </view>
 	</view>
 </template>
 
