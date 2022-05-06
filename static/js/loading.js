@@ -14,7 +14,6 @@ export function showLoading(data = { title: "加载中", mask: true }) {
   needLoadingRequestCount++;
 } // 隐藏遮罩
 export function hideLoading() {
-  console.log("hideneedLoadingRequestCount:     " + needLoadingRequestCount);
   if (needLoadingRequestCount <= 0) return;
   needLoadingRequestCount--;
   if (needLoadingRequestCount === 0) {

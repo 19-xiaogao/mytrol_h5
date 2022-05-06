@@ -10,7 +10,6 @@ export const setStore = (name, content) => {
 		key: name,
 		data: content,
 		success: function() {
-			console.log('success');
 		}
 	});
 };

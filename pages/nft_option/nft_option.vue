@@ -206,7 +206,6 @@
 			},
 			statusBarHeight() {
 				return 0;
-				console.log(uni.getSystemInfoSync());
 				return uni.getSystemInfoSync().statusBarHeight;
 			},
 		},
@@ -262,7 +261,6 @@
 				});
 			},
 			back(url = "/pages/index/index?key=home") {
-				console.log("back");
 				uni.navigateBack();
 			},
 			// 获取NFT详情
@@ -273,7 +271,6 @@
 					...res.data.result,
 				};
 				this.NFT_item = options;
-				console.log(options, 'options');
 				
 				this.share.imageUrl = this.getIpfsSrc(
 					options.file_thumbnail ? options.file_thumbnail : options.file
@@ -292,7 +289,6 @@
 			},
 			// 返回
 			clickLeft(url = "/pages/index/index?key=home") {
-				console.log("back");
 				//@zxyuns 处理兼容，如果没有上一级界面则返回首页
 				const pages = getCurrentPages();
 				if (pages.length === 2) {
@@ -360,7 +356,6 @@
 				};
 
 				let a = await submitOrider();
-				console.log(a, 'a');
 				if (a.data.result?.free == "true") {
 					uni.showToast({
 						title: "区块交易中",
@@ -378,80 +373,17 @@
 					return false;
 				}
 				if (a.data.err_code == "0") {
-					// let e = await oriderPoll(a.data.result.order_id);
-					// if (Array.isArray(e)) {
-						// alert(a.data.result.order_id)
 					let buy_data = await this.$api._post("/dbchain/oracle/nft/nft_buy", {
 						"pay_type" : "unionpay_alipay_h5",
 						 "vendor" : "union",
 						 "order_id" : a.data.result.order_id, //"order_id"
 						 "redirect_url" : window.location.origin // 可不填
 					});
-					console.log(buy_data)
-					
-					// let routeData = this.$router.resolve({
-					     
-					//     path: '/pages/nft_option/components/buy_nft', 
-					//     query: {
-					//         htmls: buy_data.data 
-					//     }
-					// });
+
 					if(buy_data.data.err_code == "0"){
 						window.location.href = buy_data.data.result.url;
 					}
-					// let newWindow=window.open('','_self')
-					// newWindow.document.write(buy_data.data)
-					// newWindow.focus()
-					// POST任意内容并跳转
-
-					// if (!buy_data.data.result.url) return console.log("取参数失败");
-					// let Payment = JSON.parse(buy_data.data.result.url);
-
-
-					// // /////////////////////// ///////////// 本地不付钱测试支付
-					// // let sb= await this.$api._post('/dbchain/oracle/nft/nft_save_receipt_wechat_fake',{order_id:a.data.result.order_id})
-					// // console.log(sb)
-					// uni.requestPayment({
-					// 	provider: "wxpay",
-					// 	timeStamp: Payment.timeStamp,
-					// 	nonceStr: Payment.nonceStr,
-					// 	package: Payment.package,
-					// 	signType: Payment.signType,
-					// 	paySign: Payment.paySign,
-					// 	success: function(res) {
-					// 		uni.showToast({
-					// 			title: "区块交易中",
-					// 			duration: 5000,
-					// 			icon: "none",
-					// 		});
-
-					// 		setTimeout(() => {
-					// 			uni.hideToast();
-					// 			return uni.reLaunch({
-					// 				url: "/pages/index/index?key=main",
-					// 			});
-					// 		}, 3000);
-					// 		that.$api._post(
-					// 			`/dbchain/oracle/nft/send_nft_active/${a.data.result.order_id}`)
-					// 	},
-					// 	fail: function(err) {
-					// 		console.log("fail:" + JSON.stringify(err));
-					// 		// 取消支付时解锁
-					// 		let cancel_res = that.$api._post(
-					// 			"/dbchain/oracle/nft/nft_cancel_order", {
-					// 				denom_id: that.NFT_item.id + "", //"mini"
-					// 				order_id: a.data.result.order_id + "", //"order_id"
-					// 			}
-					// 		);
-					// 		uni.showToast({
-					// 			title: "已取消支付",
-					// 			duration: 5000,
-					// 			icon: "none",
-					// 		});
-					// 	},
-					// });
 				} else {
-					console.log("没查到");
 				}
 				// }
 			},
@@ -504,14 +436,12 @@
 					let obj = {};
 					let option_obj;
 					if (option.q) {
-						console.log("正式，q");
 						let url = encodeURI(option.q);
 						option_obj = param2Obj(url);
 					} else {
-						console.log("体验，无q");
 						option_obj = option;
 					}
-					console.log(option_obj);
+          
 					try {
 						let keys = Object.keys(option_obj)[0];
 						let values = Object.values(option_obj)[0];
@@ -519,18 +449,15 @@
 							id: keys.split("id")[1],
 							code: values,
 						};
-						console.log(obj);
 						if (values) {
 							setStore("my_code", values);
 						}
 					} catch (e) {
-						console.log("无效地址");
 						//TODO handle the exception
 						// this.back()
 					}
 
 					if (obj.id) {
-						console.log(obj);
 						return this.getNftOption(obj.id);
 					}
 				}
@@ -540,7 +467,6 @@
 				return isGif(url, key);
 			},
 			handleEquityDetailClick() {
-				console.log("equity-detail show");
 			},
 			unpublishBgsrc(item) {
 				let isbuy = 'http://oss.mytrol.cn/uni_mytrol/img/nft_buy_bg.png'

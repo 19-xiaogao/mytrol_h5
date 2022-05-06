@@ -92,7 +92,6 @@
 							"",
 							this.data.ipone,
 							(error) => {
-								console.log(error);
 								return error ? error.message : false;
 							}
 						);
@@ -102,7 +101,6 @@
 							"",
 							this.data.password,
 							(error) => {
-								console.log(error);
 								return error ? error.message : false;
 							}
 						);
@@ -135,7 +133,6 @@
 			//   // 表单验证
 			  verify_form() {
 			    let verify_ipone = this.verify_value("ipone");
-			    console.log(verify_ipone);
 			    if (verify_ipone) {
 			      this.setmessage("error", verify_ipone);
 			      this.data.isIpone = false;
@@ -143,19 +140,16 @@
 			    }
 			
 			    let verify_password = this.verify_value("password");
-			    console.log(verify_password);
 			    if (this.verify_password) {
 			      this.setmessage("error", "verify_password");
 			      this.data.isPassword = false;
 			      return false;
 			    }
-			    console.log("验证成功");
 			    return true;
 			  },
 			
 			  //
 			  changeVal(key, val){
-			    console.log(key, val);
 			    switch (key) {
 			      case "ipone":
 			        if (this.verify_value(key)) {
@@ -179,13 +173,11 @@
 			},
 			async login() {
 				if (this.verify_form()) {
-					console.log("提交");
 					let res = await this.$api._post("/dbchain/oracle/nft/login", {
 						phone_number: this.data.ipone,
 						password: this.data.password,
             my_code: getStore('my_code')
 					});
-					console.log(res);
 					if (res.data.err_code == '0') {
 						setStore("user_id", res.data.result.user_id);
 						uni.showToast({
@@ -202,7 +194,6 @@
 			},
 			// setup() {
 			//   const { proxy } = getCurrentInstance();
-			//   console.log(proxy);
 			//   const router = useRouter();
 			//   const handleRouterClick = (path) => {
 			//     router.push(path);

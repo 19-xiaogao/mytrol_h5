@@ -177,7 +177,6 @@
 			},
 			statusBarHeight() {
 				return 0;
-				console.log(uni.getSystemInfoSync());
 				return uni.getSystemInfoSync().statusBarHeight;
 			},
 		},
@@ -221,8 +220,6 @@
 		methods: {
 			onLoad(option) {
 				this.wxLogin(option);
-				console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOO");
-				console.log(JSON.stringify(option));
 			},
 			getFormatDateToStr(date) {
 				return formatDate(new Date(Number(date)), 3);
@@ -236,7 +233,6 @@
 				});
 			},
 			back(url = "/pages/index/index?key=home") {
-				console.log("back");
 				uni.navigateBack();
 			},
 			// 获取NFT详情
@@ -247,7 +243,6 @@
 					...res.data.result,
 				};
 				this.NFT_item = options;
-				console.log(options);
 				this.share.imageUrl = this.getIpfsSrc(
 					options.file_thumbnail ? options.file_thumbnail : options.file
 				);
@@ -265,7 +260,6 @@
 			},
 			// 返回
 			clickLeft(url = "/pages/index/index?key=home") {
-				console.log("back");
 				//@zxyuns 处理兼容，如果没有上一级界面则返回首页
 				const pages = getCurrentPages();
 				if (pages.length === 2) {
@@ -352,14 +346,11 @@
 					let obj = {};
 					let option_obj;
 					if (option.q) {
-						console.log("正式，q");
 						let url = encodeURI(option.q);
 						option_obj = param2Obj(url);
 					} else {
-						console.log("体验，无q");
 						option_obj = option;
 					}
-					console.log(option_obj);
 					try {
 						let keys = Object.keys(option_obj)[0];
 						let values = Object.values(option_obj)[0];
@@ -367,18 +358,15 @@
 							id: keys.split("id")[1],
 							code: values,
 						};
-						console.log(obj);
 						if (values) {
 							setStore("my_code", values);
 						}
 					} catch (e) {
-						console.log("无效地址");
 						//TODO handle the exception
 						// this.back()
 					}
 
 					if (obj.id) {
-						console.log(obj);
 						return this.getNftOption(obj.id);
 					}
 				}
@@ -388,7 +376,6 @@
 				return isGif(url, key);
 			},
 			handleEquityDetailClick() {
-				console.log("equity-detail show");
 			},
 			isNFTNumber(){
 				return (Number(this.NFT_item.number) - Number(this.NFT_item.counter_sold_nft)) > 0
@@ -440,10 +427,7 @@
 			}
 		},
 		onShareAppMessage(res) {
-		  console.log(res);
-		
 		  let NFT_item = this.NFT_item ? this.NFT_item : {};
-		  console.log(NFT_item);
 		  let id = NFT_item.denom_id ? NFT_item.denom_id : NFT_item.id;
 		
 		  let userInfo = getStore("userInfo") || { my_code: "" };
@@ -451,10 +435,7 @@
 		  let path = id
 		    ? `/pages/nft_option/nft_gain?id${id}=${isUserInfo}`
 		    : `/pages/index/index?code=${isUserInfo}`;
-		  console.log(userInfo);
-			console.log(path)
 		  this.share.path = path;
-		  console.log(this.share);
 		  return {
 		    title: this.share.title,
 		    path: this.share.path,

@@ -74,9 +74,8 @@
 					this.publishTime.length < 13 ?
 					this.publishTime + "000" :
 					this.publishTime;
-				console.log(time);
 				let that_time = new Date().getTime();
-				console.log(that_time);
+        
 				if (that_time > time) {
 					clearInterval(this.timer);
 					return (this.isBuy = "2");

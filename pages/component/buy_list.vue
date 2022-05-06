@@ -40,8 +40,6 @@ export default {
   },
   computed:{
 	  NFT_List(){
-		  console.log(this.$store.state)
-		  console.log(this.$store.state.buy_nft)
 		  return this.$store.state.buy_nft||[]; 
 	  }
   },

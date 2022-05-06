@@ -9,7 +9,6 @@ import Vue from 'vue'
 Vue.config.productionTip = false
 App.mpType = 'app'
 // import { IconSvg } from "./components/iconSvg"; // iconSvg
-// console.log(IconSvg)
 // Vue.component("icon-svg", IconSvg);
 import * as api from './js_sdk/general-http/api.js'
 //配置公共方法
@@ -42,7 +41,7 @@ const updateManager = uni.getUpdateManager();
 
 updateManager.onCheckForUpdate(function (res) {
   // 请求完新版本信息的回调
-  console.log(res.hasUpdate);
+  // console.log(res.hasUpdate);
 });
 
 updateManager.onUpdateReady(function (res) {
@@ -77,7 +76,6 @@ import {
 	createSSRApp
 } from 'vue'
 // import { IconSvg } from "./components/iconSvg/index.js"; // iconSvg
-// console.log(IconSvg)
 export function createApp() {
 	const app = createSSRApp(App)
 	// app.component("icon-svg", IconSvg);

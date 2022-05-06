@@ -378,8 +378,6 @@
 				return uni_copy(value);
 			},
 			onErrorImg(item) {
-				console.log("EEEEEEEEEEEEEEEEEEEEEEEEEonErrorImg");
-				console.log(item);
 			},
 			isGif(url, key = 'img2') {
 				return isGif(url, key)
@@ -405,7 +403,6 @@
 				this.maskImg = url
 			},
 			changeNFT(num) {
-				console.log(num)
 				this.NFT_item_active = num;
 				if (this.giveToNft) {
 					this.giveStatus = '2';

@@ -139,7 +139,6 @@
 				// 			"" :
 				// 			"#wechat-redirect");
 				// 	this.showCanvas = true;
-				// 	console.log(url)
 				// 	uQRCode
 				// 		.make({
 				// 			canvasId: "qrcode",

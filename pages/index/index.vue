@@ -97,13 +97,10 @@
 			_self = this;
 			
 			if (option.key) {
-				console.log(option.key)
 				this.pageKey = option.key;
 				setTimeout(()=>{
-					console.log(this.$refs.tab_bar)
 					this.$refs.tab_bar.NavChange(option.key);
 				},5000)
-
 			}
 			if (option.code) {
 				setStore("my_code", option.code);
@@ -128,14 +125,11 @@
 				let option_obj;
 				
 				if (option.q) {
-					console.log("正式，q");
 					let url = encodeURI(option.q);
 					option_obj = param2Obj(url);
 				} else {
-					console.log("体验，无q");
 					option_obj = option;
 				}
-				console.log(option_obj);
 				try {
 					let keys = Object.keys(option_obj)[0];
 					let values = Object.values(option_obj)[0];
@@ -147,7 +141,6 @@
 						setStore("my_code", values);
 					}
 				} catch (e) {
-					console.log("无效地址");
 					//TODO handle the exception
 					// this.back()
 				}
@@ -160,7 +153,6 @@
 			
 		},
 		onPullDownRefresh() {
-			console.log("下拉");
 			if (this.pageKey == "home") {
 			  return _self.getJsonData();
 			}
@@ -243,7 +235,6 @@
 				//   "https://apply-sign.oss-cn-shenzhen.aliyuncs.com/mytrol/mytrol_data.json"
 				// );
 				// json = json.data;
-				// console.log(json)
 				let getBanner = async () => {
 					let banner_res = await this.$api._get("/dbchain/oracle/nft/get_banner");
 					let data = banner_res.data.result ? banner_res.data.result.banner_info : "[]";
@@ -260,7 +251,6 @@
 
 				let getIp = async () => {
 					let ip_res = await this.$api._get('/dbchain/oracle/nft/backend/get_serises_ip')
-					console.log(ip_res)
 					let data = ip_res.data.result || [];
 					let routerList = [
 						"https://oss.mytrol.cn/uni_mytrol/img/nft_swiper/nft_bg_1.png",
@@ -280,7 +270,6 @@
 
 				let getNftList = async () => {
 					let nft_res = await this.$api._get('/dbchain/oracle/nft/lastest_nft/common/1/100')
-					console.log(nft_res)
 					let data = (nft_res.data.result ? nft_res.data.result : [])
 					data.sort(function(a,b){
 						return b.published_at-a.published_at
@@ -301,8 +290,6 @@
 					return obj
 				};
 				this.JSONList=await JSONList()
-				console.log('jjjjjjjjjjj')
-				console.log(this.JSONList )
 				this.$store.commit('setJSONList',this.JSONList)
 				this.$refs.home.navShow(this.JSONList);
 				uni.stopPullDownRefresh();

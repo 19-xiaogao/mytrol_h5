@@ -75,11 +75,11 @@ export default class Http {
   }
   print(...args) {
     if (this.config.debug) {
-      console.log.call(
-        console,
-        `${new Date().toLocaleString()} Http: `,
-        ...args
-      );
+      // console.log.call(
+      //   console,
+      //   `${new Date().toLocaleString()} Http: `,
+      //   ...args
+      // );
     }
   }
   request(options = {}) {

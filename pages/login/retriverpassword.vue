@@ -102,7 +102,6 @@
 							"",
 							this.data.ipone,
 							(error) => {
-								console.log(error);
 								return error ? error.message : false;
 							}
 						);
@@ -112,7 +111,6 @@
 							"",
 							this.data.password,
 							(error) => {
-								console.log(error);
 								return error ? error.message : false;
 							}
 						);
@@ -130,7 +128,6 @@
 			// 表单验证
 			verify_form() {
 				let verify_ipone = this.verify_value("ipone");
-				console.log(verify_ipone);
 				if (verify_ipone) {
 					this.setmessage("error", verify_ipone);
 					this.data.isIpone = false;
@@ -138,7 +135,6 @@
 				}
 
 				let verify_password = this.verify_value("password");
-				console.log(verify_password);
 				if (verify_password) {
 					this.setmessage("error", verify_password);
 					this.data.isPassword = false;
@@ -146,27 +142,22 @@
 				}
 
 				let verify_password2 = this.verify_value("password2");
-				console.log(verify_password2);
 				if (verify_password2) {
 					this.setmessage("error", verify_password2);
 					this.data.isPassword2 = false;
 					return false;
 				}
-
-				console.log("验证成功");
 				return true;
 			},
 
 			// 登陆注册
 			async login() {
 				if (this.verify_form()) {
-					console.log("提交");
 					let res = await this.$api._post("/dbchain/oracle/nft/reset_password", {
 						phone_number: this.data.ipone,
 						password: this.data.password,
 						verification_code: this.data.code,
 					});
-					console.log(res);
 					if (res.data.err_code == "0") {
 						this.setmessage("success", "重置密码成功，请重新登录");
 						return this.$router.push("/pages/login/login");
@@ -176,9 +167,7 @@
 			//
 			// 获取验证码
 			async getCode() {
-				console.log('xxxxxxx')
 				let verify_ipone = this.verify_value("ipone");
-				console.log(verify_ipone);
 				if (verify_ipone) {
 					this.setmessage("error", verify_ipone);
 					this.data.isIpone = false;
@@ -191,8 +180,6 @@
 
 				let result = "Success";
 				let time = new Date().getTime();
-				console.log(time);
-        console.log(this.data, 'iphone5555')
 				result = await this.$api._get(
 					"/dbchain/oracle/nft/send_verf_code/reset_password/" + this.data.ipone
 				);
@@ -224,7 +211,6 @@
 
 			//
 			changeVal(key, val) {
-				console.log(key, val);
 				switch (key) {
 					case "ipone":
 						if (verify_value(key)) {
@@ -245,218 +231,16 @@
 				}
 			},
 			verifyResult(type, result) {
-				console.log(type);
 				if (type == "admin") {
 					this.isVerification = 1;
 				} else if (type === "slider") {
-					console.log(type);
 					this.isVerification = 0;
 				}
 			},
 			handleLoginClick() {
 				this.$router.push("/pages/login/login");
 			},
-
-			submitRegister() {
-				// dbchain/oracle/nft/reset_password
-			},
 		},
-		// setup() {
-		//   const { proxy } = getCurrentInstance();
-		//   console.log(proxy);
-		//   // 数据集合
-		//   let data = reactive({
-		//     ipone: "",
-		//     password: "",
-		//     password2: "",
-		//     code: "",
-
-		//     isIpone: true,
-		//     isPassword: true,
-		//     isPassword2: true,
-		//     isCode: true,
-		//     hasClick: false,
-		//     getCodeTxt: "获取验证码",
-
-		//     isUserDoc: false,
-		//   });
-		//   // 单个表单验证
-		//   let verify_value = (key) => {
-		//     switch (key) {
-		//       case "ipone":
-		//         return rules.FormValidate.Form().validatePhone(
-		//           "",
-		//           data.ipone,
-		//           (error) => {
-		//             console.log(error);
-		//             return error ? error.message : false;
-		//           }
-		//         );
-		//         break;
-		//       case "password":
-		//         return rules.FormValidate.Form().validatePsdReg(
-		//           "",
-		//           data.password,
-		//           (error) => {
-		//             console.log(error);
-		//             return error ? error.message : false;
-		//           }
-		//         );
-		//       case "password2":
-		//         if (!data.password2) {
-		//           return "请再次输入密码";
-		//         }
-		//         return data.password == data.password2 ? undefined : "两次密码不一致";
-		//         break;
-
-		//       default:
-		//         break;
-		//     }
-		//   };
-		//   // 表单验证
-		//   let verify_form = () => {
-		//     let verify_ipone = verify_value("ipone");
-		//     console.log(verify_ipone);
-		//     if (verify_ipone) {
-		//       setmessage("error", verify_ipone);
-		//       data.isIpone = false;
-		//       return false;
-		//     }
-
-		//     let verify_password = verify_value("password");
-		//     console.log(verify_password);
-		//     if (verify_password) {
-		//       setmessage("error", verify_password);
-		//       data.isPassword = false;
-		//       return false;
-		//     }
-
-		//     let verify_password2 = verify_value("password2");
-		//     console.log(verify_password2);
-		//     if (verify_password2) {
-		//       setmessage("error", verify_password2);
-		//       data.isPassword2 = false;
-		//       return false;
-		//     }
-
-		//     console.log("验证成功");
-		//     return true;
-		//   };
-
-		//   // 登陆注册
-		//   let login = async () => {
-		//     if (verify_form()) {
-		//       console.log("提交");
-		//       let res = await _post("/dbchain/oracle/nft/reset_password", {
-		//         tel: data.ipone,
-		//         password: data.password,
-		//         verification_code: data.code,
-		//       });
-		//       console.log(res);
-		//       if (res.err_code == "0") {
-		//         setmessage("success", "重置密码成功，请重新登录");
-		//         return proxy.$router.push("/login");
-		//       }
-		//     }
-		//   };
-		//   //
-		//   // 获取验证码
-		//   let getCode = async () => {
-		//     let verify_ipone = verify_value("ipone");
-		//     console.log(verify_ipone);
-		//     if (verify_ipone) {
-		//       setmessage("error", verify_ipone);
-		//       data.isIpone = false;
-		//       return false;
-		//     }
-
-		//     data.hasClick = true;
-
-		//     let result = "Success";
-		//     let time = new Date().getTime();
-		//     console.log(time);
-
-		//     result = await _get(
-		//       "/dbchain/oracle/nft/send_verf_code/reset_password/" + data.ipone
-		//     );
-
-		//     if (result.data.err_code !== "0" && result.data.result !== "Success") {
-		//       data.getCodeTxt = "重新获取";
-		//       data.hasClick = false;
-		//       return;
-		//     }
-		//     proxy.$store.commit("setIsLoding", false);
-		//     setmessage("success", "短信验证码已发送");
-		//     proxy.isValidateCode = true;
-		//     //  this.hasClick = false;
-		//     let wait = 60;
-		//     data.getCodeTxt = "60";
-		//     let timer = setInterval(() => {
-		//       if (wait > 0) {
-		//         wait--;
-		//         data.getCodeTxt = wait + "S";
-		//         data.hasClick = true;
-		//       } else {
-		//         data.getCodeTxt = "重新获取";
-		//         data.hasClick = false;
-		//         wait = 60;
-		//         clearInterval(timer);
-		//       }
-		//     }, 1000);
-		//   };
-
-		//   //
-		//   let changeVal = (key, val) => {
-		//     console.log(key, val);
-		//     switch (key) {
-		//       case "ipone":
-		//         if (verify_value(key)) {
-		//           data.isIpone = false;
-		//         } else {
-		//           data.isIpone = true;
-		//         }
-		//         break;
-		//       case "password":
-		//         if (verify_value(key)) {
-		//           data.isPassword = false;
-		//         } else {
-		//           data.isPassword = true;
-		//         }
-		//         break;
-		//       default:
-		//         break;
-		//     }
-		//   };
-		//   return {
-		//     data,
-		//     login,
-		//     changeVal,
-		//     getCode,
-		//   };
-		// },
-		// data() {
-		//   return {
-		//     isVerification: 0,
-		//   };
-		// },
-		// methods: {
-		//   verifyResult(type, result) {
-		//     console.log(type);
-		//     if (type == "admin") {
-		//       this.isVerification = 1;
-		//     } else if (type === "slider") {
-		//       console.log(type);
-		//       this.isVerification = 0;
-		//     }
-		//   },
-		//   handleLoginClick() {
-		//     this.$router.push("/login");
-		//   },
-
-		//   submitRegister() {
-		//     // dbchain/oracle/nft/reset_password
-		//   },
-		// },
 	};
 </script>
 

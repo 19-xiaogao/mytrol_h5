@@ -126,7 +126,6 @@ export default {
       this.swiperLeft = (e.index * 100) / this.base_list.length;
     },
     clickItem(item) {
-		console.log(item)
       item.router
         ? ""
         : (item.router =
@@ -136,7 +135,6 @@ export default {
       );
     },
     linkTo(url, type = false) {
-		console.log('111111111')
       //#ifdef MP-WEIXIN
       if (type) {
       	return uni.reLaunch({
@@ -164,7 +162,6 @@ export default {
       size = this.searchData.size,
       ip = this.searchData.series_ip
     ) {
-      console.log(ip, page, size);
       let res = await this.$api._get(
         `/dbchain/oracle/nft/lastest_nft/${ip}/${page}/${size}`
       );

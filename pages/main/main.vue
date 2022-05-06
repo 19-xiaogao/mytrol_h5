@@ -135,7 +135,6 @@
 				uni.getPhoneNumber({
 					desc: "Wexin", // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
 					success: (res) => {
-						console.log(res);
 					},
 				});
 			},
@@ -158,7 +157,6 @@
 						setStore("userInfo", that.userInfo);
 					},
 					fail: (e) => {
-						console.log(e);
 					},
 				});
 			},
@@ -200,8 +198,6 @@
 			lower() {
 				// let page = this.searchData + 1;
 				// this.getNftList(page)
-				console.log('个人中心要刷新')
-
 				this.getUserInfo();
 				if (this.activeTab == '0') {
 					this.$refs.buy_list.getJsonData();
@@ -247,7 +243,6 @@
 					uni.setClipboardData({
 						data: url,
 						success: function() {
-							console.log('成功')
 						}
 					})
 				})	

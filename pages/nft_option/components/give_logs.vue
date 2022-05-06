@@ -62,7 +62,6 @@
 				this.$emit("closeLogs");
 			},
 			getFormatDateToStr(date) {
-				console.log(date);
 				return formatDate(new Date(Number(date)), 3);
 			},
 			async getLogs() {

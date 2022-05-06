@@ -36,7 +36,6 @@ export default {
   onLoad(option) {
     _self = this;
     this.bg_img = option.img;
-	console.log(option.id)
     this.ip = option.id=='common'?'':option.id;
     this.getJsonData();
   },

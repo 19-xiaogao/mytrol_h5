@@ -119,16 +119,8 @@ http.interceptor.request = (config) => {
       u: config.url + data + "&" + config.method,
       f: c,
     });
-    console.log([...pending]);
   });
 };
-// http.interceptor.request = config => {
-// 	uni.showLoading({
-// 		title: '加载中'
-// 	});
-
-// 	return config;
-// }
 
 let old_api = {
   url: "",
@@ -149,36 +141,10 @@ http.interceptor.response = (response) => {
   lockLoding = false;
 
   // 登录失败重新自动登录
-  // console.log(response.data.err_code);
   if (response.data.err_code == "2"||response.data.err_code == "4"||response.data.err_code == "5") {
 	  uni.navigateTo({
 		  url:'/pages/login/login'
 	  })
-  //   old_api.url = response.config.url;
-  //   old_api.methods = response.config.methods;
-  //   uni.login({
-  //     provider: "weixin",
-  //     success: async (login_res) => {
-  //       let code = login_res.code;
-  //       console.log(
-  //         "code================================              " + code
-  //       );
-  //       let params = {
-  //         code: code, //微信授权码
-  //         invitation_code: getStore("my_code") ? getStore("my_code") : "",
-  //         type: "mini",
-  //       };
-  //       let res = await _post(
-  //         "/dbchain/oracle/nft/auth_code_to_register_login",
-  //         params
-  //       );
-  //       console.log(res);
-  //       if (res.data.err_code == "0") {
-  //         setStore("user_id", res.data.result.userId);
-  //       }
-  //       // this.getOpenId(code)
-  //     },
-  //   });
   }
   if (!(response.data.err_code == "0" || response.data.err_code == "2")) {
 	  lockLoding=true;

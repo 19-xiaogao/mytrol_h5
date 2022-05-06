@@ -1,6 +1,6 @@
 <template>
   <view class="_option">
-    <image v-if :src="imgUrl" mode="widthFix"></image>
+    <image :src="imgUrl" mode="widthFix"></image>
 	<view class="_equity_code" v-if="equityCode">
 		<view class="_t1">
 			{{equityCode}}
@@ -33,7 +33,6 @@ export default {
     };
   },
   onLoad(option) {
-	  console.log(option)
     if (option.img) {
       this.imgUrl = option.img;
       this.title = option.title || "";
@@ -52,7 +51,6 @@ export default {
 	
   },
   onPullDownRefresh() {
-  	console.log("下拉");
   	if(this.nft_id&&this.nft_denom_id){
 		return this.getidToJson()
 	}
@@ -68,23 +66,19 @@ export default {
 			appId:'wx9da88f4c7e530148',
 			path:'pages/transfer_page?station_id=ff8080817e2ae28b017e7538810460ee&path=%2Fpages_mine%2Fexchange_coupon',
 			success:res=>{
-				console.log(res)
 			},
 			fail:err=>{
-				console.log(err)
 			}
 		})  
 	  },
 	  async getidToJson(){
 	  	let res=await this.$api._get('https://oss.mytrol.cn/uni_mytrol/mytrolRedeem.json')
-	  	console.log(res)
 		let data=res.data;
 		if(res){
 			uni.stopPullDownRefresh();
 			uni.hideLoading();
 			data[this.nft_denom_id]?this.equityCode=data[this.nft_denom_id][this.nft_id]:'';
 		}
-		console.log(data)
 	  }
   }
 };

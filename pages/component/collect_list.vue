@@ -28,7 +28,6 @@ export default {
   },
 
   mounted() {
-    console.log("option111111111111111111");
     this.getJsonData();
   },
   onLoad(option) {},
