@@ -79,9 +79,6 @@
         },
         "optimization" : {
             "enable" : true
-        },
-        "devServer" : {
-            "https" : true
         }
     }
 }

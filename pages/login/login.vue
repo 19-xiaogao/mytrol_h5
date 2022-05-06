@@ -61,6 +61,7 @@
 					password: "",
 					isIpone: true,
 					isPassword: true,
+          myCode: ''
 				}
 
 			}
@@ -182,6 +183,7 @@
 					let res = await this.$api._post("/dbchain/oracle/nft/login", {
 						phone_number: this.data.ipone,
 						password: this.data.password,
+            my_code: getStore('my_code')
 					});
 					console.log(res);
 					if (res.data.err_code == '0') {

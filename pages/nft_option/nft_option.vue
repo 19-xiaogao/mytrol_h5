@@ -113,7 +113,7 @@
 
 				<!-- 在售 -->
 				<view class="_buy" v-if="NFT_item.publish=='2'">
-					<img class="button-background-img" :src="unpublishBgsrc()" alt="" />
+					<img class="button-background-img" :src="unpublishBgsrc(NFT_item.publish)" alt="" />
 					<view class="price-box">
 						<view class="price">
 							<view class="p1">价格</view>
@@ -542,19 +542,22 @@
 			handleEquityDetailClick() {
 				console.log("equity-detail show");
 			},
-			unpublishBgsrc() {
+			unpublishBgsrc(item) {
 				let isbuy = 'http://oss.mytrol.cn/uni_mytrol/img/nft_buy_bg.png'
 				let unbuy = 'http://oss.mytrol.cn/uni_mytrol/img/nft_buy_bg_unpublish.png'
-
-        let isToken = this.NFT_item.buy_status !== '2';
         let isNum = (Number(this.NFT_item.number) - Number(this.NFT_item.counter_sold_nft)) > 0;
+        
+        if(item == '2'){
+          return isbuy;
+        }else{
+          return unbuy;
+        }
+        
         if (!isNum) {
           return unbuy
+        }else{
+          return isbuy;
         }
-        if (!isToken) {
-          return unbuy
-        }
-        return isbuy
 			},
 			linkTo(url, type = false) {
 				//#ifdef MP-WEIXIN
