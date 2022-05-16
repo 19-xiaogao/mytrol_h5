@@ -8,13 +8,12 @@
 			@clickLeft="clickLeft()"></uni-nav-bar>
 
 		<view class="_nft_img" v-if="!mask">
-			<!-- <seeimg ref="mychild" :imgurl="getIpfsSrc(NFT_item.file)" /> -->
 			<view class="empty" :class="[loadImg > 1 ? '_animation_img' : '']">
 				<view class="_img">
 					<image class="_img_default" :src="getIpfsSrc(NFT_item.file)" mode="" @error="onErrorImg(NFT_item)"
 						@load="onSuccessImg(NFT_item)"></image>
-
 				</view>
+        
 				<view class="_img1" :class="[isGif(getIpfsSrc(NFT_item.file),null)?'none_img':'']">
 					<image class="_img_default" src="https://oss.mytrol.cn/uni_mytrol/img/nft_bg1.png" mode=""
 						@error="onErrorImg(NFT_item)" @load="onSuccessImg(NFT_item)"></image>
@@ -25,6 +24,7 @@
 					</image>
 				</view>
 			</view>
+      
 			<view class="_footer" :class="[isGif(getIpfsSrc(NFT_item.file),null)?'_fot_img_gif':'']">
 				<view class="_fot_img">
 					<image :src="isGif(getIpfsSrc(NFT_item.file),'img_foot')" mode="">
@@ -34,10 +34,10 @@
 					<image @click="showMsk(true,getIpfsSrc(NFT_item.file))"
 						src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_see.png" mode="">
 					</image>
+          
 					<image @click="longtap(getIpfsSrc(NFT_item.file))"
 						src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_download.png" mode="">
 					</image>
-
 
 					<button open-type='share' class="_share_btn">
 						<image src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_share.png" mode="">
@@ -45,10 +45,8 @@
 					</button>
 				</view>
 			</view>
-
-			<!-- <image src="" mode=""></image> -->
 		</view>
-
+    
 		<view class="_nft_bg">
 			<view class="_user_block">
 				<view class="_icon_l">
@@ -62,9 +60,9 @@
 					<view class="_img" @click="giveStatus='3'">
 						<image src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_icon_center.png" mode="">
 						</image>
-						<view class="_text">
+						<!-- <view class="_text">
 							{{ NFT_item.nft_number[NFT_item_active] ? NFT_item.nft_number[NFT_item_active] : "" }}
-						</view>
+						</view> -->
 						<image class="icon_check"
 							src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_icon_check.png" mode=""></image>
 					</view>
@@ -84,8 +82,8 @@
 				<view class="_t2" v-else>
 					区块hash生成中
 				</view>
-
 			</view>
+      
 			<view class="_check_op">
 				<view class="_op">
 					<view class="_op">
@@ -97,39 +95,40 @@
 						<view class="_t2">{{ userInfo.nickname }}</view>
 					</view>
 				</view>
+        
 				<view class="_bg_auth">
 					<image src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_auth_1.png" mode="">
 					</image>
 				</view>
+        
 				<view class="_op">
 					<view class="_t1">认证时间</view>
 					<view class="_t2">{{ getFormatDateToStr(NFT_item.created_at[NFT_item_active]) }}</view>
 				</view>
 			</view>
+      
+      <!-- <view v-if="!NFT_item.equity_cover && NFT_item.denom_id === 67">
+      	<image class="other-img" src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/h5WebSite/lu.png" mode=""></image>
+      </view> -->
 
+			<!-- 权益列表 -->
 			<view class="equity" v-if="NFT_item.equity_cover">
-				<view class="_card" @click="
-                  linkTo(
-                    `/pages/option/option?img=${NFT_item.qr_code}&title=权益详情&id=${NFT_item.equity_card_number[NFT_item_active]}&denom_id=${NFT_item.denom_id}`
-                  )
-                ">
+				<view class="_card" v-if="NFT_item.denom_id === 72" @click="
+			          linkTo(
+			            `/pages/option/option?img=${NFT_item.qr_code}&title=权益详情`
+			          )
+			        ">
 					<image :src="NFT_item.equity_cover" class="bg" mode="widthFix"></image>
 				</view>
-
-				<view class="_text" @click="
-                  linkTo(
-                    `/pages/option/option?img=${NFT_item.qr_code}&title=权益详情`
-                  )
-                ">
-					#{{ NFT_item.equity_card_number[NFT_item_active] ? NFT_item.equity_card_number[NFT_item_active] : "" }}
-				</view>
-
+			  
+			  <view class="_card" v-else>
+			  	<image :src="NFT_item.equity_cover" class="bg" mode="widthFix"></image>
+			  </view>
+			
 				<view class="equity_content" v-if="NFT_item.equity_content">
 					<image :src="NFT_item.equity_content" mode="widthFix"> </image>
 				</view>
-
 			</view>
-
 
 			<view class="_nft_option_cont">
 				<view class="_fot">
@@ -140,6 +139,7 @@
 					<image src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_help.png" mode="heightFix"></image>
 				</view>
 			</view>
+      
 			<view class="_btns">
 				<view class="_btn" @click="giveStatus = '1'">
 					<view class="_icon">
@@ -161,13 +161,16 @@
 
 		<view class="_module_bg" v-if="giveStatus !== '0'" @click="giveStatus = '0'">
 		</view>
+    
 		<view class="_give_logs" v-if="giveStatus == '1'">
 			<give_logs :NFT_item="NFT_item" :NFT_item_active="NFT_item_active"  @closeLogs="giveStatus = '0'"></give_logs>
 		</view>
+    
 		<view class="_give_content" v-if="giveStatus == '2'">
 			<give_content :NFT_item="NFT_item" :NFT_item_active="NFT_item_active" @closeLogs="giveStatus = '0'">
 			</give_content>
 		</view>
+    
 		<!-- 切换选择分类 -->
 		<view class="_nft_content" v-if="giveStatus == '3'">
 			<nft_content :NFT_item="NFT_item" @closeLogs="giveStatus = '0'" @changeNFT="changeNFT()"></nft_content>
@@ -218,7 +221,6 @@
 		},
 		data() {
 			return {
-
 				loadImg: 0,
 				mask: false,
 				maskImg: '',
@@ -284,7 +286,7 @@
 
 			// 获取NFT详情
 			async getNftOption(id) {
-				let res = await this.$api._get(
+        let res = await this.$api._get(
 					"/dbchain/oracle/nft/nft_detail_of_user_buy_new/" + id
 				);
 				let options = {
@@ -293,6 +295,7 @@
 				};
 				this.share.imageUrl = this.getIpfsSrc(options.file_thumbnail ? options.file_thumbnail : options.file);
 				this.NFT_item = options;
+        console.log(this.NFT_item, 'NFT_item')
 			},
 			// 获取NFT IPFS地址
 			getIpfsSrc(url) {
@@ -330,6 +333,8 @@
 					content: "是否下载数字藏品？",
 					success: (m_res) => {
 						if (m_res.confirm) {
+              this.saveImgUrl(imgurl);
+              
 							uni.downloadFile({
 								url: imgurl,
 								success: (res) => {
@@ -362,6 +367,13 @@
 					},
 				});
 			},
+      saveImgUrl(url){
+        let item = document.createElement('a');
+        item.download = '';
+        item.href = url;
+        document.body.appendChild(item);
+        item.remove();
+      },
 			onSuccessImg(item) {
 				this.loadImg += 1;
 			},
@@ -702,6 +714,11 @@
 			padding-bottom: 30px;
 			position: relative;
 			z-index: 1;
+      
+      .other-img{
+        width: 100%;
+        height: 375px;
+      }
 		}
 
 		._nft_option_cont {

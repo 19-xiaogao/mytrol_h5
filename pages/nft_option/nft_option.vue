@@ -83,19 +83,21 @@
 
 				<!-- 权益列表 -->
 				<view class="equity" v-if="NFT_item.equity_cover">
-					<!-- <view class="_name"> 藏品权益 </view> -->
-					<view class="_card" @click="
+					<view class="_card" v-if="NFT_item.denom_id === 60" @click="
                   linkTo(
                     `/pages/option/option?img=${NFT_item.qr_code}&title=权益详情`
                   )
                 ">
 						<image :src="NFT_item.equity_cover" class="bg" mode="widthFix"></image>
 					</view>
+          
+          <view class="_card" v-else>
+          	<image :src="NFT_item.equity_cover" class="bg" mode="widthFix"></image>
+          </view>
 
 					<view class="equity_content" v-if="NFT_item.equity_content">
 						<image :src="NFT_item.equity_content" mode="widthFix"> </image>
 					</view>
-
 				</view>
 
 				<view class="_desc">
@@ -519,11 +521,11 @@
 				}
 			},
 			// 跳转到白名单页面
-			jumpPage(){
-				uni.navigateTo({
-					url: '/pages/white_list/white_list'
-				})
-			}
+			// jumpPage(){
+			// 	uni.navigateTo({
+			// 		url: '/pages/white_list/white_list'
+			// 	})
+			// }
 		},
 	};
 </script>

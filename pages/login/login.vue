@@ -176,7 +176,7 @@
 					let res = await this.$api._post("/dbchain/oracle/nft/login", {
 						phone_number: this.data.ipone,
 						password: this.data.password,
-            my_code: getStore('my_code')
+            // my_code: getStore('my_code')
 					});
 					if (res.data.err_code == '0') {
 						setStore("user_id", res.data.result.user_id);

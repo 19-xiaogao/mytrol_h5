@@ -48,12 +48,12 @@
 						</view>
 					</view> -->
 
-					<image 
+					<!-- <image 
 						:src="imgUrl" 
 						mode="widthFix" 
 						class="btn" 
 						@click="handleClick"
-					/>
+					/> -->
 				</view>
 
 				<view class="_check_cont">
