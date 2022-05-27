@@ -213,7 +213,7 @@
 				return "height:calc(100vh - 146px)";
 			},
 			userInfo() {
-				return getStore("userInfo") ?
+				return getStore("userInfo").nickname ?
 					getStore("userInfo") : {
 						nickname: "本人",
 					};
