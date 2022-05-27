@@ -16,6 +16,10 @@ module.exports = {
 				pathRewrite: {
 					'^/h5relay': ""
 				}
+			},
+			'/relay': {
+				target: 'http://192.168.0.19:3001/',
+				changeOrigin: true,
 			}
 		}
 	}
