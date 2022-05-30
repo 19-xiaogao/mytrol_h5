@@ -4,7 +4,7 @@
 			left-img-w="40px" fixed="true" color="#ffffff" backgroundColor="#1C1C1C" title=" " class="_nav_index"
 			:statusBar="true" @clickLeft="clickLeft()"></uni-nav-bar>
 
-		<view class="" v-show="NFT_item.file">
+		<view v-show="NFT_item.file">
 			<option_template :NFT_item="NFT_item">
 				<template v-slot:footer>
 					<!-- <seeimg ref="mychild" :imgurl="getIpfsSrc(NFT_item.file)" /> -->
