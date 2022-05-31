@@ -528,7 +528,7 @@ export default {
     wxLogin(option) {
       const that = this;
       if (getStore("user_id")) return this._init_(option);
-      return this.$router.push("/pages/login/login");
+      return this.$router.push("/pages/login/login?privateSale=true&&id="+option.id);
       uni.login({
         provider: "weixin",
         success: async (login_res) => {
