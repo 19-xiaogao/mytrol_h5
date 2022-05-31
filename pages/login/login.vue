@@ -114,13 +114,15 @@ export default {
       setStore("my_code", my_code);
     },
     isPrivateEntry() {
-      const privateSale = window.location.href.split("?")[1].split("=")[0];
-      const privateSaleId = window.location.href.split("?")[1].split("=")[2];
-      if (privateSale === "privateSale") {
-        this.privateSale = true;
-        this.privateSaleId = privateSaleId;
-      } else {
-        this.privateSale = false;
+      if (window.location.href.split("?")[1]) {
+        const privateSale = window.location.href.split("?")[1].split("=")[0];
+        const privateSaleId = window.location.href.split("?")[1].split("=")[2];
+        if (privateSale === "privateSale") {
+          this.privateSale = true;
+          this.privateSaleId = privateSaleId;
+        } else {
+          this.privateSale = false;
+        }
       }
     },
 
