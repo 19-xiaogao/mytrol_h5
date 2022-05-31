@@ -75,7 +75,8 @@
     "vueVersion" : "2",
     "h5" : {
         "router" : {
-            "base" : "/h5/"
+            "base" : "/h5/",
+            "mode" : "hash"
         },
         "optimization" : {
             "enable" : true
