@@ -19,11 +19,11 @@
 
 				<view class="_item" v-if="item.sender">
 					<view class="_t1">发送方</view>
-					<view class="_t2">{{ item.sender }}</view>
+					<view class="_t2" @click="copy(item.sender)">{{ item.sender }}</view>
 				</view>
 				<view class="_item">
 					<view class="_t1">接收方</view>
-					<view class="_t2">{{ item.receiver }}</view>
+					<view class="_t2" @click="copy(item.receiver)">{{ item.receiver }}</view>
 				</view>
 				<!-- <view class="_item">
           <view class="_t1">交易hash</view>
@@ -63,6 +63,10 @@
 			},
 			getFormatDateToStr(date) {
 				return formatDate(new Date(Number(date)), 3);
+			},
+			copy(value) {
+				//提示模板
+				return uni_copy(value);
 			},
 			async getLogs() {
 				let id = typeof(this.NFT_item.id) == 'string' ? this.NFT_item.id : this.NFT_item.id[this
