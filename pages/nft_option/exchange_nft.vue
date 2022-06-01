@@ -251,10 +251,11 @@
           >
             <view class="t3">已领取</view>
           </view>
+          
           <!-- 输入兑换码 -->
           <view
             class="_redeem_btn"
-            v-if="isShowCountdown() && !whitelistStatus"
+            v-if="(isShowCountdown() && !whitelistStatus) ||  NFT_item.buy_status === '2'"
           >
             <view class="_redeem">
               <img
