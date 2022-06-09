@@ -146,6 +146,12 @@ http.interceptor.response = (response) => {
 		  url:'/pages/login/login'
 	  })
   }
+  if(response.data.err_code == "28"){
+    uni.navigateTo({
+      url:"/pages/system/maintain"
+    })
+  }
+
   if (!(response.data.err_code == "0" || response.data.err_code == "2")) {
 	  lockLoding=true;
 	  

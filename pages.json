@@ -105,6 +105,27 @@
 			}
 		},
 		{
+			"path": "pages/system/maintain",
+			"style": {
+				"navigationBarTitleText": "系统维护中",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"navigationBarTextStyle": "white",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"pullToRefresh": {
+						"style": "circle",
+						"offset": "70px"
+					},
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+			}
+		},
+		{
 			"path": "pages/swiper_option/swiper_option",
 			"style": {
 				"navigationBarTitleText": "数字藏品详情",

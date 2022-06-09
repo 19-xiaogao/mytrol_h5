@@ -106,6 +106,7 @@ export default {
   mounted() {
     this.init();
     this.isPrivateEntry();
+    this.isMaintain();
   },
   methods: {
     init() {
@@ -124,6 +125,16 @@ export default {
           this.privateSale = false;
         }
       }
+    },
+    isMaintain() {
+      this.$api._get("/dbchain/oracle/nft/get_system_status").then((res) => {
+        console.log(res);
+        if (res.data.result.status === "maintenance") {
+          uni.navigateTo({
+            url: "/pages/system/maintain",
+          });
+        }
+      });
     },
 
     setmessage(type = "error", text) {
