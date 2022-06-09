@@ -12,7 +12,22 @@
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    this.isMaintain();
+  },
+  methods: {
+    isMaintain() {
+      this.$api._get("/dbchain/oracle/nft/get_system_status").then((res) => {
+        if (res.data.result.status !== "maintenance") {
+          uni.navigateTo({
+            url: "/",
+          });
+        }
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -36,7 +51,7 @@ export default {};
     }
   }
   .footer {
-      margin-top: 20px;
+    margin-top: 20px;
     width: 100%;
     text-align: center;
     font-size: 23px;
