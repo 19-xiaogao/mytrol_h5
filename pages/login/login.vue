@@ -42,8 +42,8 @@
             maxlength="18"
             v-model="data.password"
             name=""
+            id="passwordInput"
             placeholder="请输入密码"
-            id=""
             @change="
               (val) => {
                 return changeVal('password', val);
@@ -51,24 +51,26 @@
             "
             @keyup.enter="login"
           />
-
           <img
-            v-if="data.isPassword"
-            src="https://oss.mytrol.cn/uni_mytrol/img/login/success.png"
+            src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/lookPassword.png"
+            id="passwordIcon"
             class="icon"
             alt=""
-          />
-          <img
-            v-else
-            src="https://oss.mytrol.cn/uni_mytrol/img/login/failed.png"
-            class="icon"
-            alt=""
+            @click="handleLookPasswordClick"
           />
         </view>
         <view class="footer">
           <view class="registered">
-            <!-- <view>还没有账号?&nbsp;&nbsp;</view>
-						<view @click="handleRouterClick('/pages/login/register')">注册</view> -->
+            <view>还没有账号?&nbsp;&nbsp;</view>
+            <view @click="handleRouterClick('/pages/login/register')"
+              >注册</view
+            >
+          </view>
+          <view
+            class="forgot-password"
+            @click="handleRouterClick('/pages/login/retriverpassword')"
+          >
+            验证码登录
           </view>
           <view
             class="forgot-password"
@@ -100,6 +102,7 @@ export default {
         myCode: "",
         privateSale: false,
         privateSaleId: 0,
+        isShowPassWordType: false,
       },
     };
   },
@@ -124,6 +127,18 @@ export default {
         } else {
           this.privateSale = false;
         }
+      }
+    },
+    handleLookPasswordClick() {
+      const inputElement = document.querySelectorAll(".uni-input-input")[1];
+      if (inputElement.type === "password") {
+        inputElement.type = "text";
+        document.querySelector("#passwordIcon").src =
+          "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/leyesClosed.png";
+      } else {
+        inputElement.type = "password";
+        document.querySelector("#passwordIcon").src =
+          "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/lookPassword.png";
       }
     },
     isMaintain() {
@@ -336,13 +351,14 @@ export default {
 
         .icon {
           right: 5px;
-          top: 18px;
-          transform: translateY(-10%);
+          top: 50%;
+          transform: translateY(-70%);
           position: absolute;
           width: 26px;
           height: 26px;
           border-radius: 4px;
           text-align: center;
+          z-index: 111;
         }
       }
 
