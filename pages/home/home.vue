@@ -39,7 +39,6 @@
     </view>
 
     <view class="_vip" v-if="base_list.length > 0">
-	
       <ls-swiper
         :autoplay="false"
         :list="base_list"
@@ -56,8 +55,23 @@
         :dots="true"
       />
     </view>
-
     <view class="_list_cont">
+      <view class="_tab_list">
+        <view
+          class="_tab"
+          v-for="item in tabList"
+          :key="item.id"
+          @click="changeTab(item)"
+        >
+          <view
+            class="_tit"
+            :class="[activeTab == item.id ? '_active_tit' : '']"
+          >
+            {{ item.name }}
+          </view>
+          <view class="_border" v-show="activeTab == item.id"> </view>
+        </view>
+      </view>
       <nft-list
         class="_nft_list"
         v-for="(item, index) in NFT_List"
@@ -107,23 +121,40 @@ export default {
         size: 10,
         series_ip: "common",
       },
+      activeTab: "1",
+
+      tabList: [
+        {
+          name: "nft",
+          id: "1",
+        },
+        {
+          name: "盲盒",
+          id: "2",
+        },
+      ],
     };
+  },
+  mounted() {
+    console.log("=-=");
   },
   methods: {
     navShow(e) {
-		
       this.info = e.home_swiper || [];
-	  this.base_list=e.home_ip||[];
-	  this.NFT_List=e.nft_list||[];
+      this.base_list = e.home_ip || [];
+      this.NFT_List = e.nft_list || [];
       // this.getNftList(1);
       // this.getNftIp();
     },
-    mounted() {},
     change(e) {
       this.current = e.detail.current;
     }, // 飞天敦煌轮播图切换
     changeSwiper(e) {
       this.swiperLeft = (e.index * 100) / this.base_list.length;
+    },
+    changeTab(item) {
+      this.activeTab = item.id;
+      // this.$refs.orider_list.getJsonData()
     },
     clickItem(item) {
       item.router
@@ -137,16 +168,16 @@ export default {
     linkTo(url, type = false) {
       //#ifdef MP-WEIXIN
       if (type) {
-      	return uni.reLaunch({
-      	  url: url,
-      	});
-        }
-        return uni.navigateTo({
-      	url: url,
+        return uni.reLaunch({
+          url: url,
         });
+      }
+      return uni.navigateTo({
+        url: url,
+      });
       //#endif
       //#ifdef H5
-      	return this.$router.push(url)
+      return this.$router.push(url);
       //#endif
     },
     // 获取NFT IPFS地址
@@ -165,7 +196,9 @@ export default {
       let res = await this.$api._get(
         `/dbchain/oracle/nft/lastest_nft/${ip}/${page}/${size}`
       );
-      this.NFT_List_All[page] = (res.data?.result || []).sort(function(a,b){return b.published_at-a.published_at});
+      this.NFT_List_All[page] = (res.data?.result || []).sort(function (a, b) {
+        return b.published_at - a.published_at;
+      });
       if (this.NFT_List_All[page].length > 0) {
         this.searchData.page = page + 1;
       }
@@ -179,47 +212,6 @@ export default {
       let data = res.data.result || [];
       data = data.sort((a, b) => {
         return Number(a.number) - Number(b.number);
-      });
-      if (data.length < 1) return false;
-      this.base_list ? "" : (this.base_list = []);
-      for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < this.base_list.length; j++) {
-          if (data[i].id == this.base_list[j].id) {
-            data[i].imgUrl = this.getIpfsSrc(data[i].file);
-            data[i] = {
-              ...this.base_list[j],
-              ...data[i],
-            };
-          } else {
-            data[i] = {
-              ...{
-                id: "9",
-                name: "飞天敦煌",
-                imgUrl:
-                  "https://oss.mytrol.cn/uni_mytrol/img/nft_swiper/nft2.png",
-                router:
-                  "https://oss.mytrol.cn/uni_mytrol/img/nft_swiper/nft_bg_1.png",
-                index: "0",
-              },
-              ...data[i],
-            };
-          }
-        }
-      }
-      data.forEach((item, index) => {
-        if (index === 0) {
-          item.router =
-            "https://oss.mytrol.cn/uni_mytrol/img/nft_swiper/nft_bg_01.png";
-        } else if (index === 1) {
-          item.router =
-            "https://oss.mytrol.cn/uni_mytrol/img/nft_swiper/nft_bg_02.png";
-        } else if (index === 2) {
-          item.router =
-            "https://oss.mytrol.cn/uni_mytrol/img/nft_swiper/nft_bg_03.png";
-        } else {
-          item.router =
-            "https://oss.mytrol.cn/uni_mytrol/img/nft_swiper/nft_bg_1.png";
-        }
       });
       this.base_list = data;
     },
@@ -242,19 +234,87 @@ export default {
       return "0";
     },
   },
-  mounted() {
-    // this.getNftList(1);
-    // this.getNftIp();
-  },
 };
 </script>
 
 <style lang="scss" scoped>
 ._home {
-	
-	    background: #000;
-	    width: 100vw;
+  background: #000;
+  width: 100vw;
+  ._tab_list {
+    padding: 10px 0;
+    display: flex;
+    position: relative;
 
+    ._tab {
+      ._tit {
+        padding: 6px 17px;
+        height: 20px;
+        font-size: 16px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #7d7d7d;
+        line-height: 20px;
+      }
+
+      ._active_tit {
+        height: 20px;
+        font-size: 16px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: 500;
+        color: #ffffff;
+        line-height: 20px;
+      }
+
+      ._border {
+        margin: 0 auto;
+        width: 18px;
+        height: 4px;
+        background: #ffbd21;
+        border-radius: 3px;
+      }
+    }
+
+    ._redeem {
+      border-radius: 8px;
+      border: 1px solid rgba(49, 49, 49, 0.5);
+      display: flex;
+      align-items: center;
+      padding: 0 11px;
+      position: absolute;
+      right: 14px;
+      height: 36px;
+      position: relative;
+
+      ._icon {
+        width: 22px;
+        height: 22px;
+
+        image {
+          width: 22px;
+          height: 22px;
+        }
+      }
+
+      ._t1 {
+        margin-left: 4px;
+        font-size: 14px;
+        font-family: SourceHanSansCN-Regular, SourceHanSansCN;
+        font-weight: 400;
+        color: #ffffff;
+        line-height: 22px;
+      }
+    }
+
+    .btn {
+      display: block;
+      width: 188rpx;
+      height: 70rpx;
+      position: absolute;
+      top: 0;
+      left: calc(538rpx - 296rpx);
+    }
+  }
   ._header {
     width: 93vw;
     height: 240px;
