@@ -191,6 +191,23 @@
 			}
 		},
 		{
+			"path": "pages/nft_option/my_bindBox",
+			"style": {
+				"navigationBarTitleText": "微信授权",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#1C1C1C",
+				"backgroundColor": "#1C1C1C",
+				"backgroundColorTop": "#000",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"titleNView": false,
+					"background": "#0A1121",
+					"bounceBackground": "#0A1121",
+					"animationType": "slide-in-right"
+				}
+			}
+		},
+		{
 			"path": "pages/login/register",
 			"style": {
 				"navigationBarTitleText": "微信授权",

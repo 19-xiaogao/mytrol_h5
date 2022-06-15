@@ -113,6 +113,8 @@ export default {
       swiperLeft: 0,
       // NFT列表
       NFT_List: [],
+      // 盲盒列表
+      bindBoxLists: [],
       // 全部NFT列表
       NFT_List_All: {},
       // 搜索条件
@@ -136,15 +138,13 @@ export default {
     };
   },
   mounted() {
-    console.log("=-=");
+    this.getHomeList();
   },
   methods: {
     navShow(e) {
       this.info = e.home_swiper || [];
       this.base_list = e.home_ip || [];
-      this.NFT_List = e.nft_list || [];
-      // this.getNftList(1);
-      // this.getNftIp();
+      // this.NFT_List = e.nft_list || [];
     },
     change(e) {
       this.current = e.detail.current;
@@ -154,6 +154,7 @@ export default {
     },
     changeTab(item) {
       this.activeTab = item.id;
+      this.getHomeList();
       // this.$refs.orider_list.getJsonData()
     },
     clickItem(item) {
@@ -187,24 +188,6 @@ export default {
       }
       return config.IpfsUrl + url;
     },
-    // 获取NFT列表
-    async getNftList(
-      page = this.searchData.page,
-      size = this.searchData.size,
-      ip = this.searchData.series_ip
-    ) {
-      let res = await this.$api._get(
-        `/dbchain/oracle/nft/lastest_nft/${ip}/${page}/${size}`
-      );
-      this.NFT_List_All[page] = (res.data?.result || []).sort(function (a, b) {
-        return b.published_at - a.published_at;
-      });
-      if (this.NFT_List_All[page].length > 0) {
-        this.searchData.page = page + 1;
-      }
-      uni.stopPullDownRefresh();
-      this.NFT_List = flatten(Object.values(this.NFT_List_All));
-    },
     async getNftIp() {
       let res = await this.$api._get(
         `/dbchain/oracle/nft/backend/get_serises_ip`
@@ -215,11 +198,32 @@ export default {
       });
       this.base_list = data;
     },
-    // 下拉
-    lower() {
-      // if (this.searchData.page < 2) return false;
-      // let page = this.searchData.page;
-      // this.getNftList(page);
+    getHomeList() {
+      if (this.activeTab === "1") {
+        this.getNfts();
+      } else {
+        this.getBindBoxs();
+      }
+    },
+    async getNfts() {
+      let nft_res = await this.$api._get(
+        "/dbchain/oracle/nft/lastest_nft/common/1/100"
+      );
+      let data = nft_res.data.result ? nft_res.data.result : [];
+      data.sort(function (a, b) {
+        return b.published_at - a.published_at;
+      });
+      this.NFT_List = data;
+    },
+    async getBindBoxs() {
+      let nft_res = await this.$api._get(
+        "/dbchain/oracle/nft/blind_box/lastest_box/1/100"
+      );
+      let data = nft_res.data.result ? nft_res.data.result : [];
+      data.sort(function (a, b) {
+        return b.published_at - a.published_at;
+      });
+      this.NFT_List = data;
     },
     // 获取NFT type
     isNftType(item) {

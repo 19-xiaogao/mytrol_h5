@@ -21,29 +21,31 @@
         <view class="_img">
           <image
             class="_img_default"
-            :src="getIpfsSrc(NFT_item.file)"
+            :src="getIpfsSrc(bindBoxDetail.file)"
             mode=""
-            @error="onErrorImg(NFT_item)"
-            @load="onSuccessImg(NFT_item)"
+            @error="onErrorImg(bindBoxDetail)"
+            @load="onSuccessImg(bindBoxDetail)"
           ></image>
         </view>
 
         <view
           class="_img1"
-          :class="[isGif(getIpfsSrc(NFT_item.file), null) ? 'none_img' : '']"
+          :class="[
+            isGif(getIpfsSrc(bindBoxDetail.file), null) ? 'none_img' : '',
+          ]"
         >
           <image
             class="_img_default"
             src="https://oss.mytrol.cn/uni_mytrol/img/nft_bg1.png"
             mode=""
-            @error="onErrorImg(NFT_item)"
-            @load="onSuccessImg(NFT_item)"
+            @error="onErrorImg(bindBoxDetail)"
+            @load="onSuccessImg(bindBoxDetail)"
           ></image>
         </view>
 
         <view class="_img_light">
           <image
-            :src="isGif(getIpfsSrc(NFT_item.file), 'img_light')"
+            :src="isGif(getIpfsSrc(bindBoxDetail.file), 'img_light')"
             mode="widthFix"
           >
           </image>
@@ -52,22 +54,27 @@
 
       <view
         class="_footer"
-        :class="[isGif(getIpfsSrc(NFT_item.file), null) ? '_fot_img_gif' : '']"
+        :class="[
+          isGif(getIpfsSrc(bindBoxDetail.file), null) ? '_fot_img_gif' : '',
+        ]"
       >
         <view class="_fot_img">
-          <image :src="isGif(getIpfsSrc(NFT_item.file), 'img_foot')" mode="">
+          <image
+            :src="isGif(getIpfsSrc(bindBoxDetail.file), 'img_foot')"
+            mode=""
+          >
           </image>
         </view>
         <view class="_download">
           <image
-            @click="showMsk(true, getIpfsSrc(NFT_item.file))"
+            @click="showMsk(true, getIpfsSrc(bindBoxDetail.file))"
             src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_see.png"
             mode=""
           >
           </image>
 
           <image
-            @click="longtap(getIpfsSrc(NFT_item.file))"
+            @click="longtap(getIpfsSrc(bindBoxDetail.file))"
             src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_download.png"
             mode=""
           >
@@ -95,7 +102,7 @@
         </view>
         <view class="_tit">
           <view class="_t1 _one_omit">
-            {{ NFT_item.name }}
+            {{ bindBoxDetail.name }}
           </view>
           <view class="_img" @click="giveStatus = '3'">
             <image
@@ -122,23 +129,11 @@
         </view>
       </view>
 
-      <view class="_tx_hash">
-        <view class="_t1"> 哈希值 </view>
-        <view
-          class="_t2"
-          v-if="NFT_item.tx_hash[NFT_item_active]"
-          @click="copy(NFT_item.tx_hash[NFT_item_active])"
-        >
-          {{ NFT_item.tx_hash[NFT_item_active] }}
-        </view>
-        <view class="_t2" v-else> 区块hash生成中 </view>
-      </view>
-
       <view class="_check_op">
         <view class="_op">
           <view class="_op">
             <view class="_t1">创作者</view>
-            <view class="_t2">{{ NFT_item.nickname }}</view>
+            <view class="_t2">{{ bindBoxDetail.nickname }}</view>
           </view>
           <view class="_op">
             <view class="_t1">拥有者</view>
@@ -157,7 +152,7 @@
         <view class="_op">
           <view class="_t1">认证时间</view>
           <view class="_t2">{{
-            getFormatDateToStr(NFT_item.created_at[NFT_item_active])
+            getFormatDateToStr(bindBoxDetail.created_at)
           }}</view>
         </view>
       </view>
@@ -165,37 +160,6 @@
       <!-- <view v-if="!NFT_item.equity_cover && NFT_item.denom_id === 67">
       	<image class="other-img" src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/h5WebSite/lu.png" mode=""></image>
       </view> -->
-
-      <!-- 权益列表 -->
-      <view class="equity" v-if="NFT_item.equity_cover">
-        <view
-          class="_card"
-          v-if="NFT_item.denom_id === 72"
-          @click="
-            linkTo(
-              `/pages/option/option?img=${NFT_item.qr_code}&title=权益详情`
-            )
-          "
-        >
-          <image
-            :src="NFT_item.equity_cover"
-            class="bg"
-            mode="widthFix"
-          ></image>
-        </view>
-
-        <view class="_card" v-else>
-          <image
-            :src="NFT_item.equity_cover"
-            class="bg"
-            mode="widthFix"
-          ></image>
-        </view>
-
-        <view class="equity_content" v-if="NFT_item.equity_content">
-          <image :src="NFT_item.equity_content" mode="widthFix"> </image>
-        </view>
-      </view>
 
       <view class="_nft_option_cont">
         <view class="_fot">
@@ -211,92 +175,32 @@
       </view>
 
       <view class="_btns">
-        <view class="_btn" @click="giveStatus = '1'">
+        <view class="_btn">
           <view class="_icon">
             <image
-              src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_log.png"
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/openBindBox.png"
               mode=""
             >
             </image>
           </view>
-          <view class="_t1"> 转赠记录 </view>
-        </view>
-        <view class="_btn" @click="showGivConent()">
-          <view class="_icon">
-            <image
-              src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_give.png"
-              mode=""
-            >
-            </image>
-          </view>
-          <view class="_t1"> 转赠 </view>
+          <view class="_t1" @click="handleOpenBoxClick"> 开启盲盒 </view>
         </view>
       </view>
-    </view>
-
-    <view
-      class="_module_bg"
-      v-if="giveStatus !== '0'"
-      @click="giveStatus = '0'"
-    >
-    </view>
-
-    <view class="_give_logs" v-if="giveStatus == '1'">
-      <give_logs
-        :NFT_item="NFT_item"
-        :NFT_item_active="NFT_item_active"
-        @closeLogs="giveStatus = '0'"
-      ></give_logs>
-    </view>
-
-    <view class="_give_content" v-if="giveStatus == '2'">
-      <give_content
-        :NFT_item="NFT_item"
-        :NFT_item_active="NFT_item_active"
-        @closeLogs="giveStatus = '0'"
-      >
-      </give_content>
-    </view>
-
-    <!-- 切换选择分类 -->
-    <view class="_nft_content" v-if="giveStatus == '3'">
-      <nft_content
-        :NFT_item="NFT_item"
-        @closeLogs="giveStatus = '0'"
-        @changeNFT="changeNFT()"
-      ></nft_content>
     </view>
   </view>
 </template>
 
 <script>
-import {
-  formatDate,
-  uni_copy,
-  getStore,
-  getFileType,
-} from "@/static/js/global.js";
+import { formatDate, uni_copy, getStore } from "@/static/js/global.js";
 import { isGif } from "./option_mixin.js";
-import uniNavBar from "uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar.vue";
 import config from "@/js_sdk/general-http/config.js";
-import option_template from "./components/option_template.vue";
-
-import give_content from "./components/give_content.vue";
-import give_logs from "./components/give_logs.vue";
-import nft_content from "./components/nft_content.vue";
 let that;
 export default {
   name: "nft_list",
   mounted() {
     that = this;
   },
-  components: {
-    option_template,
-    uniNavBar,
-    give_content,
-    give_logs,
-    nft_content,
-  },
+  components: {},
   computed: {
     height() {
       return "height:calc(100vh - 146px)";
@@ -314,27 +218,7 @@ export default {
       loadImg: 0,
       mask: false,
       maskImg: "",
-      NFT_item: {
-        avatar: "",
-        code: "",
-        created_at: "",
-        created_by: "",
-        description: "",
-        file: "",
-        id: "",
-        name: "",
-        nickname: "",
-        number: "",
-        price: "",
-
-        published_at: "",
-        tx_hash: "",
-        user_id: "",
-        hot: "",
-        desc_img: "",
-        remaining: "",
-        collected_number: "",
-      },
+      bindBoxDetail: {},
       giveStatus: "0", //赠送弹出
       // 分享
       share: {
@@ -350,10 +234,8 @@ export default {
   },
   methods: {
     onLoad(option) {
-      if (option.id) {
-        this.getNftOption(option.id);
-        // this.share.path=`/pages/nft_option/nft_option?id${option.id}=`
-      }
+      const params = JSON.parse(option.params);
+      this.bindBoxDetail = params;
     },
     getFormatDateToStr(date) {
       return formatDate(new Date(Number(date)), 3);
@@ -374,21 +256,6 @@ export default {
       this.giveStatus = "0";
     },
 
-    // 获取NFT详情
-    async getNftOption(id) {
-      let res = await this.$api._get(
-        "/dbchain/oracle/nft/nft_detail_of_user_buy_new/" + id
-      );
-      let options = {
-        ...this.NFT_item,
-        ...res.data.result,
-      };
-      this.share.imageUrl = this.getIpfsSrc(
-        options.file_thumbnail ? options.file_thumbnail : options.file
-      );
-      this.NFT_item = options;
-      console.log(this.NFT_item, "NFT_item");
-    },
     // 获取NFT IPFS地址
     getIpfsSrc(url) {
       if (url.indexOf("://") !== -1 || !url) {
@@ -400,23 +267,30 @@ export default {
     uni_copy(val) {
       return uni_copy(val);
     },
-    // 收藏 取消收藏
-
-    async collect(val = "1") {
-      let params = {
-        denom_id: this.NFT_item.id,
-      };
-      let res;
-      if (val == "1") {
-        res = await this.$api._post("/dbchain/oracle/nft/nft_collect", params);
-        this.NFT_item.collected = "true";
-      } else {
-        res = await this.$api._post(
-          "/dbchain/oracle/nft/nft_cancle_collect",
-          params
-        );
-        this.NFT_item.collected = "false";
-      }
+    handleOpenBoxClick() {
+      uni.showModal({
+        title: "开启确定",
+        content: `您确定要开启当前的数字盲盒吗？`,
+        cancelText: "取消",
+        confirmText: "确定开启",
+        async success(res) {
+          if (res.confirm) {
+            const result = await that.$api._post(
+              "/dbchain/oracle/nft/open_blind_box",
+              {
+                blind_box_id: String(that.bindBoxDetail.id),
+              }
+            );
+            console.log(result);
+            const res = result.data;
+            if (res.err_code === "0") {
+              that.$router.push("/");
+            }
+          } else {
+            console.log("=-=");
+          }
+        },
+      });
     },
     //保存图片
     longtap(imgurl) {
@@ -469,36 +343,9 @@ export default {
     onSuccessImg(item) {
       this.loadImg += 1;
     },
-    // 购买成功一个月之后方可赠送
-    giveNft() {
-      uni.showModal({
-        title: "赠送数字藏品",
-        content: "购买成功一个月之后方可赠送",
-        success: (m_res) => {},
-      });
-    },
-    copy(value) {
-      //提示模板
-      return uni_copy(value);
-    },
     onErrorImg(item) {},
     isGif(url, key = "img2") {
       return isGif(url, key);
-    },
-    linkTo(url, type = false) {
-      //#ifdef MP-WEIXIN
-      if (type) {
-        return uni.reLaunch({
-          url: url,
-        });
-      }
-      return uni.navigateTo({
-        url: url,
-      });
-      //#endif
-      //#ifdef H5
-      return this.$router.push(url);
-      //#endif
     },
 
     showMsk(type, url) {
@@ -514,25 +361,6 @@ export default {
         this.giveToNft = false;
         this.giveStatus = "0";
       }
-    },
-    showGivConent() {
-      uni.showModal({
-        title: "赠送确认",
-        content: `您确定要赠送编号为${
-          that.NFT_item.nft_number[that.NFT_item_active]
-        }的数字藏品吗？`,
-        cancelText: "重新选择",
-        confirmText: "确定赠送",
-        success(res) {
-          if (res.confirm) {
-            // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-            that.giveStatus = "2";
-          } else {
-            that.giveStatus = "3";
-            that.giveToNft = true;
-          }
-        },
-      });
     },
   },
   created() {

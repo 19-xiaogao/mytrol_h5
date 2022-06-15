@@ -214,27 +214,8 @@ export default {
       return config.IpfsUrl + url;
     },
     wxLogin(e) {
-      const that = this;
       if (getStore("user_id")) return false;
       return this.$router.push("/pages/login/login");
-      uni.login({
-        provider: "weixin",
-        success: async (login_res) => {
-          let code = login_res.code;
-          let params = {
-            code: code, //微信授权码
-            invitation_code: getStore("my_code") ? getStore("my_code") : "",
-            type: "mini",
-          };
-          let res = await that.$api._post(
-            "/dbchain/oracle/nft/auth_code_to_register_login",
-            params
-          );
-          if (res.data.err_code == "0") {
-            setStore("user_id", res.data.result.userId);
-          }
-        },
-      });
     },
     async getOpenId(code) {
       let res = await this.$api._post(
@@ -253,10 +234,6 @@ export default {
     },
     // 获取json数据
     async getJsonData() {
-      // let json = await this.$api._get(
-      //   "https://apply-sign.oss-cn-shenzhen.aliyuncs.com/mytrol/mytrol_data.json"
-      // );
-      // json = json.data;
       let getBanner = async () => {
         let banner_res = await this.$api._get("/dbchain/oracle/nft/get_banner");
         let data = banner_res.data.result
@@ -293,25 +270,13 @@ export default {
         });
         return data;
       };
-
-      let getNftList = async () => {
-        let nft_res = await this.$api._get(
-          "/dbchain/oracle/nft/lastest_nft/common/1/100"
-        );
-        let data = nft_res.data.result ? nft_res.data.result : [];
-        data.sort(function (a, b) {
-          return b.published_at - a.published_at;
-        });
-        return data;
-      };
-
       let JSONList = async () => {
         let obj = {
           home_swiper: {},
           home_ip: {},
           nft_list: {},
         };
-        obj.nft_list = await getNftList();
+       
         obj.home_ip = await getIp();
         obj.home_swiper = await getBanner();
 

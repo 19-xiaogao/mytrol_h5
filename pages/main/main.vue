@@ -53,7 +53,7 @@
         <view class="_tab_list">
           <view
             class="_tab"
-            v-for="(item, index) in tabList"
+            v-for="item in tabList"
             :key="item.id"
             @click="changeTab(item)"
           >
@@ -95,6 +95,7 @@
           <buy-list ref="buy_list" v-show="activeTab == '0'"></buy-list>
           <collect-list v-if="activeTab == '1'"></collect-list>
           <orider-list ref="orider_list" v-if="activeTab == '2'"></orider-list>
+          <bind-list ref="bind_list" v-show="activeTab == '3'" />
         </view>
       </view>
     </view>
@@ -104,6 +105,7 @@
 <script>
 let that;
 import buyList from "@/pages/component/buy_list.vue";
+import bindList from "@/pages/component/bind_list.vue";
 import collectList from "@/pages/component/collect_list.vue";
 import oriderList from "@/pages/component/orider_list.vue";
 import { setStore, getStore, plusXing, uni_copy } from "@/static/js/global.js";
@@ -112,6 +114,7 @@ export default {
     buyList,
     collectList,
     oriderList,
+    bindList,
   },
   onLoad() {},
   mounted() {
@@ -119,7 +122,7 @@ export default {
 
     this.getUserProfile();
     // this.getPhoneNumber()
-    this.getUserInfo();
+    this.initData();
     this.defaultRefresh();
   },
   data() {
@@ -134,14 +137,19 @@ export default {
       activeTab: "0",
       tabList: [
         {
-          name: "已拥有",
+          name: "nft",
           id: "0",
+        },
+        {
+          name: "盲盒",
+          id: "3",
         },
         {
           name: "订单",
           id: "2",
         },
       ],
+      bindBoxNfts: [],
       getCont: 0,
       imgUrl:
         "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/h5WebSite/button.png",
@@ -226,10 +234,15 @@ export default {
       // let page = this.searchData + 1;
       // this.getNftList(page)
       this.getUserInfo();
+      this.initData();
+    },
+    initData() {
       if (this.activeTab == "0") {
         this.$refs.buy_list.getJsonData();
-      } else {
+      } else if (this.activeTab === "2") {
         this.$refs.orider_list.getJsonData();
+      } else if (this.activeTab === "3") {
+        this.$refs.bind_list.getJsonData();
       }
     },
     plusXing(a = "", b, c) {
@@ -238,6 +251,7 @@ export default {
     // 已拥有。订单切换
     changeTab(item) {
       this.activeTab = item.id;
+      this.initData();
       // this.$refs.orider_list.getJsonData()
     },
     defaultRefresh() {},
@@ -270,15 +284,36 @@ export default {
         });
       });
     },
-	handleLongOutClick(){
-		console.log("退出登录");
-		this.linkTo("/pages/login/login")
-	}
+    handleLongOutClick() {
+      console.log("退出登录");
+      this.linkTo("/pages/login/login");
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+._buy_cont {
+  width: 93.6vw;
+  margin: 0 auto;
+
+  ._btn_login {
+    display: flex;
+    justify-content: center;
+    ._btn {
+      width: 140px;
+      height: 44px;
+      background: #ffbd21;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 44px;
+      text-align: center;
+    }
+  }
+}
 ._main {
   color: #fff;
   background: #1c1c1c;
