@@ -175,17 +175,37 @@
       </view>
 
       <view class="_btns">
-        <view class="_btn">
+        <view class="_btn" @click="giveStatus = '1'">
           <view class="_icon">
+            <image
+              src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_log.png"
+              mode=""
+            >
+            </image>
+          </view>
+          <view class="_t1"> 转赠记录 </view>
+        </view>
+        <view class="_btn">
+          <!-- <view class="_icon">
             <image
               src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/openBindBox.png"
               mode=""
             >
             </image>
-          </view>
+          </view> -->
           <view class="_t1" @click="handleOpenBoxClick">
-            开启盲盒（{{ bindBoxDetail.nft_total_number }}个）
+            开启盲盒({{ bindBoxDetail.nft_total_number }}个)
           </view>
+        </view>
+        <view class="_btn" @click="showGivConent()">
+          <view class="_icon">
+            <image
+              src="https://oss.mytrol.cn/uni_mytrol/icon/my_nft_option_give.png"
+              mode=""
+            >
+            </image>
+          </view>
+          <view class="_t1"> 转赠 </view>
         </view>
       </view>
     </view>
@@ -194,12 +214,24 @@
       :bindBoxRewardList="bindBoxRewardList"
       @close="handleCloseClick"
     />
+    <BindBoxTransferVue
+      :bindBoxDetail="bindBoxDetail"
+      v-show="giveStatus === '2'"
+      @close="handleTrCloseClick"
+    />
+    <BindBoxLogsVue
+      v-show="giveStatus === '1'"
+      :bindBoxDetail="bindBoxDetail"
+      @closeLogs="giveStatus = '0'"
+    />
   </view>
 </template>
 
 <script>
 import { formatDate, uni_copy, getStore } from "@/static/js/global.js";
 import BindBoxRewardVue from "./components/bind_box_reward.vue";
+import BindBoxTransferVue from "./components/bind_box_transfer.vue";
+import BindBoxLogsVue from "./components/bind_box_logs.vue";
 import { isGif } from "./option_mixin.js";
 import config from "@/js_sdk/general-http/config.js";
 let that;
@@ -210,6 +242,8 @@ export default {
   },
   components: {
     BindBoxRewardVue,
+    BindBoxTransferVue,
+    BindBoxLogsVue,
   },
   computed: {
     height() {
@@ -249,6 +283,10 @@ export default {
     onLoad(option) {
       this.getBindBox(option.id);
     },
+    handleTrCloseClick() {
+      this.giveStatus = "0";
+      this.getBindBox(this.bindBoxDetail.id);
+    },
     getFormatDateToStr(date) {
       return formatDate(new Date(Number(date) * 10), 3);
     },
@@ -260,7 +298,7 @@ export default {
       if (collected_data.length > 0) {
         this.bindBoxDetail = collected_data[0];
       } else {
-         this.$router.push("/?refresh=bindBox");
+        this.$router.push("/?refresh=bindBox");
       }
     },
     loadAnim() {
@@ -314,11 +352,6 @@ export default {
             const res = result.data.result;
             that.bindBoxRewardList = res;
             that.rewardStatus = true;
-            // if (res.err_code === "0") {
-            //   that.$router.push("/");
-            // }
-          } else {
-            console.log("=-=");
           }
         },
       });
@@ -370,6 +403,9 @@ export default {
       item.href = url;
       document.body.appendChild(item);
       item.remove();
+    },
+    showGivConent() {
+      this.giveStatus = "2";
     },
     onSuccessImg(item) {
       this.loadImg += 1;
@@ -736,7 +772,7 @@ export default {
     background: rgba(0, 0, 0, 0.9);
 
     ._btn {
-      width: 41.3%;
+      width: 30.3%;
       height: 40px;
       font-size: 16px;
       font-weight: 400;
