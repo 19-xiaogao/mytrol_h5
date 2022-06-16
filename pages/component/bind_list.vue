@@ -68,7 +68,6 @@ export default {
     };
   },
   computed: {},
-  onLoad(option) {},
   methods: {
     getIpfsSrc(url) {
       if (url.indexOf("://") !== -1) {
@@ -90,9 +89,7 @@ export default {
       }
     },
     handleRouterDetail(item) {
-      this.$router.push(
-        "/pages/nft_option/my_bindBox?params=" + JSON.stringify(item)
-      );
+      this.$router.push("/pages/nft_option/my_bindBox?id=" + item.id);
     },
     linkTo(url, type = false) {
       //#ifdef MP-WEIXIN

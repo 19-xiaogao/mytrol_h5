@@ -181,12 +181,30 @@ export default {
     return this.$refs[this.pageKey].lower();
     // this.change(this.pageKey);
   },
+  onShow(e) {
+    this.refreshBindBox();
+  },
   onmounted() {
     let backlen = history.length - 1;
     history.go(-backlen);
   },
   methods: {
+    //刷新盲盒的数据
+    refreshBindBox() {
+      try {
+        const params = location.href.split("?")[1].split("=");
+        if (params[0] === "refresh") {
+          console.log("从盲盒跳转过来的。");
+          console.log(this.$refs.main.$refs.bind_list.getJsonData());
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async change(key) {
+      console.log(key);
+      this.$router.push("/?key=" + key);
+      this.pageKey = key;
       switch (key) {
         case "home":
           this.getJsonData();
@@ -276,7 +294,7 @@ export default {
           home_ip: {},
           nft_list: {},
         };
-       
+
         obj.home_ip = await getIp();
         obj.home_swiper = await getBanner();
 

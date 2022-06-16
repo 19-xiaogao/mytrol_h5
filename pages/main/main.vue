@@ -116,10 +116,8 @@ export default {
     oriderList,
     bindList,
   },
-  onLoad() {},
   mounted() {
     that = this;
-
     this.getUserProfile();
     // this.getPhoneNumber()
     this.initData();
@@ -160,6 +158,7 @@ export default {
       return getStore("userInfo") ? getStore("userInfo") : this.userInfo;
     },
   },
+
   methods: {
     navShow(e) {
       that = this;

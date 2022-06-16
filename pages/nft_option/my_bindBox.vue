@@ -183,7 +183,9 @@
             >
             </image>
           </view>
-          <view class="_t1" @click="handleOpenBoxClick"> 开启盲盒 </view>
+          <view class="_t1" @click="handleOpenBoxClick">
+            开启盲盒（{{ bindBoxDetail.nft_total_number }}个）
+          </view>
         </view>
       </view>
     </view>
@@ -245,13 +247,22 @@ export default {
   },
   methods: {
     onLoad(option) {
-      const params = JSON.parse(option.params);
-      this.bindBoxDetail = params;
+      this.getBindBox(option.id);
     },
     getFormatDateToStr(date) {
       return formatDate(new Date(Number(date) * 10), 3);
     },
-
+    async getBindBox(id) {
+      let collected_res = await this.$api._get(
+        `/dbchain/oracle/nft/blind_box_detail_of_user_buy/${id}`
+      );
+      let collected_data = collected_res.data.result;
+      if (collected_data.length > 0) {
+        this.bindBoxDetail = collected_data[0];
+      } else {
+         this.$router.push("/?refresh=bindBox");
+      }
+    },
     loadAnim() {
       var animation = uni.createAnimation({
         transformOrigin: "50% 50%",
@@ -269,6 +280,7 @@ export default {
     handleCloseClick() {
       this.rewardStatus = false;
       this.openIng = false;
+      this.getBindBox(this.bindBoxDetail.id);
     },
     // 获取NFT IPFS地址
     getIpfsSrc(url) {
