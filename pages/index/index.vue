@@ -194,7 +194,6 @@ export default {
       try {
         const params = location.href.split("?")[1].split("=");
         if (params[0] === "refresh") {
-          console.log("从盲盒跳转过来的。");
           console.log(this.$refs.main.$refs.bind_list.getJsonData());
         }
       } catch (error) {
@@ -202,13 +201,11 @@ export default {
       }
     },
     async change(key) {
-      console.log(key);
-      this.$router.push("/?key=" + key);
       this.pageKey = key;
       switch (key) {
         case "home":
-          this.getJsonData();
-          // this.$refs.home.navShow(this.JSONList) //切换时刷新组件数据
+          // this.getJsonData();
+          this.$refs.home.navShow(this.JSONList); //切换时刷新组件数据
           break;
         case "main":
           this.$refs.main.navShow(this.JSONList); //切换时刷新组件数据

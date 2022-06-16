@@ -3,7 +3,7 @@
     <h3>恭喜您</h3>
     <p class="desc">
       成功获得
-      <span>3</span>
+      <span>{{bindBoxRewardList.length}}</span>
       款NFT！
     </p>
     <div class="nft_box">
