@@ -187,11 +187,17 @@
         </view>
       </view>
     </view>
+    <BindBoxRewardVue
+      v-show="rewardStatus"
+      :bindBoxRewardList="bindBoxRewardList"
+      @close="handleCloseClick"
+    />
   </view>
 </template>
 
 <script>
 import { formatDate, uni_copy, getStore } from "@/static/js/global.js";
+import BindBoxRewardVue from "./components/bind_box_reward.vue";
 import { isGif } from "./option_mixin.js";
 import config from "@/js_sdk/general-http/config.js";
 let that;
@@ -200,7 +206,9 @@ export default {
   mounted() {
     that = this;
   },
-  components: {},
+  components: {
+    BindBoxRewardVue,
+  },
   computed: {
     height() {
       return "height:calc(100vh - 146px)";
@@ -230,6 +238,9 @@ export default {
       },
       NFT_item_active: 0, //当前nft选中状态
       giveToNft: false,
+      rewardStatus: false,
+      bindBoxRewardList: [],
+      openIng: false,
     };
   },
   methods: {
@@ -238,7 +249,7 @@ export default {
       this.bindBoxDetail = params;
     },
     getFormatDateToStr(date) {
-      return formatDate(new Date(Number(date)), 3);
+      return formatDate(new Date(Number(date) * 10), 3);
     },
 
     loadAnim() {
@@ -251,11 +262,14 @@ export default {
     },
     clickLeft(url = "/pages/index/index?key=main") {
       if (this.giveStatus == "0") {
-        uni.navigateBack();
+        this.$router.push("/");
       }
       this.giveStatus = "0";
     },
-
+    handleCloseClick() {
+      this.rewardStatus = false;
+      this.openIng = false;
+    },
     // 获取NFT IPFS地址
     getIpfsSrc(url) {
       if (url.indexOf("://") !== -1 || !url) {
@@ -268,6 +282,9 @@ export default {
       return uni_copy(val);
     },
     handleOpenBoxClick() {
+      if (that.openIng) {
+        return;
+      }
       uni.showModal({
         title: "开启确定",
         content: `您确定要开启当前的数字盲盒吗？`,
@@ -275,17 +292,19 @@ export default {
         confirmText: "确定开启",
         async success(res) {
           if (res.confirm) {
+            that.openIng = true;
             const result = await that.$api._post(
               "/dbchain/oracle/nft/open_blind_box",
               {
                 blind_box_id: String(that.bindBoxDetail.id),
               }
             );
-            console.log(result);
-            const res = result.data;
-            if (res.err_code === "0") {
-              that.$router.push("/");
-            }
+            const res = result.data.result;
+            that.bindBoxRewardList = res;
+            that.rewardStatus = true;
+            // if (res.err_code === "0") {
+            //   that.$router.push("/");
+            // }
           } else {
             console.log("=-=");
           }
@@ -376,7 +395,7 @@ export default {
   background: #1c1c1c;
   // padding-top: 70px;
   color: #fff;
-
+  position: relative;
   ._footer {
     position: relative;
 
@@ -714,7 +733,8 @@ export default {
       justify-content: center;
       border-radius: 8px;
       align-items: center;
-
+      border: 1px solid #fff;
+      cursor: pointer;
       ._icon {
         height: 24px;
 

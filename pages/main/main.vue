@@ -94,7 +94,7 @@
         <view class="_check_cont">
           <buy-list ref="buy_list" v-show="activeTab == '0'"></buy-list>
           <collect-list v-if="activeTab == '1'"></collect-list>
-          <orider-list ref="orider_list" v-if="activeTab == '2'"></orider-list>
+          <orider-list ref="order_list" v-show="activeTab == '2'"></orider-list>
           <bind-list ref="bind_list" v-show="activeTab == '3'" />
         </view>
       </view>
@@ -240,7 +240,7 @@ export default {
       if (this.activeTab == "0") {
         this.$refs.buy_list.getJsonData();
       } else if (this.activeTab === "2") {
-        this.$refs.orider_list.getJsonData();
+        this.$refs.order_list.getJsonData();
       } else if (this.activeTab === "3") {
         this.$refs.bind_list.getJsonData();
       }
@@ -252,7 +252,6 @@ export default {
     changeTab(item) {
       this.activeTab = item.id;
       this.initData();
-      // this.$refs.orider_list.getJsonData()
     },
     defaultRefresh() {},
     linkTo(url, type = false) {
