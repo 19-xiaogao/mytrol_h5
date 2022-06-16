@@ -13,7 +13,7 @@ import { showLoading, hideLoading } from "@/static/js/loading.js";
 let TimeLoding = false; //定时器，用于关闭打开loding的延时
 let lockLoding = false; // 锁，用于锁住loding
 // 关闭loding预处理
-let closeLoding = (num=3000) => {
+let closeLoding = (num = 3000) => {
   if (lockLoding) {
     return clearTimeout(TimeLoding);
   }
@@ -70,7 +70,7 @@ const returnLodingApi = [
   // '/dbchain/oracle/nft/nft_wechatpay_result/', //轮询微信支付结果
 ];
 
-let setApiDispose = () => {};
+let setApiDispose = () => { };
 
 // //取消重复请求
 let pending = []; //声明一个数组用于存储每个请求的取消函数和axios标识
@@ -80,7 +80,7 @@ let removePending = (config) => {
   for (let p in pending) {
     if (
       pending[p].u ===
-        http.config.baseURL + config.url + data + "&" + config.method ||
+      http.config.baseURL + config.url + data + "&" + config.method ||
       pending[p].u === config.url + data + "&" + config.method
     ) {
       // 每一个请求在返回时解锁
@@ -93,13 +93,12 @@ let removePending = (config) => {
   }
 };
 
-function getCookie(name)
-{
-var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-if(arr=document.cookie.match(reg))
-return unescape(arr[2]);
-else
-return null;
+function getCookie(name) {
+  var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+  if (arr = document.cookie.match(reg))
+    return unescape(arr[2]);
+  else
+    return null;
 }
 // 请求拦截器
 
@@ -108,7 +107,10 @@ http.interceptor.request = (config) => {
   config.header.cookie = getCookie('go_session_id');
   // 每一个请求在发送时锁住，用于响应返回时等2s无后续请求则关闭    
   lockLoding = true;
-  openLoding(config);
+  uni.showLoading({
+    title: "加载中",
+    mask: true,
+  });
   //发起请求时，取消掉当前正在进行的相同请求
   config.cancelToken = new cancelToken((c) => {
     // 请求地址&请求方式
@@ -141,29 +143,18 @@ http.interceptor.response = (response) => {
   lockLoding = false;
 
   // 登录失败重新自动登录
-  if (response.data.err_code == "2"||response.data.err_code == "4"||response.data.err_code == "5") {
-	  uni.navigateTo({
-		  url:'/pages/login/login'
-	  })
-  }
-  if(response.data.err_code == "28"){
+  if (response.data.err_code == "2" || response.data.err_code == "4" || response.data.err_code == "5") {
     uni.navigateTo({
-      url:"/pages/system/maintain"
+      url: '/pages/login/login'
+    })
+  }
+  if (response.data.err_code == "28") {
+    uni.navigateTo({
+      url: "/pages/system/maintain"
     })
   }
 
-  if (!(response.data.err_code == "0" || response.data.err_code == "2")) {
-	  lockLoding=true;
-	  
-    uni.showToast({
-      title: http_code[response.data.err_code],
-      duration: 5000,
-      icon: "none",
-    });
-	closeLoding(5000);
-  }else{
-	  closeLoding();  
-  }
+  uni.hideLoading();
   return response;
 };
 
