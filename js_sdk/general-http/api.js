@@ -154,6 +154,13 @@ http.interceptor.response = (response) => {
     })
   }
 
+  if (!(response.data.err_code == "0" || response.data.err_code == "2")) {
+    uni.showToast({
+      title: http_code[response.data.err_code],
+      duration: 5000,
+      icon: "none",
+    });
+  }
   uni.hideLoading();
   return response;
 };
