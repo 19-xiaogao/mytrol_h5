@@ -282,9 +282,11 @@ export default {
         });
       });
     },
-    handleLongOutClick() {
-      console.log("退出登录");
-      this.linkTo("/pages/login/login");
+    async handleLongOutClick() {
+      const result = await this.$api._post("/dbchain/oracle/nft/logout");
+      if (result.data.err_code === "0") {
+        this.linkTo("/pages/login/login");
+      }
     },
   },
 };
