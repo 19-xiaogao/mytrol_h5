@@ -254,7 +254,6 @@ export default {
       this.data = data;
     },
     async login() {
-      this.data = data;
       if (this.verify_form()) {
         let res = await this.$api._post("/dbchain/oracle/nft/register", {
           phone_number: this.data.ipone,
