@@ -57,7 +57,8 @@
     </view>
     <view class="_list_cont">
       <view class="_tab_list">
-        <view
+        <!-- TODO:盲盒系列 -->
+        <!-- <view
           class="_tab"
           v-for="item in tabList"
           :key="item.id"
@@ -70,7 +71,7 @@
             {{ item.name }}
           </view>
           <view class="_border" v-show="activeTab == item.id"> </view>
-        </view>
+        </view> -->
       </view>
       <nft-list
         class="_nft_list"

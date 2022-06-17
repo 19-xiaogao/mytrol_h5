@@ -138,10 +138,11 @@ export default {
           name: "nft",
           id: "0",
         },
-        {
-          name: "盲盒",
-          id: "3",
-        },
+        // <!-- TODO:盲盒系列 -->
+        // {
+        //   name: "盲盒",
+        //   id: "3",
+        // },
         {
           name: "订单",
           id: "2",
