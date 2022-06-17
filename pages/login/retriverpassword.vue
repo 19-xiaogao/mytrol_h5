@@ -206,7 +206,7 @@
 						wait = 60;
 						clearInterval(timer);
 					}
-				}, 5000);
+				}, 1000);
 			},
 
 			//
@@ -263,7 +263,7 @@
 				align-items: center;
 				justify-content: center;
 
-				span {
+				._span {
 					height: 46px;
 					font-size: 30px;
 					font-family: SourceHanSansCN-Medium, SourceHanSansCN SC;

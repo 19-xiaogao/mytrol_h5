@@ -68,7 +68,7 @@
           </view>
           <view
             class="forgot-password"
-            @click="handleRouterClick('/pages/login/retriverpassword')"
+            @click="handleRouterClick('/pages/login/verificationCodeLogin')"
           >
             验证码登录
           </view>

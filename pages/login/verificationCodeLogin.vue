@@ -1,8 +1,8 @@
 <template>
-  <view class="_m_login _hideScrollbar">
+  <view class="_m_login _m_register _hideScrollbar">
     <view class="right-box">
       <view class="title">
-        <view>登录</view>
+        <view class="_span">验证登录</view>
         <img
           @click="$router.push('/')"
           src="https://oss.mytrol.cn/uni_mytrol/img/login/title.png"
@@ -11,16 +11,18 @@
       </view>
       <view class="input-box">
         <view class="input-phone _m_inp">
-          <view>手机号码</view>
+          <view class="_span">手机号码</view>
           <input
+            v-model="data.ipone"
+            placeholder="请输入手机号码"
             type="number"
             maxlength="11"
-            v-model="data.ipone"
-            name=""
-            placeholder="请输入手机号码"
-            id=""
+            @change="
+              (val) => {
+                return changeVal('ipone', val);
+              }
+            "
           />
-
           <img
             v-if="data.isIpone"
             src="https://oss.mytrol.cn/uni_mytrol/img/login/success.png"
@@ -34,55 +36,36 @@
             alt=""
           />
         </view>
-
         <view class="input-phone _m_inp">
-          <view>密码</view>
+          <view class="_span">短信验证码</view>
           <input
-            type="password"
-            maxlength="18"
-            v-model="data.password"
-            name=""
-            id="passwordInput"
-            placeholder="请输入密码"
+            v-model="data.code"
+            placeholder="请输入短信验证码"
+            type="number"
+            maxlength="6"
             @change="
               (val) => {
-                return changeVal('password', val);
+                return changeVal('code', val);
               }
             "
-            @keyup.enter="login"
           />
-          <img
-            src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/lookPassword.png"
-            id="passwordIcon"
-            class="icon"
-            alt=""
-            @click="handleLookPasswordClick"
-          />
+          <span
+            class="verifey-code"
+            :style="data.hasClick ? 'color:#c7c7c7;' : ''"
+            v-bind:disabled="data.hasClick"
+            @click="getCode"
+            >{{ data.getCodeTxt }}</span
+          >
         </view>
         <view class="footer">
           <view class="registered">
-            <view>还没有账号?&nbsp;&nbsp;</view>
-            <view @click="handleRouterClick('/pages/login/register')"
-              >注册</view
-            >
-          </view>
-          <view
-            class="forgot-password"
-            @click="handleRouterClick('/pages/login/retriverpassword')"
-          >
-            验证码登录
-          </view>
-          <view
-            class="forgot-password"
-            @click="handleRouterClick('/pages/login/retriverpassword')"
-          >
-            忘记密码
+            <view class="_span">返回&nbsp;&nbsp;</view>
+            <view @click="handleLoginClick">登录</view>
           </view>
         </view>
       </view>
-
       <view class="btn">
-        <view class="registerBtn" @click="login">登录</view>
+        <view class="registerBtn" @click="login">重置密码</view>
       </view>
     </view>
   </view>
@@ -90,68 +73,30 @@
 
 <script>
 import rules from "@/static/js/rules.js";
-import { setStore, getStore, getQueryUrl } from "@/static/js/global.js";
+import { setStore, getStore } from "../../static/js/global.js";
 export default {
+  components: {},
   data() {
     return {
+      isVerification: 0,
       data: {
         ipone: "",
         password: "",
+        password2: "",
+        code: "",
+
         isIpone: true,
         isPassword: true,
-        myCode: "",
-        privateSale: false,
-        privateSaleId: 0,
-        isShowPassWordType: false,
+        isPassword2: true,
+        isCode: true,
+        hasClick: false,
+        getCodeTxt: "获取验证码",
+
+        isUserDoc: false,
       },
     };
   },
-  mounted() {
-    this.init();
-    this.isPrivateEntry();
-    this.isMaintain();
-  },
   methods: {
-    init() {
-      let url = location.search;
-      let my_code = getQueryUrl(url);
-      setStore("my_code", my_code);
-    },
-    isPrivateEntry() {
-      if (window.location.href.split("?")[1]) {
-        const privateSale = window.location.href.split("?")[1].split("=")[0];
-        const privateSaleId = window.location.href.split("?")[1].split("=")[2];
-        if (privateSale === "privateSale") {
-          this.privateSale = true;
-          this.privateSaleId = privateSaleId;
-        } else {
-          this.privateSale = false;
-        }
-      }
-    },
-    handleLookPasswordClick() {
-      const inputElement = document.querySelectorAll(".uni-input-input")[1];
-      if (inputElement.type === "password") {
-        inputElement.type = "text";
-        document.querySelector("#passwordIcon").src =
-          "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/leyesClosed.png";
-      } else {
-        inputElement.type = "password";
-        document.querySelector("#passwordIcon").src =
-          "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/lookPassword.png";
-      }
-    },
-    isMaintain() {
-      this.$api._get("/dbchain/oracle/nft/get_system_status").then((res) => {
-        console.log(res);
-        if (res.data.result.status === "maintenance") {
-          uni.navigateTo({
-            url: "/pages/system/maintain",
-          });
-        }
-      });
-    },
-
     setmessage(type = "error", text) {
       uni.showToast({
         title: text,
@@ -159,7 +104,6 @@ export default {
         icon: "none",
       });
     },
-    // 单个表单验证
     verify_value(key) {
       switch (key) {
         case "ipone":
@@ -170,41 +114,11 @@ export default {
               return error ? error.message : false;
             }
           );
-          break;
-        case "password":
-          return rules.FormValidate.Form().validatePsdReg(
-            "",
-            this.data.password,
-            (error) => {
-              return error ? error.message : false;
-            }
-          );
-          break;
         default:
           break;
       }
     },
-    changeVal(key, val) {
-      switch (key) {
-        case "ipone":
-          if (this.verify_value(key)) {
-            this.data.isIpone = false;
-          } else {
-            this.data.isIpone = true;
-          }
-          break;
-        case "password":
-          if (this.verify_value(key)) {
-            this.data.isPassword = false;
-          } else {
-            this.data.isPassword = true;
-          }
-          break;
-        default:
-          break;
-      }
-    },
-    //   // 表单验证
+    // 表单验证
     verify_form() {
       let verify_ipone = this.verify_value("ipone");
       if (verify_ipone) {
@@ -212,75 +126,98 @@ export default {
         this.data.isIpone = false;
         return false;
       }
+      return true;
+    },
 
-      let verify_password = this.verify_value("password");
-      if (this.verify_password) {
-        this.setmessage("error", "verify_password");
-        this.data.isPassword = false;
+    // 登陆注册
+    async login() {
+      if (this.verify_form()) {
+        let res = await this.$api._post(
+          "/dbchain/oracle/nft/loginByVerifyCode",
+          {
+            phone_number: this.data.ipone,
+            verification_code: this.data.code,
+          }
+        );
+        if (res.data.err_code == "0") {
+          uni.showToast({
+            title: "登录成功",
+            duration: 5000,
+            icon: "none",
+          });
+          return this.$router.push("/");
+        }
+      }
+    },
+    //
+    // 获取验证码
+    async getCode() {
+      let verify_ipone = this.verify_value("ipone");
+      if (verify_ipone) {
+        this.setmessage("error", verify_ipone);
+        this.data.isIpone = false;
         return false;
       }
-      return true;
+
+      if (this.data.hasClick) {
+        return false;
+      }
+
+      let result = "Success";
+      let time = new Date().getTime();
+      result = await this.$api._get(
+        "/dbchain/oracle/nft/send_verf_code/reset_password/" + this.data.ipone
+      );
+
+      if (result.data.err_code !== "0" && result.data.result !== "Success") {
+        this.data.getCodeTxt = "重新获取";
+        this.data.hasClick = false;
+        return;
+      }
+
+      this.setmessage("success", "短信验证码已发送");
+      this.isValidateCode = true;
+      //  this.hasClick = false;
+      let wait = 60;
+      this.data.getCodeTxt = "60";
+      let timer = setInterval(() => {
+        if (wait > 0) {
+          wait--;
+          this.data.getCodeTxt = wait + "S";
+          this.data.hasClick = true;
+        } else {
+          this.data.getCodeTxt = "重新获取";
+          this.data.hasClick = false;
+          wait = 60;
+          clearInterval(timer);
+        }
+      }, 1000);
     },
 
     //
     changeVal(key, val) {
       switch (key) {
         case "ipone":
-          if (this.verify_value(key)) {
+          if (verify_value(key)) {
             this.data.isIpone = false;
           } else {
             this.data.isIpone = true;
-          }
-          break;
-        case "password":
-          if (verify_value(key)) {
-            this.data.isPassword = false;
-          } else {
-            this.data.isPassword = true;
           }
           break;
         default:
           break;
       }
     },
-    async login() {
-      if (this.verify_form()) {
-        let res = await this.$api._post("/dbchain/oracle/nft/login", {
-          phone_number: this.data.ipone,
-          password: this.data.password,
-          // my_code: getStore('my_code')
-        });
-        if (res.data.err_code == "0") {
-          setStore("user_id", res.data.result.user_id);
-          uni.showToast({
-            title: "登录成功",
-            duration: 5000,
-            icon: "none",
-          });
-          if (this.privateSale) {
-            return this.$router.push(
-              `/pages/nft_option/exchange_nft?id=${this.privateSaleId}`
-            );
-          }
-          return this.$router.push("/");
-        }
+    verifyResult(type, result) {
+      if (type == "admin") {
+        this.isVerification = 1;
+      } else if (type === "slider") {
+        this.isVerification = 0;
       }
     },
-    handleRouterClick(path, type = false) {
-      this.$router.push(path);
+    handleLoginClick() {
+      this.$router.push("/pages/login/login");
     },
-    // setup() {
-    //   const { proxy } = getCurrentInstance();
-    //   const router = useRouter();
-    //   const handleRouterClick = (path) => {
-    //     router.push(path);
-    //   };
-    //   let data = reactive({
-    //     ipone: "",
-    //     password: "",
-    //     isIpone: true,
-    //     isPassword: true,
-    //   });
   },
 };
 </script>
@@ -293,6 +230,7 @@ export default {
 
   .right-box {
     width: 100%;
+    height: 100%;
     margin-top: 46px;
     padding-left: 12px;
     padding-right: 12px;
@@ -303,11 +241,12 @@ export default {
       align-items: center;
       justify-content: center;
 
-      view {
-        width: 60px;
+      ._span {
         height: 46px;
         font-size: 30px;
         font-family: SourceHanSansCN-Medium, SourceHanSansCN SC;
+        font-weight: 500;
+        color: #000000;
       }
     }
 
@@ -320,18 +259,44 @@ export default {
         justify-content: flex-start;
         margin-bottom: 26px;
         position: relative;
-        height: 56px;
 
-        view {
+        .icon {
+          right: 5px;
+          top: 30px;
+          transform: translateY(-10%);
+          position: absolute;
+          width: 26px;
+          height: 26px;
+          border-radius: 4px;
+          text-align: center;
+        }
+
+        .waring {
+          cursor: pointer;
+        }
+
+        .verifey-code {
+          position: absolute;
+          right: 10px !important;
+          top: 32px;
+          transform: translateY(-10%);
+          cursor: pointer;
+          color: #ff451dff;
+          font-weight: 600;
+          left: unset;
+          z-index: 99;
+        }
+
+        span {
           height: 26px;
           font-size: 16px;
           font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
           font-weight: 400;
-          color: #000;
+          color: #ff451d;
           line-height: 26px;
           position: absolute;
           top: -14px;
-          z-index: 30;
+          z-index: 1;
           background: #fff;
           left: 13px;
         }
@@ -348,35 +313,22 @@ export default {
             border-bottom-color: #ff451dff;
           }
         }
-
-        .icon {
-          right: 5px;
-          top: 50%;
-          transform: translateY(-70%);
-          position: absolute;
-          width: 26px;
-          height: 26px;
-          border-radius: 4px;
-          text-align: center;
-          z-index: 111;
-        }
       }
 
       .footer {
         display: flex;
-        justify-content: space-between;
-        height: 20px;
-        font-size: 14px;
-        font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
-        font-weight: 400;
-        color: #000000;
-        line-height: 20px;
-        margin-bottom: 30px;
-        padding-top: 208px;
+        justify-content: flex-end;
 
         .registered {
-          text-align: left;
-          width: 200px;
+          text-align: right;
+          width: 30%;
+          min-width: 169px;
+          font-size: 14px;
+          font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
+          font-weight: 400;
+          color: #000000;
+          display: flex;
+          justify-content: flex-end;
 
           view:nth-child(2) {
             color: #ff451d;
@@ -384,32 +336,58 @@ export default {
             cursor: pointer;
           }
         }
-
-        .forgot-password {
-          color: #ff451d;
-          font-weight: 600;
-          cursor: pointer;
-        }
       }
     }
+  }
 
-    .btn {
-      width: 100%;
-      padding-bottom: 38px;
+  .btn {
+    width: 100%;
+    margin-top: 57px;
+    padding-bottom: 38px;
 
-      .registerBtn {
+    .checkbox {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: #000000;
+      font-size: 14px;
+      font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
+      font-weight: 400;
+      color: #000000;
+      line-height: 20px;
+
+      input {
         cursor: pointer;
-        width: 100%;
-        font-size: 20px;
-        color: #ffffff;
-        text-align: center;
-        height: 58px;
-        line-height: 58px;
-        background: #2f0088;
-        border-radius: 6px;
-        background: linear-gradient(270deg, #ff451d 0%, #ffca2a 100%);
+      }
+
+      span:nth-of-type(2) {
+        cursor: pointer;
+        color: #ff451dff;
       }
     }
+
+    .registerBtn {
+      cursor: pointer;
+      height: 58px;
+      line-height: 58px;
+      text-align: center;
+      border-radius: 6px;
+      width: 100%;
+      font-size: 20px;
+      color: #ffffff;
+      background: linear-gradient(270deg, #ff451d 0%, #ffca2a 100%);
+    }
+  }
+
+  .mask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(242, 242, 242, 0.7);
   }
 }
 </style>

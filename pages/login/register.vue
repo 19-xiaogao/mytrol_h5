@@ -4,7 +4,6 @@
       <view class="title">
         <view>注册</view>
         <img
-          @click="$router.push('/')"
           src="https://oss.mytrol.cn/uni_mytrol/img/login/title.png"
           alt=""
         />
@@ -52,13 +51,11 @@
               }
             "
           />
-
           <view
             class="verifey-code"
             :style="data.hasClick ? 'color:#c7c7c7;' : ''"
             v-bind:disabled="data.hasClick"
             @click="getCode"
-            v-preventReClick
             >{{ data.getCodeTxt }}</view
           >
         </view>
@@ -94,7 +91,7 @@
             "
           />
         </view>
-        <view class="input-phone _m_inp">
+        <!-- <view class="input-phone _m_inp">
           <view class="_span">邀请码</view>
           <input
             :disabled="isCode"
@@ -107,7 +104,7 @@
               }
             "
           />
-        </view>
+        </view> -->
         <view class="footer">
           <view class="registered">
             <view>已经有账号?&nbsp;&nbsp;请</view>
@@ -122,7 +119,7 @@
 					<view> 我已阅读并同意 </view>
 					<view>《用户协议》和《隐私条款》</view>
 				</view> -->
-        <view class="registerBtn" v-points="1000" @click="login">注册</view>
+        <view class="registerBtn" @click="login">注册</view>
       </view>
     </view>
     <!-- <view class="mask" v-show="isVerification === 1">
@@ -163,7 +160,7 @@ export default {
         isCode: true,
         hasClick: false,
         getCodeTxt: "获取验证码",
-        isUserDoc: false,
+        isUserDoc: true,
       },
     };
   },
@@ -199,7 +196,7 @@ export default {
             }
           );
         case "password2":
-          if (!data.password2) {
+          if (!this.data.password2) {
             return "请再次输入密码";
           }
           return this.data.password == this.data.password2
@@ -238,17 +235,41 @@ export default {
       }
       return true;
     },
+    initDataParams() {
+      const data = {
+        ipone: "",
+        password: "",
+        password2: "",
+        code: "",
+        InvitationCode: "",
+
+        isIpone: true,
+        isPassword: true,
+        isPassword2: true,
+        isCode: true,
+        hasClick: false,
+        getCodeTxt: "获取验证码",
+        isUserDoc: true,
+      };
+      this.data = data;
+    },
     async login() {
-      if (verify_form()) {
+      this.data = data;
+      if (this.verify_form()) {
         let res = await this.$api._post("/dbchain/oracle/nft/register", {
-          tel: this.data.ipone,
+          phone_number: this.data.ipone,
           password: this.data.password,
           verification_code: this.data.code,
-          invitation_code: this.data.InvitationCode,
+          // invitation_code: this.data.InvitationCode,
         });
-        if (res.err_code == "0") {
-          this.setmessage("success", "注册成功，请登录");
-          return handleRouterClick("/login");
+        if (res.data.err_code == "0") {
+          uni.showToast({
+            title: "注册成功，请登录",
+            duration: 5000,
+            icon: "none",
+          });
+          this.initDataParams();
+          return this.handleRouterClick("/pages/login/login");
         }
       }
     },
@@ -262,12 +283,12 @@ export default {
         return false;
       }
 
-      data.hasClick = true;
+      this.data.hasClick = true;
 
       let result = "Success";
       let time = new Date().getTime();
       result = await this.$api._get(
-        "/dbchain/oracle/nft/send_verf_code/register/" + data.ipone
+        "/dbchain/oracle/nft/send_verf_code/register/" + this.data.ipone
       );
       if (result.data.err_code !== "0" && result.data.result !== "Success") {
         this.data.getCodeTxt = "重新获取";
@@ -290,7 +311,7 @@ export default {
           wait = 60;
           clearInterval(timer);
         }
-      }, 5000);
+      }, 1000);
     },
 
     //
@@ -363,18 +384,44 @@ export default {
         justify-content: flex-start;
         margin-bottom: 26px;
         position: relative;
-        height: 56px;
 
-        view {
+        .icon {
+          right: 5px;
+          top: 30px;
+          transform: translateY(-10%);
+          position: absolute;
+          width: 26px;
+          height: 26px;
+          border-radius: 4px;
+          text-align: center;
+        }
+
+        .waring {
+          cursor: pointer;
+        }
+
+        .verifey-code {
+          position: absolute;
+          right: 10px !important;
+          top: 32px;
+          transform: translateY(-10%);
+          cursor: pointer;
+          color: #ff451dff;
+          font-weight: 600;
+          left: unset;
+          z-index: 99;
+        }
+
+        span {
           height: 26px;
           font-size: 16px;
           font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
           font-weight: 400;
-          color: #000;
+          color: #ff451d;
           line-height: 26px;
           position: absolute;
           top: -14px;
-          z-index: 30;
+          z-index: 1;
           background: #fff;
           left: 13px;
         }
@@ -390,18 +437,6 @@ export default {
           &:focus {
             border-bottom-color: #ff451dff;
           }
-        }
-
-        .icon {
-          right: 5px;
-          top: 50%;
-          transform: translateY(-70%);
-          position: absolute;
-          width: 26px;
-          height: 26px;
-          border-radius: 4px;
-          text-align: center;
-          z-index: 111;
         }
       }
 

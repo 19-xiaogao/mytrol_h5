@@ -176,7 +176,7 @@
 		{
 			"path": "pages/login/verificationCodeLogin",
 			"style": {
-				"navigationBarTitleText": "微信授权",
+				"navigationBarTitleText": "验证码登录",
 				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#1C1C1C",
 				"backgroundColor": "#1C1C1C",

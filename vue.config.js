@@ -18,7 +18,7 @@ module.exports = {
 				}
 			},
 			'/relay': {
-				target: 'http://192.168.0.19:3001/',
+				target: 'http://192.168.0.58:3001/',
 				changeOrigin: true,
 			}
 		}
