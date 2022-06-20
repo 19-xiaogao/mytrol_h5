@@ -135,7 +135,7 @@ export default {
       activeTab: "0",
       tabList: [
         {
-          name: "nft",
+          name: "已购买",
           id: "0",
         },
         // <!-- TODO:盲盒系列 -->
