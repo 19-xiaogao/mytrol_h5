@@ -1,20 +1,16 @@
 <template>
-  <view class="_m_login _m_register _hideScrollbar">
+  <view class="_m_login">
     <view class="right-box">
       <view class="title">
-        <view class="_span">验证登录</view>
-        <img
-          @click="$router.push('/')"
-          src="https://oss.mytrol.cn/uni_mytrol/img/login/title.png"
-          alt=""
-        />
+        <view>账号登录</view>
       </view>
+      <view class="title-line"></view>
       <view class="input-box">
-        <view class="input-phone _m_inp">
-          <view class="_span">手机号码</view>
+        <view class="input-phone">
           <input
             v-model="data.ipone"
             placeholder="请输入手机号码"
+            class="input"
             type="number"
             maxlength="11"
             @change="
@@ -23,25 +19,23 @@
               }
             "
           />
-          <img
-            v-if="data.isIpone"
-            src="https://oss.mytrol.cn/uni_mytrol/img/login/success.png"
-            class="icon"
-            alt=""
-          />
-          <img
-            v-else
-            src="https://oss.mytrol.cn/uni_mytrol/img/login/failed.png"
-            class="icon"
-            alt=""
-          />
+          <view class="prefix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/phone_icon.png"
+            />
+          </view>
+          <view class="suffix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/close.png"
+            />
+          </view>
         </view>
-        <view class="input-phone _m_inp">
-          <view class="_span">短信验证码</view>
+        <view class="input-phone tow">
           <input
             v-model="data.code"
             placeholder="请输入短信验证码"
             type="number"
+            class="input"
             maxlength="6"
             @change="
               (val) => {
@@ -50,22 +44,33 @@
             "
           />
           <span
-            class="verifey-code"
+            class="suffix_send_phone"
             :style="data.hasClick ? 'color:#c7c7c7;' : ''"
             v-bind:disabled="data.hasClick"
             @click="getCode"
             >{{ data.getCodeTxt }}</span
           >
-        </view>
-        <view class="footer">
-          <view class="registered">
-            <view class="_span">返回&nbsp;&nbsp;</view>
-            <view @click="handleLoginClick">登录</view>
+          <view class="prefix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/email.png"
+            />
           </view>
         </view>
+        <p class="footer" @click="handleLoginClick">账号密码登录</p>
       </view>
       <view class="btn">
-        <view class="registerBtn" @click="login">重置密码</view>
+        <view class="registerBtn" @click="login">登录</view>
+        <p class="registerDecs">
+          还有没又账号？<span
+            @click="handleRouterClick('/pages/login/register')"
+            >注册</span
+          >
+        </p>
+      </view>
+      <view class="pg_logo">
+        <img
+          src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/bg_logo.png"
+        />
       </view>
     </view>
   </view>
@@ -97,6 +102,9 @@ export default {
     };
   },
   methods: {
+    handleRouterClick(path, type = false) {
+      this.$router.push(path);
+    },
     setmessage(type = "error", text) {
       uni.showToast({
         title: text,
@@ -226,168 +234,171 @@ export default {
 ._m_login {
   display: flex;
   width: 100%;
-  height: 100%;
-
+  height: 100vh;
+  background: #1c1c1c;
   .right-box {
     width: 100%;
-    height: 100%;
-    margin-top: 46px;
-    padding-left: 12px;
-    padding-right: 12px;
-
+    margin-top: 88px;
+    padding-left: 31px;
+    padding-right: 31px;
+    box-sizing: border-box;
     .title {
       display: flex;
-      text-align: center;
-      align-items: center;
-      justify-content: center;
-
-      ._span {
-        height: 46px;
+      justify-content: flex-start;
+      view {
         font-size: 30px;
-        font-family: SourceHanSansCN-Medium, SourceHanSansCN SC;
-        font-weight: 500;
-        color: #000000;
+        font-weight: 400;
+        color: #ffffff;
       }
+    }
+    .title-line {
+      width: 100%;
+      height: 1px;
+      background: #939393;
+      margin: 27px 0;
     }
 
     .input-box {
-      margin-top: 47px;
-
+      .tow {
+        margin-bottom: 0px !important;
+      }
+      .password_tip {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #ffa626;
+        line-height: 16px;
+      }
       .input-phone {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        margin-bottom: 26px;
+        margin-bottom: 30px;
         position: relative;
+        height: 50px;
 
-        .icon {
-          right: 5px;
-          top: 30px;
-          transform: translateY(-10%);
-          position: absolute;
-          width: 26px;
-          height: 26px;
-          border-radius: 4px;
-          text-align: center;
-        }
-
-        .waring {
-          cursor: pointer;
-        }
-
-        .verifey-code {
-          position: absolute;
-          right: 10px !important;
-          top: 32px;
-          transform: translateY(-10%);
-          cursor: pointer;
-          color: #ff451dff;
-          font-weight: 600;
-          left: unset;
-          z-index: 99;
-        }
-
-        span {
-          height: 26px;
-          font-size: 16px;
-          font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
-          font-weight: 400;
-          color: #ff451d;
-          line-height: 26px;
-          position: absolute;
-          top: -14px;
-          z-index: 1;
-          background: #fff;
-          left: 13px;
-        }
-
-        input {
-          font-size: 18px;
-          margin-top: 20px;
-          // font-size: 12px;
+        .input {
+          box-sizing: border-box;
+          padding-left: 41px;
+          font-size: 14px;
+          height: 100%;
+          color: #fff;
+          letter-spacing: 1.2px;
           width: 100%;
-          padding-bottom: 2px;
-          border-bottom: 2px solid #cacaca;
-
-          &:focus {
-            border-bottom-color: #ff451dff;
+          border-radius: 4px 4px 4px 4px;
+          overflow: hidden;
+          background: rgba(115, 115, 115, 0.2);
+          input:focus {
+            color: #fff;
           }
+        }
+        .prefix_icon {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          top: 50%;
+          left: 6px;
+          transform: translateY(-50%);
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .suffix_icon {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          top: 50%;
+          right: 6px;
+          transform: translateY(-50%);
+          z-index: 11;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .suffix_send_phone {
+          position: absolute;
+
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%);
+          z-index: 11;
+          font-size: 14px;
+          font-weight: 400;
+          color: #ffa626;
         }
       }
 
       .footer {
+        margin-top: 7px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        height: 20px;
+        font-size: 14px;
+        font-weight: 400;
+
+        line-height: 20px;
+        margin-bottom: 30px;
+        color: #ffa626;
 
         .registered {
-          text-align: right;
-          width: 30%;
-          min-width: 169px;
-          font-size: 14px;
-          font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
-          font-weight: 400;
-          color: #000000;
-          display: flex;
-          justify-content: flex-end;
+          text-align: left;
+          width: 200px;
 
           view:nth-child(2) {
-            color: #ff451d;
+            color: #ffa626;
             font-weight: 600;
             cursor: pointer;
           }
         }
-      }
-    }
-  }
 
-  .btn {
-    width: 100%;
-    margin-top: 57px;
-    padding-bottom: 38px;
-
-    .checkbox {
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-      font-weight: 600;
-      color: #000000;
-      font-size: 14px;
-      font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
-      font-weight: 400;
-      color: #000000;
-      line-height: 20px;
-
-      input {
-        cursor: pointer;
-      }
-
-      span:nth-of-type(2) {
-        cursor: pointer;
-        color: #ff451dff;
+        .forgot-password {
+          color: #ffa626;
+          font-weight: 600;
+          cursor: pointer;
+        }
       }
     }
 
-    .registerBtn {
-      cursor: pointer;
-      height: 58px;
-      line-height: 58px;
-      text-align: center;
-      border-radius: 6px;
+    .btn {
       width: 100%;
-      font-size: 20px;
-      color: #ffffff;
-      background: linear-gradient(270deg, #ff451d 0%, #ffca2a 100%);
-    }
-  }
+      padding-top: 65px;
 
-  .mask {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(242, 242, 242, 0.7);
+      .registerBtn {
+        cursor: pointer;
+        width: 100%;
+        font-size: 20px;
+        color: #ffffff;
+        text-align: center;
+        height: 58px;
+        line-height: 58px;
+        border-radius: 6px;
+        background: linear-gradient(168deg, #ffbc21 0%, #ff932a 100%);
+        border-radius: 4px 4px 4px 4px;
+        opacity: 1;
+      }
+      .registerDecs {
+        margin-top: 5px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #ffffff;
+        text-align: end;
+        span {
+          color: #ffa626;
+        }
+      }
+    }
+    .pg_logo {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      margin-top: 43px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 }
 </style>
