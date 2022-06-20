@@ -3,15 +3,12 @@
     <view class="right-box">
       <view class="title">
         <view>注册</view>
-        <img
-          src="https://oss.mytrol.cn/uni_mytrol/img/login/title.png"
-          alt=""
-        />
       </view>
+      <view class="title-line"></view>
       <view class="input-box">
-        <view class="input-phone _m_inp">
-          <view class="_span">手机号码</view>
+        <view class="input-phone">
           <input
+            class="input"
             type="number"
             maxlength="11"
             v-model="data.ipone"
@@ -24,24 +21,21 @@
               }
             "
           />
-
-          <img
-            v-if="data.isIpone"
-            src="https://oss.mytrol.cn/uni_mytrol/img/login/success.png"
-            class="icon"
-            alt=""
-          />
-          <img
-            v-else
-            src="https://oss.mytrol.cn/uni_mytrol/img/login/failed.png"
-            class="icon"
-            alt=""
-          />
+          <view class="prefix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/phone_icon.png"
+            />
+          </view>
+          <view class="suffix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/close.png"
+            />
+          </view>
         </view>
-        <view class="input-phone _m_inp">
-          <view class="_span">短信验证码</view>
+        <view class="input-phone">
           <input
             type="number"
+            class="input"
             v-model="data.code"
             placeholder="请输入短信验证码"
             maxlength="6"
@@ -52,22 +46,23 @@
             "
           />
           <view
-            class="verifey-code"
+            class="suffix_send_phone"
             :style="data.hasClick ? 'color:#c7c7c7;' : ''"
             v-bind:disabled="data.hasClick"
             @click="getCode"
             >{{ data.getCodeTxt }}</view
           >
+          <view class="prefix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/email.png"
+            />
+          </view>
         </view>
-        <view class="input-phone _m_inp">
-          <view class="_span">设置密码</view>
-          <img
-            src="https://oss.mytrol.cn/uni_mytrol/img/login/waring.png"
-            class="icon waring"
-          />
+        <view class="input-phone">
           <input
+            class="input"
             v-model="data.password"
-            placeholder="含有数字、大写字母、小写字母、特殊字符中"
+            placeholder="含有数字、大小写字母"
             type="password"
             maxlength="18"
             @change="
@@ -76,10 +71,20 @@
               }
             "
           />
+          <view class="prefix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/password_icon.png"
+            />
+          </view>
+          <view class="suffix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/tip.png"
+            />
+          </view>
         </view>
-        <view class="input-phone _m_inp">
-          <view class="_span">确定密码</view>
+        <view class="input-phone tow">
           <input
+            class="input"
             v-model="data.password2"
             placeholder="请再次输入密码"
             type="password"
@@ -90,51 +95,28 @@
               }
             "
           />
-        </view>
-        <!-- <view class="input-phone _m_inp">
-          <view class="_span">邀请码</view>
-          <input
-            :disabled="isCode"
-            v-model="data.InvitationCode"
-            placeholder="请输入邀请码(选填)"
-            maxlength="8"
-            @change="
-              (val) => {
-                return changeVal('ipone', val);
-              }
-            "
-          />
-        </view> -->
-        <view class="footer">
-          <view class="registered">
-            <view>已经有账号?&nbsp;&nbsp;请</view>
-            <view @click="handleLoginClick">登录</view>
+          <view class="prefix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/password_icon.png"
+            />
+          </view>
+          <view class="suffix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/tip.png"
+            />
           </view>
         </view>
+        <p class="password_tip" v-if="data.password2 !== data.password">
+          两次密码不相同!
+        </p>
       </view>
       <view class="btn">
-        <!-- <view class="checkbox">
-					<input type="checkbox" v-model="data.isUserDoc" />
-
-					<view> 我已阅读并同意 </view>
-					<view>《用户协议》和《隐私条款》</view>
-				</view> -->
+        <p class="registerDecs">
+          已经有账号?<span @click="handleLoginClick">返回登录</span>
+        </p>
         <view class="registerBtn" @click="login">注册</view>
       </view>
     </view>
-    <!-- <view class="mask" v-show="isVerification === 1">
-      <PuzzleVerification
-        @clone="verifyResult"
-        :onSuccess="verifyResult"
-        :verificationShow="isVerification"
-      />
-	  
-	  
-	  
-	  
-	  
-	  
-    </view> -->
   </view>
 </template>
 <script>
@@ -229,7 +211,7 @@ export default {
 
       let verify_password2 = this.verify_value("password2");
       if (verify_password2) {
-        setmessage("error", verify_password2);
+        this.setmessage("error", verify_password2);
         this.data.isPassword2 = false;
         return false;
       }
@@ -268,7 +250,10 @@ export default {
             icon: "none",
           });
           this.initDataParams();
-          return this.handleRouterClick("/pages/login/login");
+
+          setTimeout(() => {
+            this.handleRouterClick("/pages/login/login");
+          }, 1000);
         }
       }
     },
@@ -351,91 +336,101 @@ export default {
 ._m_register {
   display: flex;
   width: 100%;
-  height: 100%;
-
+  height: 100vh;
+  background: #1c1c1c;
   .right-box {
     width: 100%;
-    height: 100%;
-    margin-top: 46px;
-    padding-left: 12px;
-    padding-right: 12px;
+    margin-top: 88px;
+    padding-left: 31px;
+    padding-right: 31px;
+    box-sizing: border-box;
 
     .title {
       display: flex;
-      text-align: center;
-      align-items: center;
-      justify-content: center;
-
+      justify-content: flex-start;
       view {
-        width: 60px;
-        height: 46px;
         font-size: 30px;
-        font-family: SourceHanSansCN-Medium, SourceHanSansCN SC;
+        font-weight: 400;
+        color: #ffffff;
       }
+    }
+    .title-line {
+      width: 100%;
+      height: 1px;
+      background: #939393;
+      margin: 27px 0;
     }
 
     .input-box {
-      margin-top: 47px;
-
+      .tow {
+        margin-bottom: 0px !important;
+      }
+      .password_tip {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #ffffff;
+        line-height: 16px;
+        text-align: right;
+      }
       .input-phone {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        margin-bottom: 26px;
+        margin-bottom: 30px;
         position: relative;
+        height: 50px;
 
-        .icon {
-          right: 5px;
-          top: 30px;
-          transform: translateY(-10%);
-          position: absolute;
-          width: 26px;
-          height: 26px;
-          border-radius: 4px;
-          text-align: center;
-        }
-
-        .waring {
-          cursor: pointer;
-        }
-
-        .verifey-code {
-          position: absolute;
-          right: 10px !important;
-          top: 32px;
-          transform: translateY(-10%);
-          cursor: pointer;
-          color: #ff451dff;
-          font-weight: 600;
-          left: unset;
-          z-index: 99;
-        }
-
-        span {
-          height: 26px;
-          font-size: 16px;
-          font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
-          font-weight: 400;
-          color: #ff451d;
-          line-height: 26px;
-          position: absolute;
-          top: -14px;
-          z-index: 1;
-          background: #fff;
-          left: 13px;
-        }
-
-        input {
-          font-size: 18px;
-          margin-top: 20px;
-          // font-size: 12px;
+        .input {
+          box-sizing: border-box;
+          padding-left: 41px;
+          font-size: 14px;
+          height: 100%;
+          color: #fff;
+          letter-spacing: 1.2px;
           width: 100%;
-          padding-bottom: 2px;
-          border-bottom: 2px solid #cacaca;
-
-          &:focus {
-            border-bottom-color: #ff451dff;
+          border-radius: 4px 4px 4px 4px;
+          overflow: hidden;
+          background: rgba(115, 115, 115, 0.2);
+          input:focus {
+            color: #fff;
           }
+        }
+        .prefix_icon {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          top: 50%;
+          left: 6px;
+          transform: translateY(-50%);
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .suffix_icon {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          top: 50%;
+          right: 6px;
+          transform: translateY(-50%);
+          z-index: 11;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .suffix_send_phone {
+          position: absolute;
+
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%);
+          z-index: 11;
+          font-size: 14px;
+          font-weight: 400;
+          color: #ffa626;
         }
       }
 
@@ -465,31 +460,7 @@ export default {
 
   .btn {
     width: 100%;
-    margin-top: 57px;
-    padding-bottom: 38px;
-
-    .checkbox {
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-      font-weight: 600;
-      color: #000000;
-      font-size: 14px;
-      font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
-      font-weight: 400;
-      color: #000000;
-      line-height: 20px;
-
-      input {
-        cursor: pointer;
-      }
-
-      view:nth-of-type(2) {
-        cursor: pointer;
-        color: #ff451dff;
-      }
-    }
+    padding-top: 65px;
 
     .registerBtn {
       cursor: pointer;
@@ -499,9 +470,20 @@ export default {
       text-align: center;
       height: 58px;
       line-height: 58px;
-      background: #2f0088;
       border-radius: 6px;
-      background: linear-gradient(270deg, #ff451d 0%, #ffca2a 100%);
+      background: linear-gradient(168deg, #ffbc21 0%, #ff932a 100%);
+      border-radius: 4px 4px 4px 4px;
+      opacity: 1;
+    }
+    .registerDecs {
+      margin-bottom: 5px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #ffffff;
+      text-align: end;
+      span {
+        color: #ffa626;
+      }
     }
   }
 
