@@ -201,40 +201,40 @@ input{
 		}
 		
 		
-	._m_register,._m_login{
-		uni-input{
-			height: 76rpx !important;
-			border-radius: 8px !important;
-			border: 1px solid #2f0088 !important;
-			font-size: 18px !important;
-			font-family: SourceHanSansCN-Semibold,SourceHanSansCN SC !important;
-			font-weight: 600 !important;
-			color: #000 !important;
-			margin-top: 0 !important;
-			.uni-input-wrapper{
-				    padding: 0 15px;
-				    width: calc(100% - 30px);
-					.uni-input-placeholder{
-						width: inherit;
-						    left: 15px !important;
-							    font-size: 14px;
-					}
-					.uni-input-input{
-						background: none !important;
-					}
+	// ._m_register,._m_login{
+	// 	uni-input{
+	// 		height: 76rpx !important;
+	// 		border-radius: 8px !important;
+	// 		border: 1px solid #2f0088 !important;
+	// 		font-size: 18px !important;
+	// 		font-family: SourceHanSansCN-Semibold,SourceHanSansCN SC !important;
+	// 		font-weight: 600 !important;
+	// 		color: #000 !important;
+	// 		margin-top: 0 !important;
+	// 		.uni-input-wrapper{
+	// 			    padding: 0 15px;
+	// 			    width: calc(100% - 30px);
+	// 				.uni-input-placeholder{
+	// 					width: inherit;
+	// 					    left: 15px !important;
+	// 						    font-size: 14px;
+	// 				}
+	// 				.uni-input-input{
+	// 					background: none !important;
+	// 				}
 					    
-			}
-			.uni-input-input{
-				.uni-input-placeholder{
-					width: inherit;
-					    left: 15px !important;
-						    font-size: 14px;
-				}
-			}
-		}
+	// 		}
+	// 		.uni-input-input{
+	// 			.uni-input-placeholder{
+	// 				width: inherit;
+	// 				    left: 15px !important;
+	// 					    font-size: 14px;
+	// 			}
+	// 		}
+	// 	}
 		    
 		
-	}	
+	// }	
 	
 	#__lpform_input_idx_1,#__lpform_input_idx_2,#__lpform_input_idx_3,
 	#__lpform_input_idx_1_icon,#__lpform_input_idx_2_icon,#__lpform_input_idx_3_icon{
