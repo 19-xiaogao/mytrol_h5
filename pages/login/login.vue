@@ -2,44 +2,37 @@
   <view class="_m_login _hideScrollbar">
     <view class="right-box">
       <view class="title">
-        <view>登录</view>
-        <img
-          @click="$router.push('/')"
-          src="https://oss.mytrol.cn/uni_mytrol/img/login/title.png"
-          alt=""
-        />
+        <view>账号登录</view>
       </view>
+      <view class="title-line"></view>
       <view class="input-box">
-        <view class="input-phone _m_inp">
-          <view>手机号码</view>
+        <view class="input-phone">
           <input
             type="number"
+            class="input"
             maxlength="11"
             v-model="data.ipone"
             name=""
             placeholder="请输入手机号码"
             id=""
           />
-
-          <img
-            v-if="data.isIpone"
-            src="https://oss.mytrol.cn/uni_mytrol/img/login/success.png"
-            class="icon"
-            alt=""
-          />
-          <img
-            v-else
-            src="https://oss.mytrol.cn/uni_mytrol/img/login/failed.png"
-            class="icon"
-            alt=""
-          />
+          <view class="prefix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/phone_icon.png"
+            />
+          </view>
+          <view class="suffix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/close.png"
+            />
+          </view>
         </view>
 
-        <view class="input-phone _m_inp">
-          <view>密码</view>
+        <view class="input-phone tow">
           <input
             type="password"
             maxlength="18"
+            class="input"
             v-model="data.password"
             name=""
             id="passwordInput"
@@ -51,27 +44,26 @@
             "
             @keyup.enter="login"
           />
-          <img
-            src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/lookPassword.png"
-            id="passwordIcon"
-            class="icon"
-            alt=""
-            @click="handleLookPasswordClick"
-          />
+          <view class="prefix_icon">
+            <img
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/password_icon.png"
+            />
+          </view>
+          <view class="suffix_icon" @click="handleLookPasswordClick">
+            <img
+              id="passwordIcon"
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/lookPassword.png"
+            />
+          </view>
         </view>
         <view class="footer">
-          <view class="registered">
-            <view>还没有账号?&nbsp;&nbsp;</view>
-            <view @click="handleRouterClick('/pages/login/register')"
-              >注册</view
+          <view class="forgot-password">
+            <view
+              @click="handleRouterClick('/pages/login/verificationCodeLogin')"
+              >验证码登录</view
             >
           </view>
-          <view
-            class="forgot-password"
-            @click="handleRouterClick('/pages/login/verificationCodeLogin')"
-          >
-            验证码登录
-          </view>
+          <!-- <view class="forgot-password"> 验证码登录 </view> -->
           <view
             class="forgot-password"
             @click="handleRouterClick('/pages/login/retriverpassword')"
@@ -83,6 +75,17 @@
 
       <view class="btn">
         <view class="registerBtn" @click="login">登录</view>
+        <p class="registerDecs">
+          还有没又账号？<span
+            @click="handleRouterClick('/pages/login/register')"
+            >注册</span
+          >
+        </p>
+      </view>
+      <view class="pg_logo">
+        <img
+          src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/bg_logo.png"
+        />
       </view>
     </view>
   </view>
@@ -134,7 +137,7 @@ export default {
       if (inputElement.type === "password") {
         inputElement.type = "text";
         document.querySelector("#passwordIcon").src =
-          "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/leyesClosed.png";
+          "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/eyesClosed.png";
       } else {
         inputElement.type = "password";
         document.querySelector("#passwordIcon").src =
@@ -170,7 +173,6 @@ export default {
               return error ? error.message : false;
             }
           );
-          break;
         case "password":
           return rules.FormValidate.Form().validatePsdReg(
             "",
@@ -179,7 +181,6 @@ export default {
               return error ? error.message : false;
             }
           );
-          break;
         default:
           break;
       }
@@ -269,18 +270,6 @@ export default {
     handleRouterClick(path, type = false) {
       this.$router.push(path);
     },
-    // setup() {
-    //   const { proxy } = getCurrentInstance();
-    //   const router = useRouter();
-    //   const handleRouterClick = (path) => {
-    //     router.push(path);
-    //   };
-    //   let data = reactive({
-    //     ipone: "",
-    //     password: "",
-    //     isIpone: true,
-    //     isPassword: true,
-    //   });
   },
 };
 </script>
@@ -289,104 +278,108 @@ export default {
 ._m_login {
   display: flex;
   width: 100%;
-  height: 100%;
-
+  height: 100vh;
+  background: #1c1c1c;
   .right-box {
     width: 100%;
-    margin-top: 46px;
-    padding-left: 12px;
-    padding-right: 12px;
-
+    margin-top: 88px;
+    padding-left: 31px;
+    padding-right: 31px;
+    box-sizing: border-box;
     .title {
       display: flex;
-      text-align: center;
-      align-items: center;
-      justify-content: center;
-
+      justify-content: flex-start;
       view {
-        width: 60px;
-        height: 46px;
         font-size: 30px;
-        font-family: SourceHanSansCN-Medium, SourceHanSansCN SC;
+        font-weight: 400;
+        color: #ffffff;
       }
+    }
+    .title-line {
+      width: 100%;
+      height: 1px;
+      background: #939393;
+      margin: 27px 0;
     }
 
     .input-box {
-      margin-top: 47px;
-
+      .tow {
+        margin-bottom: 0px !important;
+      }
       .input-phone {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        margin-bottom: 26px;
+        margin-bottom: 30px;
         position: relative;
-        height: 56px;
+        height: 50px;
 
-        view {
-          height: 26px;
-          font-size: 16px;
-          font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
-          font-weight: 400;
-          color: #000;
-          line-height: 26px;
-          position: absolute;
-          top: -14px;
-          z-index: 30;
-          background: #fff;
-          left: 13px;
-        }
-
-        input {
-          font-size: 18px;
-          margin-top: 20px;
-          // font-size: 12px;
+        .input {
+          box-sizing: border-box;
+          padding-left: 41px;
+          font-size: 14px;
+          height: 100%;
+          color: #fff;
+          letter-spacing: 1.2px;
           width: 100%;
-          padding-bottom: 2px;
-          border-bottom: 2px solid #cacaca;
-
-          &:focus {
-            border-bottom-color: #ff451dff;
+          border-radius: 4px 4px 4px 4px;
+          overflow: hidden;
+          background: rgba(115, 115, 115, 0.2);
+          input:focus {
+            color: #fff;
           }
         }
-
-        .icon {
-          right: 5px;
-          top: 50%;
-          transform: translateY(-70%);
+        .prefix_icon {
           position: absolute;
-          width: 26px;
-          height: 26px;
-          border-radius: 4px;
-          text-align: center;
-          z-index: 111;
+          width: 30px;
+          height: 30px;
+          top: 50%;
+          left: 6px;
+          transform: translateY(-50%);
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .suffix_icon {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          top: 50%;
+          right: 6px;
+          transform: translateY(-50%);
+          z-index: 11;
+          img {
+            width: 100%;
+            height: 100%;
+          }
         }
       }
 
       .footer {
+        margin-top: 7px;
         display: flex;
         justify-content: space-between;
         height: 20px;
         font-size: 14px;
-        font-family: SourceHanSansCN-Regular, SourceHanSansCN SC;
         font-weight: 400;
-        color: #000000;
+
         line-height: 20px;
         margin-bottom: 30px;
-        padding-top: 208px;
 
         .registered {
           text-align: left;
           width: 200px;
 
           view:nth-child(2) {
-            color: #ff451d;
+            color: #ffa626;
             font-weight: 600;
             cursor: pointer;
           }
         }
 
         .forgot-password {
-          color: #ff451d;
+          color: #ffa626;
           font-weight: 600;
           cursor: pointer;
         }
@@ -395,7 +388,7 @@ export default {
 
     .btn {
       width: 100%;
-      padding-bottom: 38px;
+      padding-top: 65px;
 
       .registerBtn {
         cursor: pointer;
@@ -405,9 +398,30 @@ export default {
         text-align: center;
         height: 58px;
         line-height: 58px;
-        background: #2f0088;
         border-radius: 6px;
-        background: linear-gradient(270deg, #ff451d 0%, #ffca2a 100%);
+        background: linear-gradient(168deg, #ffbc21 0%, #ff932a 100%);
+        border-radius: 4px 4px 4px 4px;
+        opacity: 1;
+      }
+      .registerDecs {
+        margin-top: 5px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #ffffff;
+        text-align: end;
+        span {
+          color: #ffa626;
+        }
+      }
+    }
+    .pg_logo {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      margin-top: 43px;
+      img {
+        width: 100%;
+        height: 100%;
       }
     }
   }
