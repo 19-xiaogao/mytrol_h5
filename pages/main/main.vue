@@ -38,7 +38,7 @@
           </view>
         </view>
         <view class="_right">
-          <view class="_t1"> 可领取 </view>
+          <view class="_t1"> Mytrol币 </view>
           <view class="_t2">
             <image
               src="https://oss.mytrol.cn/uni_mytrol/icon/vip.png"
@@ -48,7 +48,7 @@
           </view>
         </view>
       </view>
-
+      <!-- <side-bar /> -->
       <view class="_cont">
         <view class="_tab_list">
           <view
@@ -104,6 +104,7 @@
 
 <script>
 let that;
+import sideBar from "@/pages/component/Sidebar.vue";
 import buyList from "@/pages/component/buy_list.vue";
 import bindList from "@/pages/component/bind_list.vue";
 import collectList from "@/pages/component/collect_list.vue";
@@ -115,6 +116,7 @@ export default {
     collectList,
     oriderList,
     bindList,
+    sideBar,
   },
   mounted() {
     that = this;
