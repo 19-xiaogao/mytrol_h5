@@ -24,7 +24,7 @@
               src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/phone_icon.png"
             />
           </view>
-          <view class="suffix_icon">
+          <view class="suffix_icon" @click="handleCloseClick">
             <img
               src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/close.png"
             />
@@ -182,6 +182,9 @@ export default {
         default:
           break;
       }
+    },
+    handleCloseClick() {
+      this.data.ipone = "";
     },
     // 表单验证
     verify_form() {

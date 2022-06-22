@@ -26,7 +26,7 @@
               src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/phone_icon.png"
             />
           </view>
-          <view class="suffix_icon">
+          <view class="suffix_icon" @click="handleCloseClick">
             <img
               src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/close.png"
             />
@@ -153,6 +153,9 @@ export default {
         duration: 5000,
         icon: "none",
       });
+    },
+    handleCloseClick() {
+      this.data.ipone = "";
     },
     handleRouterClick(path, type = false) {
       this.$router.push(path);

@@ -24,7 +24,7 @@
               src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/phone_icon.png"
             />
           </view>
-          <view class="suffix_icon">
+          <view class="suffix_icon" @click="handleCloseClick">
             <img
               src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/close.png"
             />
@@ -61,7 +61,7 @@
       <view class="btn">
         <view class="registerBtn" @click="login">登录</view>
         <p class="registerDecs">
-          还有没又账号？<span
+          还有没有账号？<span
             @click="handleRouterClick('/pages/login/register')"
             >注册</span
           >
@@ -157,7 +157,9 @@ export default {
         }
       }
     },
-    //
+    handleCloseClick() {
+      this.data.ipone = "";
+    },
     // 获取验证码
     async getCode() {
       let verify_ipone = this.verify_value("ipone");
