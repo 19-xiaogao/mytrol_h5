@@ -1,6 +1,11 @@
 <template>
   <view class="side_bar">
-    <view class="el" v-for="item in sideBar" :key="item.id">
+    <view
+      class="el"
+      v-for="item in sideBar"
+      :key="item.id"
+      @click="handlePathClick(item)"
+    >
       <view class="icon">
         <img :src="item.icon" />
       </view>
@@ -14,7 +19,7 @@ const sideBar = [
   {
     name: "我的订单",
     icon: "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/order.png",
-    path: "",
+    path: "/pages/order/index",
     id: 1,
   },
   {
@@ -40,6 +45,42 @@ const sideBar = [
 export default {
   data() {
     return { sideBar };
+  },
+  methods: {
+    async handlePathClick(item) {
+      if (item.path) {
+        this.$router.push(item.path);
+      }
+      if (item.id === 4) {
+        const myCode = await this.getMyCode();
+        if (myCode.trim() === "") {
+          return uni.showToast({
+            title: "你的邀请码为空",
+            duration: 5000,
+          });
+        }
+        const invitationCode =
+          window.origin + "/h5/#/pages/login/register?invitationCode=" + myCode;
+        uni.setClipboardData({
+          data: invitationCode,
+          success: () => {
+            uni.showToast({
+              //提示
+              title: "复制成功,将链接分享给好友",
+            });
+          },
+        });
+      }
+    },
+    async getMyCode() {
+      try {
+        const result = await this.$api._get("/dbchain/oracle/nft/user_info");
+        return result.data.result.my_code;
+      } catch (error) {
+        console.log(error);
+        return "";
+      }
+    },
   },
 };
 </script>

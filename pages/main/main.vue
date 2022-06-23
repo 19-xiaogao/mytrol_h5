@@ -48,7 +48,7 @@
           </view>
         </view>
       </view>
-      <!-- <side-bar /> -->
+      <side-bar />
       <view class="_cont">
         <view class="_tab_list">
           <view
