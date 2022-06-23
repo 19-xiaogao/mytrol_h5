@@ -38,7 +38,7 @@
           </view>
         </view>
         <view class="_right">
-          <view class="_t1"> Mytrol币 </view>
+          <view class="_t1"> 可领取 </view>
           <view class="_t2">
             <image
               src="https://oss.mytrol.cn/uni_mytrol/icon/vip.png"
