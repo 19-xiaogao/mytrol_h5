@@ -121,7 +121,7 @@
 </template>
 <script>
 import rules from "@/static/js/rules.js";
-import { setStore, getStore } from "../../static/js/global.js";
+import { getQueryUrl } from "../../static/js/global.js";
 export default {
   components: {
     // PuzzleVerification,
@@ -153,6 +153,14 @@ export default {
         duration: 5000,
         icon: "none",
       });
+    },
+    getInvitationCode() {
+      try {
+        const params = location.href.split("?")[1].split("=");
+        return params[1];
+      } catch (error) {
+        return "";
+      }
     },
     handleCloseClick() {
       this.data.ipone = "";
@@ -244,7 +252,7 @@ export default {
           phone_number: this.data.ipone,
           password: this.data.password,
           verification_code: this.data.code,
-          // invitation_code: this.data.InvitationCode,
+          invitation_code: this.getInvitationCode(),
         });
         if (res.data.err_code == "0") {
           uni.showToast({
