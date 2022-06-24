@@ -60,7 +60,7 @@ export default {
           });
         }
         const invitationCode =
-          window.origin + "/h5/#/pages/login/register?invitationCode=" + myCode;
+          window.origin + "/#/pages/login/register?invitationCode=" + myCode;
         uni.setClipboardData({
           data: invitationCode,
           success: () => {
