@@ -141,7 +141,7 @@ export default {
     async login() {
       if (this.verify_form()) {
         let res = await this.$api._post(
-          "/dbchain/oracle/nft/loginByVerifyCode",
+          "/dbchain/oracle/nft/login_by_verification_code",
           {
             phone_number: this.data.ipone,
             verification_code: this.data.code,
