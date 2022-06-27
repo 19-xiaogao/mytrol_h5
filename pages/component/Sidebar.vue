@@ -19,7 +19,8 @@ const sideBar = [
   {
     name: "我的订单",
     icon: "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/order.png",
-    path: "/pages/order/index",
+    // path: "/pages/order/index",
+    path: "",
     id: 1,
   },
   {
@@ -57,10 +58,15 @@ export default {
           return uni.showToast({
             title: "你的邀请码为空",
             duration: 5000,
+            icon: null,
           });
         }
-        const invitationCode =
-          window.origin + "/h5/#/pages/login/register?invitationCode=" + myCode;
+        const is_development = process.env.NODE_ENV === "development";
+        const invitationCode = is_development
+          ? window.origin +
+            "/h5/#/pages/login/register?invitationCode=" +
+            myCode
+          : window.origin + "/#/pages/login/register?invitationCode=" + myCode;
         uni.setClipboardData({
           data: invitationCode,
           success: () => {
