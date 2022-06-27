@@ -123,7 +123,25 @@ http.interceptor.request = (config) => {
     });
   });
 };
-
+function IsPC() {
+  let userAgentInfo = navigator.userAgent;
+  let Agents = [
+    "Android",
+    "iPhone",
+    "SymbianOS",
+    "Windows Phone",
+    "iPad",
+    "iPod",
+  ];
+  let flagPc = true;
+  for (let i = 0; i < Agents.length; i++) {
+    if (userAgentInfo.indexOf(Agents[i]) > 0) {
+      flagPc = false;
+      break;
+    }
+  }
+  return flagPc;
+}
 let old_api = {
   url: "",
   methods: "",
@@ -142,8 +160,19 @@ http.interceptor.response = (response) => {
   // 每一个请求在返回时解锁
   lockLoding = false;
 
+  if (IsPC()) {
+    return uni.showModal({
+      title: '提示',
+      content: '请在移动端打开此页面',
+      cancelText: null,
+      confirmText: null,
+      showCancel: false,
+    });
+  }
+
   // 登录失败重新自动登录
   if (response.data.err_code == "2" || response.data.err_code == "4" || response.data.err_code == "5") {
+
     uni.navigateTo({
       url: '/pages/login/login'
     })
