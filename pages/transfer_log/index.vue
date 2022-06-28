@@ -60,7 +60,9 @@
             </view>
           </view>
           <view class="_r">
-            <view class="_type"> 转出 </view>
+            <view class="_type" :class="currentIndex === 1 ? 'tx_out' : ''">
+              {{ currentIndex === 1 ? "转出" : "转入" }}
+            </view>
           </view>
         </view>
       </view>
@@ -102,13 +104,18 @@ export default {
     },
     handleSwitchBarClick(item) {
       this.currentIndex = item.id;
+      if (item.id === 1) {
+        this.getTransferOut();
+      } else {
+        this.getTransferIn();
+      }
     },
     async getTransferOut() {
       let result = await this.$api._get(
         "/dbchain/oracle/nft/get_nft_transfer_out_info"
       );
       if (result.data.result.length > 0) {
-        this.txData = result.data.result.map((v) => {
+        const data = result.data.result.map((v) => {
           return {
             ...v,
             receiver_: plusXing(v.receiver, 4, 4),
@@ -116,6 +123,28 @@ export default {
             time: formatDate(new Date(Number(v.time)), ""),
           };
         });
+        this.txData = JSON.parse(JSON.stringify(data));
+      } else {
+        this.txData = [];
+      }
+    },
+    async getTransferIn() {
+      let result = await this.$api._get(
+        "/dbchain/oracle/nft/get_nft_transfer_in_info"
+      );
+
+      if (result.data.result.length > 0) {
+        const data = result.data.result.map((v) => {
+          return {
+            ...v,
+            receiver_: plusXing(v.receiver, 4, 4),
+            sender_: v.sender.length < 46 ? v.sender : plusXing(v.sender, 4, 4),
+            time: formatDate(new Date(Number(v.time)), ""),
+          };
+        });
+        this.txData = JSON.parse(JSON.stringify(data));
+      } else {
+        this.txData = [];
       }
     },
   },
@@ -123,6 +152,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tx_out {
+  color: #ffbd21;
+}
 .icon {
   margin-left: 3px;
   width: 20px;
