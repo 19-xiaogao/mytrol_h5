@@ -27,36 +27,32 @@
       </view>
     </view>
     <view class="order-body">
-      <view
-        class="order-box"
-        v-for="v in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12]"
-        :key="v"
-      >
+      <view class="order-box" v-for="v in txData" :key="v">
         <view class="order-title">
           <view class="r">
             <span>转出地址：</span>
-            <span>jsji4****cka</span>
+            <span>{{ v.sender_ }}</span>
             <img
+              @click="copy(v.sender)"
               class="icon"
               src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/copy.png"
               alt=""
             />
           </view>
-          <view class="tx-time"> 07/06 10:02:23 </view>
+          <view class="tx-time"> {{ v.time }} </view>
         </view>
         <view class="line"></view>
         <view class="content">
           <view class="_l">
-            <image
-              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/item/nftThumbnaila7866bd1a3aeb9bafa2037fbcecf55192d90be88b868526b9a77ee19f8b85c1b.jpg"
-            ></image>
+            <image :src="v.file"></image>
           </view>
           <view class="_cont">
-            <view class="_tit"> 少女懵懂的年少时光 </view>
+            <view class="_tit"> {{ v.denom_name }} </view>
             <view class="_price">
               <span>接收地址：</span>
-              <span>jsji4****cka</span>
+              <span>{{ v.receiver_ }}</span>
               <img
+                @click="copy(v.receiver)"
                 class="icon"
                 src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/copy.png"
                 alt=""
@@ -64,7 +60,7 @@
             </view>
           </view>
           <view class="_r">
-            <view class="_type"> 收到 </view>
+            <view class="_type"> 转出 </view>
           </view>
         </view>
       </view>
@@ -75,31 +71,52 @@
 <script>
 const switchBar = [
   {
-    text: "全部",
-    id: "1",
-  },
-  {
     text: "转出",
-    id: "2",
+    id: 1,
   },
   {
     text: "收到",
-    id: "3",
+    id: 2,
   },
 ];
+import { formatDate, plusXing, uni_copy } from "@/static/js/global.js";
+
 export default {
   data() {
     return {
       switchBar,
       currentIndex: switchBar[0].id,
+      txData: [],
     };
+  },
+  mounted() {
+    this.getTransferOut();
   },
   methods: {
     clickLeft() {
       uni.navigateBack();
     },
+    copy(value) {
+      //提示模板
+      return uni_copy(value);
+    },
     handleSwitchBarClick(item) {
       this.currentIndex = item.id;
+    },
+    async getTransferOut() {
+      let result = await this.$api._get(
+        "/dbchain/oracle/nft/get_nft_transfer_out_info"
+      );
+      if (result.data.result.length > 0) {
+        this.txData = result.data.result.map((v) => {
+          return {
+            ...v,
+            receiver_: plusXing(v.receiver, 4, 4),
+            sender_: plusXing(v.sender, 4, 4),
+            time: formatDate(new Date(Number(v.time)), ""),
+          };
+        });
+      }
     },
   },
 };
@@ -124,7 +141,7 @@ export default {
   .switch-bar {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     position: sticky;
     top: 44px;
     z-index: 111;
@@ -156,7 +173,7 @@ export default {
   .order-body {
     width: 100%;
     margin-top: 13px;
-    height: 100%;
+    height: 100vh;
     overflow-y: auto;
     padding: 12px;
     box-sizing: border-box;
@@ -203,7 +220,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         padding-left: 12px;
-        width: 50%;
+        width: 60%;
         padding-right: 12px;
 
         ._tit {
@@ -227,7 +244,6 @@ export default {
 
       ._r {
         color: #2caf71;
-        margin-left: 20px;
       }
     }
   }
