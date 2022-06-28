@@ -19,7 +19,8 @@ const sideBar = [
   {
     name: "我的订单",
     icon: "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/order.png",
-    path: "/pages/order/index",
+    // path: "/pages/order/index",
+    path: "",
     id: 1,
   },
   {
@@ -50,6 +51,12 @@ export default {
     async handlePathClick(item) {
       if (item.path) {
         this.$router.push(item.path);
+      } else {
+        uni.showToast({
+          title: "尽情期待",
+          duration: 5000,
+          icon: "none",
+        });
       }
       if (item.id === 4) {
         const myCode = await this.getMyCode();
@@ -57,7 +64,7 @@ export default {
           return uni.showToast({
             title: "你的邀请码为空",
             duration: 5000,
-            icon: null,
+            icon: "none",
           });
         }
         const is_development = process.env.NODE_ENV === "development";

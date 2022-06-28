@@ -123,7 +123,7 @@ export default {
             time: formatDate(new Date(Number(v.time)), ""),
           };
         });
-        this.txData = JSON.parse(JSON.stringify(data));
+        this.txData = JSON.parse(JSON.stringify(data.reverse()));
       } else {
         this.txData = [];
       }
@@ -142,7 +142,7 @@ export default {
             time: formatDate(new Date(Number(v.time)), ""),
           };
         });
-        this.txData = JSON.parse(JSON.stringify(data));
+        this.txData = JSON.parse(JSON.stringify(data.reverse()));
       } else {
         this.txData = [];
       }
