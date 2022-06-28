@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { getStore } from "@/static/js/global.js";
 const sideBar = [
   {
     name: "我的订单",
@@ -48,13 +49,13 @@ export default {
     return { sideBar };
   },
   methods: {
-    async handlePathClick(item) {
+    handlePathClick(item) {
       if (item.path) {
         this.$router.push(item.path);
       }
       if (item.id === 4) {
-        const myCode = await this.getMyCode();
-        if (myCode.trim() === "") {
+        const myCode = this.getMyCode();
+        if (myCode === "") {
           return uni.showToast({
             title: "你的邀请码为空",
             duration: 5000,
@@ -78,12 +79,11 @@ export default {
         });
       }
     },
-    async getMyCode() {
+    getMyCode() {
       try {
-        const result = await this.$api._get("/dbchain/oracle/nft/user_info");
-        return result.data.result.my_code;
+        let userInfoLocal = getStore("userInfo");
+        return userInfoLocal.my_code;
       } catch (error) {
-        console.log(error);
         return "";
       }
     },
