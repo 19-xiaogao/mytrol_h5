@@ -30,8 +30,8 @@
       <view class="order-box" v-for="v in txData" :key="v">
         <view class="order-title">
           <view class="r">
-            <span>转出地址：</span>
-            <span>{{ v.sender_ }}</span>
+            <span class="name">转出地址：</span>
+            <span class="text">{{ v.sender_ }}</span>
             <img
               @click="copy(v.sender)"
               class="icon"
@@ -226,6 +226,20 @@ export default {
         .r {
           display: flex;
           align-items: center;
+          width: 55%;
+          .name {
+            width: 40%;
+          }
+          .text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+        .tx-time {
+          margin-left: 5px;
+          flex: 1;
         }
       }
     }
