@@ -160,16 +160,6 @@ http.interceptor.response = (response) => {
   // 每一个请求在返回时解锁
   lockLoding = false;
 
-  if (IsPC()) {
-    return uni.showModal({
-      title: '提示',
-      content: '请在移动端打开此页面',
-      cancelText: null,
-      confirmText: null,
-      showCancel: false,
-    });
-  }
-
   // 登录失败重新自动登录
   if (response.data.err_code == "2" || response.data.err_code == "4" || response.data.err_code == "5") {
 
