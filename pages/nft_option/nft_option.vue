@@ -244,7 +244,8 @@
 					content: "Mytrol数字藏品",
 				},
 				redeem_code:'',
-				buyHtml:''
+				buyHtml:'',
+				nftType:"1",//1 nft，2 盲盒
 			};
 		},
 		methods: {
@@ -315,6 +316,7 @@
 			},
 
 			async buyNft(isbuy = true) {
+
 				let interval;
 				// 是否下单状态
 				let isOriderPoll;
@@ -375,7 +377,8 @@
 					return false;
 				}
 				if (a.data.err_code == "0") {
-					let buy_data = await this.$api._post("/dbchain/oracle/nft/nft_buy", {
+					const path = this.nftType === "1" ? "nft_buy" : "blind_box_buy"
+					let buy_data = await this.$api._post("/dbchain/oracle/nft/"+ path, {
 						"pay_type" : "unionpay_alipay_h5",
 						 "vendor" : "union",
 						 "order_id" : a.data.result.order_id, //"order_id"
@@ -414,6 +417,7 @@
 				});
 			},
 			_init_(option) {
+				this.nftType = option.type;
 				if (option.id) {
 					return this.getNftOption(option.id);
 				}
