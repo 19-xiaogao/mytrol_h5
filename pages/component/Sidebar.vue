@@ -19,15 +19,13 @@ const sideBar = [
   {
     name: "我的订单",
     icon: "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/order.png",
-    // path: "/pages/order/index",
-    path: "",
+    path: "/pages/order/index",
     id: 1,
   },
   {
     name: "转赠记录",
     icon: "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/transfer.png",
-    // path: "/pages/transfer_log/index",
-    path: "",
+    path: "/pages/transfer_log/index",
     id: 2,
   },
   {
