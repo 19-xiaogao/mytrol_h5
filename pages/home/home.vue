@@ -58,7 +58,7 @@
     <view class="_list_cont">
       <view class="_tab_list">
         <!-- TODO:盲盒系列 -->
-        <!-- <view
+        <view
           class="_tab"
           v-for="item in tabList"
           :key="item.id"
@@ -71,7 +71,7 @@
             {{ item.name }}
           </view>
           <view class="_border" v-show="activeTab == item.id"> </view>
-        </view> -->
+        </view>
       </view>
       <nft-list
         class="_nft_list"
@@ -80,7 +80,7 @@
         :NFT_item="item"
         defaultH="270"
         defaultW="310"
-        @click.native="linkTo(`/pages/nft_option/nft_option?id=${item.id}`)"
+        @click.native="linkTo(`/pages/nft_option/nft_option?id=${item.id}&type=${activeTab}`)"
         :type="isNftType(item)"
       >
       </nft-list>
