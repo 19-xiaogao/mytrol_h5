@@ -26,7 +26,8 @@ const sideBar = [
   {
     name: "转赠记录",
     icon: "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/transfer.png",
-    path: "/pages/transfer_log/index",
+    // path: "/pages/transfer_log/index",
+    path: "",
     id: 2,
   },
   {
