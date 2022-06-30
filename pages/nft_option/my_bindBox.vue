@@ -186,16 +186,14 @@
           <view class="_t1"> 转赠记录 </view>
         </view>
         <view class="_btn">
-          <!-- <view class="_icon">
+          <view class="_icon">
             <image
               src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/openBindBox.png"
               mode=""
             >
             </image>
-          </view> -->
-          <view class="_t1" @click="handleOpenBoxClick">
-            开启盲盒({{ bindBoxDetail.nft_total_number }}个)
           </view>
+          <view class="_t1" @click="handleOpenBoxClick"> 开启盲盒 </view>
         </view>
         <view class="_btn" @click="showGivConent()">
           <view class="_icon">
@@ -205,7 +203,7 @@
             >
             </image>
           </view>
-          <view class="_t1"> 转赠 </view>
+          <view class="_t1"> 转赠藏品 </view>
         </view>
       </view>
     </view>
@@ -772,7 +770,7 @@ export default {
     background: rgba(0, 0, 0, 0.9);
 
     ._btn {
-      width: 30.3%;
+      width: 41.3%;
       height: 40px;
       font-size: 16px;
       font-weight: 400;
@@ -781,8 +779,7 @@ export default {
       justify-content: center;
       border-radius: 8px;
       align-items: center;
-      border: 1px solid #fff;
-      cursor: pointer;
+
       ._icon {
         height: 24px;
 
@@ -1038,15 +1035,15 @@ export default {
 
 ._animation_img {
   ._img1 {
-    animation: router1 7s linear infinite;
+    // animation: router1 7s linear infinite;
   }
 
   ._img2 {
-    animation: router1 7s linear infinite;
+    // animation: router1 7s linear infinite;
   }
 
   ._img {
-    animation: router1 7s linear infinite;
+    // animation: router1 7s linear infinite;
   }
 }
 </style>

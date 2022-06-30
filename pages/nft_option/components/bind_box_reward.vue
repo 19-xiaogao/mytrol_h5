@@ -99,7 +99,8 @@ export default {
       height: 150px;
       background: #d8d8d8;
       box-shadow: 0px 1px 2px 0px #9c9c9c;
-      border-radius: 5px;
+      border-radius: 10px;
+      overflow: hidden;
       border: 1px solid #ffffff;
       img {
         width: 100%;
@@ -113,6 +114,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       height: 150px;
       overflow-y: auto;
       p {
@@ -132,7 +134,7 @@ export default {
     margin-top: 10px;
     justify-content: center;
     div {
-      width: 134px;
+      width: 100%;
       height: 42px;
       border-radius: 5px;
       border: 1px solid #979797;

@@ -128,7 +128,7 @@ export default {
 
       tabList: [
         {
-          name: "nft",
+          name: "数字商品",
           id: "1",
         },
         {

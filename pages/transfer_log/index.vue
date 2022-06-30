@@ -170,6 +170,11 @@ export default {
     position: relative;
     z-index: 111;
   }
+  /deep/ .uni-nav-bar-text {
+    span {
+      font-size: 16px !important;
+    }
+  }
   .switch-bar {
     width: 100%;
     display: flex;
@@ -238,7 +243,6 @@ export default {
           }
         }
         .tx-time {
-          margin-left: 5px;
           flex: 1;
         }
       }
@@ -252,7 +256,6 @@ export default {
     }
     .content {
       display: flex;
-
       ._l {
         image {
           width: 58px;
