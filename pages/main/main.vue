@@ -137,7 +137,7 @@ export default {
       activeTab: "0",
       tabList: [
         {
-          name: "已购买",
+          name: "商品",
           id: "0",
         },
         // <!-- TODO:盲盒系列 -->

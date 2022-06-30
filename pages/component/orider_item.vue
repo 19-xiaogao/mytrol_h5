@@ -125,6 +125,9 @@ export default {
 
       ._tit {
         width: 100%;
+        font-size: 15px;
+        font-weight: 500;
+        color: #ffffff;
       }
 
       ._price {

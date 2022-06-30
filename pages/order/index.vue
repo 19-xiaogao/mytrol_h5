@@ -27,35 +27,52 @@
       </view>
     </view>
     <view class="order-body">
+      <order-list ref="order_list" v-show="currentIndex == '1'"></order-list>
+
       <view
         class="order-box"
-        v-for="v in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12]"
+        v-show="currentIndex == '2' || currentIndex == '3'"
+        v-for="v in orderListData"
         :key="v"
       >
         <view class="order-title">
-          <view class="id">
-            <span>订单编号：</span>
-            <span>20230322323</span>
+          <view class="r">
+            <span class="name">订单编号：</span>
+            <span class="text">{{ v.orderid_ }}</span>
+            <img
+              @click="copy(v.orderid)"
+              class="icon"
+              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/copy.png"
+              alt=""
+            />
           </view>
-          <view class="tx-time"> 07/06 10:02:23 </view>
+          <view class="tx-time"> {{ v.tx_time }} </view>
         </view>
         <view class="line"></view>
         <view class="content">
           <view class="_l">
-            <image
-              src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/item/nftThumbnaila7866bd1a3aeb9bafa2037fbcecf55192d90be88b868526b9a77ee19f8b85c1b.jpg"
-            ></image>
+            <image :src="v.denom_uri"></image>
           </view>
           <view class="_cont">
-            <view class="_tit"> 少女懵懂的年少时光 </view>
+            <view class="_tit"> {{ v.denom_name }} </view>
             <view class="_price">
               <view class="_t1"> 价格 </view>
-              <view class="_t2"> 199 </view>
+              <view class="_t2"> {{ v.money }} </view>
             </view>
           </view>
           <view class="_r">
-            <view class="_type"> 交易成功 </view>
+            <view class="_type" :class="currentIndex == 2 ? 'tx_out' : ''">
+              {{ currentIndex == 2 ? "待支付" : "已失效" }}
+            </view>
+            <p v-if="currentIndex == 2" class="countdown">
+              距订单失效: {{ v.expireTime }}s
+            </p>
           </view>
+        </view>
+        <view class="line" v-if="currentIndex == '2'"></view>
+        <view class="footer-btn" v-if="currentIndex == '2'">
+          <view class="unCloseOder" @click="handleUnPayClick(v)">取消订单</view>
+          <view class="goPay" @click="handleGoPayClick(v)">去支付</view>
         </view>
       </view>
     </view>
@@ -77,25 +94,165 @@ const switchBar = [
     id: "3",
   },
 ];
+import orderList from "@/pages/component/orider_list.vue";
+import { formatDate, plusXing, uni_copy } from "@/static/js/global.js";
 export default {
+  components: {
+    orderList,
+  },
   data() {
     return {
       switchBar,
       currentIndex: switchBar[0].id,
+      orderListData: [],
     };
   },
   methods: {
     clickLeft() {
       uni.navigateBack();
     },
+    copy(value) {
+      //提示模板
+      return uni_copy(value);
+    },
+    handleUnPayClick(item) {
+      const that = this;
+      uni.showModal({
+        title: "提示",
+        content: `您确定取消订单吗？`,
+        cancelText: "取消",
+        confirmText: "确定",
+        async success(res) {
+          if (res.confirm) {
+            if (item.vendor_payment_no === "") {
+              await that.getOrderTradeNo(item.orderid);
+            }
+            const result = await that.cancelOrder(item.orderid);
+            if (result.err_code === "0") {
+              uni.showToast({
+                title: "取消订单成功",
+                duration: 5000,
+              });
+              that.getOrder();
+            }
+          }
+        },
+      });
+    },
     handleSwitchBarClick(item) {
       this.currentIndex = item.id;
+      this.getOrder();
+    },
+    formatDateSplit(time) {
+      return (
+        time.substring(0, 4) +
+        "/" +
+        time.substring(4, 6) +
+        "/" +
+        time.substring(6, 8) +
+        " " +
+        time.substring(8, 10) +
+        ":" +
+        time.substring(10, 12)
+      );
+    },
+    async handleGoPayClick(v) {
+      window.location.href = v.pay_url;
+    },
+    async getOrder() {
+      let result = await this.$api._get(
+        `/dbchain/oracle/nft/unionpay/get_unpay_orders`
+      );
+
+      if (result.data.result.length > 0) {
+        const data = result.data.result.map((v) => {
+          return {
+            ...v,
+            orderid_: plusXing(v.orderid, 4, 4),
+            tx_time: this.formatDateSplit(v.tx_time),
+            expireTime: this.timeTransferSecond(v.expire_time),
+          };
+        });
+        if (this.currentIndex === "2") {
+          this.orderListData = data
+            .filter((v) => !v.is_cancel && !this.isExpireTime(v.expire_time))
+            .reverse();
+        } else {
+          this.orderListData = data
+            .filter((v) => v.is_cancel || this.isExpireTime(v.expire_time))
+            .reverse();
+        }
+      } else {
+        this.txData = [];
+      }
+    },
+    isExpireTime(time) {
+      const min15 = 60 * 15 * 1000;
+      return Number(time) - Date.now() >= min15;
+    },
+    timeTransferSecond(time) {
+      if (!this.isExpireTime(time)) {
+        const millisecond = Number(time) - Date.now();
+        return Math.trunc(millisecond / 1000);
+      }
+    },
+    async getOrderTradeNo(orderId) {
+      this.$api._post("/dbchain/oracle/nft/unionpay/get_order_tradeNo", {
+        order_id: orderId,
+      });
+    },
+    async cancelOrder(orderId) {
+      const result = await this.$api._post(
+        "/dbchain/oracle/nft/nft_cancel_order",
+        {
+          order_id: orderId,
+        }
+      );
+      return result.data;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.tx_out {
+  color: #ffbd21;
+}
+.countdown {
+  font-size: 13px;
+  font-weight: 500;
+  text-align: start;
+  color: #cacaca;
+}
+.footer-btn {
+  display: flex;
+  justify-content: flex-end;
+  view {
+    width: 74px;
+    height: 28px;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 500;
+    border-radius: 8px;
+  }
+  .unCloseOder {
+    font-size: 12px;
+    font-weight: 500;
+    color: #999999;
+    border: 1px solid #979797;
+  }
+  .goPay {
+    margin-left: 10px;
+    border: 1px solid #ffbd21;
+    font-weight: 400;
+    color: #ffbd21;
+  }
+}
+.icon {
+  margin-left: 3px;
+  width: 20px;
+  height: 20px;
+}
 .order {
   width: 100vw;
   height: 100%;
@@ -141,13 +298,12 @@ export default {
   .order-body {
     width: 100%;
     margin-top: 13px;
-    height: 100%;
+    height: 100vh;
     overflow-y: auto;
     padding: 12px;
     box-sizing: border-box;
     .order-box {
       width: 100%;
-      height: 132px;
       background: #0c0c0c;
       border-radius: 12px;
       border: 1px solid #272727;
@@ -159,6 +315,24 @@ export default {
         justify-content: space-between;
         color: #cacaca;
         font-size: 13px;
+        .r {
+          display: flex;
+          align-items: center;
+          width: 55%;
+          .name {
+            width: 40%;
+          }
+          .text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+        .tx-time {
+          flex: 1;
+          text-align: right;
+        }
       }
     }
     .line {
@@ -184,7 +358,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         padding-left: 12px;
-        width: 50%;
+        width: 40%;
         padding-right: 12px;
 
         ._tit {
@@ -226,7 +400,12 @@ export default {
       }
 
       ._r {
-        color: #2caf71;
+        text-align: right;
+        flex: 1;
+        color: #999999;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
     }
   }
