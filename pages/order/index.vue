@@ -172,11 +172,15 @@ export default {
         });
         if (this.currentIndex === "2") {
           this.orderListData = data
-            .filter((v) => !v.is_canceled && !this.isExpireTime(v.expiration_time))
+            .filter(
+              (v) => !v.is_canceled && !this.isExpireTime(v.expiration_time)
+            )
             .reverse();
         } else {
           this.orderListData = data
-            .filter((v) => v.is_canceled || this.isExpireTime(v.expire_time))
+            .filter(
+              (v) => v.is_canceled || this.isExpireTime(v.expiration_time)
+            )
             .reverse();
         }
       } else {
@@ -184,11 +188,11 @@ export default {
       }
     },
     isExpireTime(time) {
-      const min15 = 60 * 15 * 1000;
-      return Number(time) - Date.now() >= min15;
+      return Date.now() > Number(time);
     },
     timeTransferSecond(time) {
       if (!this.isExpireTime(time)) {
+        console.log(time);
         const millisecond = Number(time) - Date.now();
         return Math.trunc(millisecond / 1000);
       }
