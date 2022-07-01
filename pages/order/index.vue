@@ -57,7 +57,7 @@
             <view class="_tit"> {{ v.denom_name }} </view>
             <view class="_price">
               <view class="_t1"> 价格 </view>
-              <view class="_t2"> {{ v.money }} </view>
+              <view class="_t2"> {{ v.amount }} </view>
             </view>
           </view>
           <view class="_r">
@@ -124,9 +124,6 @@ export default {
         confirmText: "确定",
         async success(res) {
           if (res.confirm) {
-            if (item.vendor_payment_no === "") {
-              await that.getOrderTradeNo(item.orderid);
-            }
             const result = await that.cancelOrder(item.orderid);
             if (result.err_code === "0") {
               uni.showToast({
@@ -161,7 +158,7 @@ export default {
     },
     async getOrder() {
       let result = await this.$api._get(
-        `/dbchain/oracle/nft/unionpay/get_unpay_orders`
+        `/dbchain/oracle/nft/unionpay/get_unpaid_orders`
       );
 
       if (result.data.result.length > 0) {
@@ -170,16 +167,16 @@ export default {
             ...v,
             orderid_: plusXing(v.orderid, 4, 4),
             tx_time: this.formatDateSplit(v.tx_time),
-            expireTime: this.timeTransferSecond(v.expire_time),
+            expireTime: this.timeTransferSecond(v.expiration_time),
           };
         });
         if (this.currentIndex === "2") {
           this.orderListData = data
-            .filter((v) => !v.is_cancel && !this.isExpireTime(v.expire_time))
+            .filter((v) => !v.is_canceled && !this.isExpireTime(v.expiration_time))
             .reverse();
         } else {
           this.orderListData = data
-            .filter((v) => v.is_cancel || this.isExpireTime(v.expire_time))
+            .filter((v) => v.is_canceled || this.isExpireTime(v.expire_time))
             .reverse();
         }
       } else {
@@ -197,7 +194,7 @@ export default {
       }
     },
     async getOrderTradeNo(orderId) {
-      this.$api._post("/dbchain/oracle/nft/unionpay/get_order_tradeNo", {
+      await this.$api._post("/dbchain/oracle/nft/unionpay/get_order_tradeNo", {
         order_id: orderId,
       });
     },
