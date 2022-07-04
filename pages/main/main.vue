@@ -145,10 +145,10 @@ export default {
           name: "盲盒",
           id: "3",
         },
-        {
-          name: "订单",
-          id: "2",
-        },
+        // {
+        //   name: "订单",
+        //   id: "2",
+        // },
       ],
       bindBoxNfts: [],
       getCont: 0,

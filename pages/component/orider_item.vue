@@ -107,6 +107,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.icon {
+  width: 20px;
+  height: 20px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
 ._orider_item {
   padding: 12px;
   width: calc(100% - 24px);
