@@ -178,7 +178,10 @@ export default {
               (v) => !v.is_canceled && !this.isExpireTime(v.expiration_time)
             )
             .reverse();
+          clearInterval(setIntervalTime);
+          this.countDownList();
         } else {
+          clearInterval(setIntervalTime);
           this.orderListData = data
             .filter(
               (v) => v.is_canceled || this.isExpireTime(v.expiration_time)
@@ -188,8 +191,6 @@ export default {
       } else {
         this.txData = [];
       }
-      clearInterval(setIntervalTime);
-      this.countDownList();
     },
     isExpireTime(time) {
       return Date.now() > Number(time);
@@ -216,14 +217,16 @@ export default {
     },
     //倒计时
     countDownList() {
-      setIntervalTime = setInterval(() => {
-        this.orderListData = this.orderListData.filter(
-          (v) => !this.isExpireTime(v.expiration_time)
-        );
-        this.orderListData.forEach((v) => {
-          v.expireTime = v.expireTime - 1;
-        });
-      }, 1000);
+      if (this.currentIndex === "2") {
+        setIntervalTime = setInterval(() => {
+          this.orderListData = this.orderListData.filter(
+            (v) => !this.isExpireTime(v.expiration_time)
+          );
+          this.orderListData.forEach((v) => {
+            v.expireTime = v.expireTime - 1;
+          });
+        }, 1000);
+      }
     },
   },
 };
