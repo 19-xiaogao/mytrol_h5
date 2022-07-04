@@ -128,7 +128,7 @@ export default {
 
       tabList: [
         {
-          name: "数字商品",
+          name: "商品",
           id: "1",
         },
         {
@@ -224,7 +224,7 @@ export default {
       data.sort(function (a, b) {
         return b.published_at - a.published_at;
       });
-      this.NFT_List = data;
+      this.NFT_List = data.map(v => ({...v,nft_total_number:0}))
     },
     // 获取NFT type
     isNftType(item) {
