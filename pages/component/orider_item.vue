@@ -1,11 +1,17 @@
 <template>
   <view class="_orider_item">
     <view class="_foot">
-      <view class="_l _one_omit">
+      <view class="_l">
         <view class="_t1"> 订单编号 ： </view>
-        <view class="_t2">
+        <view class="_t2 _one_omit">
           {{ NFT_item.vendor_payment_no }}
         </view>
+        <img
+          @click="copy(NFT_item.vendor_payment_no)"
+          class="icon"
+          src="https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/copy.png"
+          alt=""
+        />
       </view>
       <view class="_r">
         <view class="_t1">
@@ -51,7 +57,7 @@
 </template>
 
 <script>
-import { getFormatDate } from "@/static/js/global.js";
+import { getFormatDate, uni_copy } from "@/static/js/global.js";
 import config from "@/js_sdk/general-http/config.js";
 export default {
   props: {
@@ -82,6 +88,10 @@ export default {
     return {};
   },
   methods: {
+    copy(value) {
+      //提示模板
+      return uni_copy(value);
+    },
     getFormatDate(date, type = "mm-dd MM:mm:ss") {
       return getFormatDate(date, type);
     },

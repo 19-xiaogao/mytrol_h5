@@ -96,6 +96,7 @@ const switchBar = [
 ];
 import orderList from "@/pages/component/orider_list.vue";
 import { formatDate, plusXing, uni_copy } from "@/static/js/global.js";
+let setIntervalTime;
 export default {
   components: {
     orderList,
@@ -107,6 +108,7 @@ export default {
       orderListData: [],
     };
   },
+
   methods: {
     clickLeft() {
       uni.navigateBack();
@@ -186,13 +188,14 @@ export default {
       } else {
         this.txData = [];
       }
+      clearInterval(setIntervalTime);
+      this.countDownList();
     },
     isExpireTime(time) {
       return Date.now() > Number(time);
     },
     timeTransferSecond(time) {
       if (!this.isExpireTime(time)) {
-        console.log(time);
         const millisecond = Number(time) - Date.now();
         return Math.trunc(millisecond / 1000);
       }
@@ -211,6 +214,17 @@ export default {
       );
       return result.data;
     },
+    //倒计时
+    countDownList() {
+      setIntervalTime = setInterval(() => {
+        this.orderListData = this.orderListData.filter(
+          (v) => !this.isExpireTime(v.expiration_time)
+        );
+        this.orderListData.forEach((v) => {
+          v.expireTime = v.expireTime - 1;
+        });
+      }, 1000);
+    },
   },
 };
 </script>
@@ -224,6 +238,11 @@ export default {
   font-weight: 500;
   text-align: start;
   color: #cacaca;
+}
+/deep/ .uni-nav-bar-text {
+  span {
+    font-size: 16px !important;
+  }
 }
 .footer-btn {
   display: flex;
