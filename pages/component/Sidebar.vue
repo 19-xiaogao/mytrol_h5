@@ -53,7 +53,7 @@ export default {
         this.$router.push(item.path);
       } else {
         uni.showToast({
-          title: "尽情期待",
+          title: "敬请期待",
           duration: 5000,
           icon: "none",
         });
