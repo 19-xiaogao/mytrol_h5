@@ -1,15 +1,30 @@
 <template>
   <view class="side_bar">
-    <view
-      class="el"
-      v-for="item in sideBar"
-      :key="item.id"
-      @click="handlePathClick(item)"
-    >
-      <view class="icon">
-        <img :src="item.icon" />
+    <view class="one">
+      <view
+        class="el"
+        v-for="item in sideBar"
+        :key="item.id"
+        @click="handlePathClick(item)"
+      >
+        <view class="icon">
+          <img :src="item.icon" />
+        </view>
+        <span class="span">{{ item.name }}</span>
       </view>
-      <span class="span">{{ item.name }}</span>
+    </view>
+    <view class="one">
+      <view
+        class="el"
+        v-for="item in sideBarTow"
+        :key="item.id"
+        @click="handlePathTowClick(item)"
+      >
+        <view class="icon">
+          <img :src="item.icon" />
+        </view>
+        <span class="span">{{ item.name }}</span>
+      </view>
     </view>
   </view>
 </template>
@@ -41,13 +56,52 @@ const sideBar = [
     id: 4,
   },
 ];
+const sideBarTow = [
+  {
+    name: "盲盒",
+    icon: "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/blindBox.png",
+    // path: "/pages/order/index",
+    path: "",
+    id: 1,
+  },
+  {
+    name: "购房券",
+    icon: "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/buyingSecurities.png",
+    // path: "/pages/transfer_log/index",
+    path: "",
+    id: 2,
+  },
+  {
+    name: "合成",
+    icon: "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/fuse.png",
+    path: "/pages/compound/index",
+    id: 3,
+  },
+  {
+    name: "设置",
+    icon: "https://mytrol-pub.oss-cn-shenzhen.aliyuncs.com/mytrol/system/setting.png",
+    path: "",
+    id: 4,
+  },
+];
 import { getStore } from "@/static/js/global.js";
 
 export default {
   data() {
-    return { sideBar };
+    return { sideBar, sideBarTow };
   },
   methods: {
+    handlePathTowClick(item) {
+      if (item.path) {
+        this.$router.push(item.path);
+      } else {
+        uni.showToast({
+          title: "敬请期待",
+          duration: 5000,
+          icon: "none",
+        });
+      }
+    },
     handlePathClick(item) {
       if (item.path) {
         this.$router.push(item.path);
@@ -102,11 +156,14 @@ export default {
   width: 95%;
   margin: 0 auto;
   margin-bottom: 10px;
-  height: 94px;
   border-radius: 12px;
   border: 1px solid #c6c6c6;
-  display: flex;
-  justify-content: space-between;
+
+  .one {
+    display: flex;
+    justify-content: space-between;
+    height: 94px;
+  }
   .el {
     width: 25%;
     display: flex;
